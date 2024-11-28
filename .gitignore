@@ -164,3 +164,4 @@ cython_debug/
 
 # Large Datasets
 decomposed.vcf
+.Rproj.user
