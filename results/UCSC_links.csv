@@ -72,12 +72,10 @@ chr6,27334990,27335062,HGNC:34745,tRNA-Lys-TTT-6-1,1.301369,tRNA,https://genome.
 chr11,59566380,59566452,HGNC:33255,TRF-GAA2-1,1.301369,tRNA,https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&position=chr11:59566380-59566452
 chr11,76235825,76235896,HGNC:34787,TRP-TGG2-1,1.291666,tRNA,https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&position=chr11:76235825-76235896
 chr14,20681690,20681762,HGNC:34826,TRT-TGT5-1,1.287671,tRNA,https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&position=chr14:20681690-20681762
-
 chr15,89335073,89335145,HGNC:34827,TRR-TCG1-1,1.273972,tRNA,https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&position=chr15:89335073-89335145
 chr9,134849487,134849564,HGNC:38904,MIR3689A,1.26923,pre_miRNA,https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&position=chr9:134849487-134849564
 chr2,156400769,156400840,HGNC:34580,tRNA-Ala-CGC-3-1,1.263888,tRNA,https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&position=chr2:156400769-156400840
 chr1,161612718,161612789,HGNC:34590,TRE-TTC5-1,1.263888,tRNA,https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&position=chr1:161612718-161612789
-
 chr6,27235509,27235581,HGNC:34573,TRV-AAC5-1,1.260273,tRNA,https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&position=chr6:27235509-27235581
 chr3,45688999,45689071,HGNC:34664,TRR-ACG2-3,1.260273,tRNA,https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&position=chr3:45688999-45689071
 chr17,8187160,8187233,HGNC:34750,TRT-AGT1-2,1.256756,tRNA,https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&position=chr17:8187160-8187233
