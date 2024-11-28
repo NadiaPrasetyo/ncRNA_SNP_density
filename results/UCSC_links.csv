@@ -32,6 +32,8 @@ chr13,62328756,62328835,HGNC:42808,LINC00459,1.6,lncRNA,https://genome.ucsc.edu/
 chr14,20633006,20633077,HGNC:34852,tRNA-Pro-TGG-1-1,1.583333,tRNA,https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&position=chr14:20633006-20633077
 chr14,105917979,105918817,HGNC:19955,FAM30A,1.572109,lncRNA,https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&position=chr14:105917979-105918817
 chr6,27547752,27547823,HGNC:34831,tRNA-Gln-CTG-2-1,1.569444,tRNA,https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&position=chr6:27547752-27547823
+
+
 chr16,3152900,3152972,HGNC:34730,tRNA-Arg-CCT-3-1,1.561643,tRNA,https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&position=chr16:3152900-3152972
 chr5,181188416,181188488,HGNC:34543,TRV,1.561643,tRNA,https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&position=chr5:181188416-181188488
 chr12,124927843,124927915,HGNC:34699,TRF-GAA1-4,1.547945,tRNA,https://genome.ucsc.edu/cgi-bin/hgTracks?db=hg38&position=chr12:124927843-124927915
