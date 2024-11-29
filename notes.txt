@@ -1,0 +1,33 @@
+PANGENOME NOTES
+Larger region high density SNP:
+FAM30A (near IGH - immunoglobulin heavy locus)
+LINC01671
+lnc-SLCO4A1-8
+MIR4538 (neah IGH)
+SNAR-A1
+SNAR-B2 (near other SNARs)
+SNAR-C3 (near other SNARs)
+SNAR-C4 (near other SNARs)
+SNAR-G1 (near CBG)
+SNAR-G2 (near CBG)
+TRE-TTC5-1
+TRG-CCC6-1
+TRG-CCC4-1
+TRV-CAC5-1
+
+
+
+
+
+
+Interesting points:
+MIR3689A - high density area only around the MIRNA - pre-miRNA
+RCCD1-AS1 - lower density on the gene, higher density around the area (UNC45A, RCCD1)
+RNU5D-1 -very high peak in SNP density around the gene itself
+RNU5E-1 -very high peak in SNP density around the gene itself, near a pseudogene (RNU5E-4P) also with high SNP density
+RNU5F-1 - overlap with ARMH1 but higher density around gene itself
+RNU6-1 - doesn't look like a lot of SNP density
+SNAR-F - indels? large chunks of SNP density around gene
+SNORD118 - overlap with TMEM107 but higher density around gene
+TRA-AGC4-1 - very high density near gene - not around anything (other than lncRNA)
+TRG-CCC5-1 - high larger area density, but higer around gene
