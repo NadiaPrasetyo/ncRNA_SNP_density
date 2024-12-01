@@ -31,8 +31,8 @@ def process_gene_variations(csv_file):
     
     # Group data by the 'GENE' column
     for gene, gene_data in data.groupby('GENE'):
-        # Initialize variables for counting
-        variation_types = set()
+        # Initialize a dictionary for counting variation types
+        variation_counts = {}
         num_variations = 0
         
         # Iterate through each row for this gene
@@ -40,19 +40,28 @@ def process_gene_variations(csv_file):
             # If 'TYPE' is not null or empty, process the variations
             if pd.notnull(row['TYPE']) and row['TYPE'] != "":
                 types = row['TYPE'].split(",")  # Split the 'TYPE' by commas
-                variation_types.update(types)  # Add the types to the set (unique variations)
                 num_variations += len(types)  # Add the total number of types for this row
+                
+                # Count occurrences of each variation type
+                for type_ in types:
+                    type_ = type_.strip()  # Remove any leading/trailing whitespace
+                    if type_ in variation_counts:
+                        variation_counts[type_] += 1
+                    else:
+                        variation_counts[type_] = 1
             else:
-                # If 'TYPE' is null or empty, add 1 to the count for this position
+                # If 'TYPE' is null or empty, treat it as one variation
                 num_variations += 1
+        
+        # Format the variation counts as a string
+        formatted_variation_counts = ", ".join([f"{key}({value})" for key, value in variation_counts.items()])
         
         # Compile results for this gene
         results.append({
             'GENE': gene,
             'NUM_VARIATIONS': num_variations,  # The total count of variations (including 1 for null TYPEs)
-            'VARIATION_TYPES': ",".join(variation_types)  # List of unique variation types
+            'VARIATION_TYPES': formatted_variation_counts  # List of variation types with counts
         })
-           
         
     
     # Convert results into a DataFrame

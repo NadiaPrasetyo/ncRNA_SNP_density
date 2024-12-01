@@ -1,89 +1,89 @@
 GENE,NUM_VARIATIONS,VARIATION_TYPES
-BLACE,4,
-FAM30A,41,"snp,ins,del"
-LINC00459,1,del
-LINC01671,53,"mnp,complex,snp,ins,del"
-MIR3689A,3,"snp,ins"
-MIR4538 ,13,"snp,mnp,del"
-RCCD1-AS1,12,"ins,del"
-RNU5D-1,18,snp
-RNU5E-1,17,"snp,mnp"
-RNU5F-1,18,"snp,ins"
-RNU6-9,3,snp
-SNAR-A1,25,"snp,ins,mnp,del"
-SNAR-B2,4,
-SNAR-C3,17,"snp,ins,mnp,del"
-SNAR-C4,19,"snp,mnp,del"
-SNAR-F,10,"snp,ins,complex"
-SNAR-G1,8,"snp,ins,del"
-SNAR-G2,7,
-SNORD118,17,snp
-SNORD13,5,
-SYT15-AS1,96,"mnp,complex,snp,ins,del"
-TRA-AGC1-1,3,snp
-TRA-AGC11-1,2,
-TRA-AGC15-1,6,
-TRA-AGC20-1,1,
-TRA-AGC5-1,4,del
-TRA-CGC4-1,2,
-TRA-CGC5-1-001,3,
-TRA-TGC4-1,1,
-TRC-GCA11-1,2,
-TRD-GTC2-8,54,"snp,ins"
-TRE-TTC2-1,1,
-TRE-TTC3-1,4,
-TRE-TTC5-1,10,"snp,mnp,complex"
-TRF-GAA1-4,2,
-TRG-CCC2-1,1,
-TRG-CCC5-1,10,mnp
-TRG-CCC6-1,2,
-TRG1,4,
-TRK-CTT3-1,3,
-TRK-TTT4-1,3,
-TRK-TTT7-1,7,
-TRL-AAG2-4,3,
-TRL-TAA4-1,7,
-TRM-CAT3-2,3,
-TRN-GTT2-4,3,mnp
-TRP-AGG1-1,8,
-TRR-TCG1-1,1,
-TRS-AGA2-6,1,
-TRT-TGT2-1,1,
-TRV,4,
-TRV-AAC5-1,5,
-TRV-TAC1-1,1,
-Val-tRNA,3,mnp
-lnc-SLCO4A1-8,29,"snp,ins,del"
-tRNA-Ala-CGC-3-1,1,
-tRNA-Arg-ACG-1-2,1,
-tRNA-Asn-GTT-1-1,9,
-tRNA-Asn-GTT-3-2,3,
-tRNA-Asn-GTT-4-1,5,"snp,ins"
-tRNA-Gln-CTG-2-1,4,
-tRNA-Glu-TTC-4-1,1,
-tRNA-Gly-CCC-4-1,18,"snp,ins,mnp"
-tRNA-Gly-GCC-2-4,10,"snp,mnp"
-tRNA-Gly-TCC-3-1,2,
-tRNA-Ile-AAT-1-1,1,
-tRNA-Ile-AAT-12-1,1,snp
-tRNA-Ile-AAT-2-1,3,
-tRNA-Leu-CAG-2-2,2,
-tRNA-Lys-CTT-5-1,2,
-tRNA-Lys-TTT-1-1,1,
-tRNA-Lys-TTT-5-1,2,snp
-tRNA-Lys-TTT-6-1,3,
-tRNA-Met-CAT-6-1,1,
-tRNA-Pro-TGG-1-1,2,mnp
-tRNA-Pro-TGG-3-3,1,
-tRNA-Ser,2,
-tRNA-Ser-CGA-2-1,2,
-tRNA-Ser-GCT-2-1,2,
-tRNA-Ser-TGA-2-1,1,
-tRNA-Thr-CGT-5-1,7,
-tRNA-Thr-CGT-6-1,7,
-tRNA-Thr-TGT-1-1,1,
-tRNA-Thr-TGT-4-1,2,
-tRNA-Val-AAC-3-1,5,snp
-tRNA-Val-CAC-1-3,1,
-tRNA-Val-CAC-3-1,3,"snp,ins"
-tRNA-iMet-CAT-2-1,5,"snp,ins"
+BLACE,4,snp(4)
+FAM30A,41,"snp(31), ins(7), del(3)"
+LINC00459,1,del(1)
+LINC01671,53,"snp(21), del(5), ins(22), complex(4), mnp(1)"
+MIR3689A,3,"ins(1), snp(2)"
+MIR4538 ,13,"snp(11), mnp(1), del(1)"
+RCCD1-AS1,12,"snp(1), del(3), ins(8)"
+RNU5D-1,18,snp(18)
+RNU5E-1,17,"snp(16), mnp(1)"
+RNU5F-1,18,"snp(16), ins(2)"
+RNU6-9,3,snp(3)
+SNAR-A1,25,"snp(17), mnp(3), del(3), ins(2)"
+SNAR-B2,4,snp(4)
+SNAR-C3,17,"snp(11), mnp(3), del(1), ins(2)"
+SNAR-C4,19,"snp(16), mnp(2), del(1)"
+SNAR-F,10,"snp(7), ins(2), complex(1)"
+SNAR-G1,8,"snp(4), del(2), ins(2)"
+SNAR-G2,7,snp(7)
+SNORD118,17,snp(17)
+SNORD13,5,snp(5)
+SYT15-AS1,96,"snp(46), mnp(1), del(15), ins(30), complex(4)"
+TRA-AGC1-1,3,snp(3)
+TRA-AGC11-1,2,snp(2)
+TRA-AGC15-1,6,snp(6)
+TRA-AGC20-1,1,snp(1)
+TRA-AGC5-1,4,"snp(3), del(1)"
+TRA-CGC4-1,2,snp(2)
+TRA-CGC5-1-001,3,snp(3)
+TRA-TGC4-1,1,snp(1)
+TRC-GCA11-1,2,snp(2)
+TRD-GTC2-8,54,"ins(50), snp(4)"
+TRE-TTC2-1,1,snp(1)
+TRE-TTC3-1,4,snp(4)
+TRE-TTC5-1,10,"snp(8), mnp(1), complex(1)"
+TRF-GAA1-4,2,snp(2)
+TRG-CCC2-1,1,snp(1)
+TRG-CCC5-1,10,"snp(9), mnp(1)"
+TRG-CCC6-1,2,snp(2)
+TRG1,4,snp(4)
+TRK-CTT3-1,3,snp(3)
+TRK-TTT4-1,3,snp(3)
+TRK-TTT7-1,7,snp(7)
+TRL-AAG2-4,3,snp(3)
+TRL-TAA4-1,7,snp(7)
+TRM-CAT3-2,3,snp(3)
+TRN-GTT2-4,3,"snp(2), mnp(1)"
+TRP-AGG1-1,8,snp(8)
+TRR-TCG1-1,1,snp(1)
+TRS-AGA2-6,1,snp(1)
+TRT-TGT2-1,1,snp(1)
+TRV,4,snp(4)
+TRV-AAC5-1,5,snp(5)
+TRV-TAC1-1,1,snp(1)
+Val-tRNA,3,"snp(2), mnp(1)"
+lnc-SLCO4A1-8,29,"snp(10), del(6), ins(13)"
+tRNA-Ala-CGC-3-1,1,snp(1)
+tRNA-Arg-ACG-1-2,1,snp(1)
+tRNA-Asn-GTT-1-1,9,snp(9)
+tRNA-Asn-GTT-3-2,3,snp(3)
+tRNA-Asn-GTT-4-1,5,"ins(1), snp(4)"
+tRNA-Gln-CTG-2-1,4,snp(4)
+tRNA-Glu-TTC-4-1,1,snp(1)
+tRNA-Gly-CCC-4-1,18,"mnp(3), snp(13), ins(2)"
+tRNA-Gly-GCC-2-4,10,"snp(9), mnp(1)"
+tRNA-Gly-TCC-3-1,2,snp(2)
+tRNA-Ile-AAT-1-1,1,snp(1)
+tRNA-Ile-AAT-12-1,1,snp(1)
+tRNA-Ile-AAT-2-1,3,snp(3)
+tRNA-Leu-CAG-2-2,2,snp(2)
+tRNA-Lys-CTT-5-1,2,snp(2)
+tRNA-Lys-TTT-1-1,1,snp(1)
+tRNA-Lys-TTT-5-1,2,snp(2)
+tRNA-Lys-TTT-6-1,3,snp(3)
+tRNA-Met-CAT-6-1,1,snp(1)
+tRNA-Pro-TGG-1-1,2,"snp(1), mnp(1)"
+tRNA-Pro-TGG-3-3,1,snp(1)
+tRNA-Ser,2,snp(2)
+tRNA-Ser-CGA-2-1,2,snp(2)
+tRNA-Ser-GCT-2-1,2,snp(2)
+tRNA-Ser-TGA-2-1,1,snp(1)
+tRNA-Thr-CGT-5-1,7,snp(7)
+tRNA-Thr-CGT-6-1,7,snp(7)
+tRNA-Thr-TGT-1-1,1,snp(1)
+tRNA-Thr-TGT-4-1,2,snp(2)
+tRNA-Val-AAC-3-1,5,snp(5)
+tRNA-Val-CAC-1-3,1,snp(1)
+tRNA-Val-CAC-3-1,3,"ins(1), snp(2)"
+tRNA-iMet-CAT-2-1,5,"snp(3), ins(2)"

@@ -38,6 +38,10 @@ with open(input_file, 'r') as infile, open(output_file, 'w', newline='') as outf
         
         # Extract TYPE from the INFO field
         snp_type_info = extract_type(info)
+        
+        # if type is not found, put SNP in the TYPE field
+        if not snp_type_info:
+            snp_type_info = "snp"
 
         # Construct SNP_TYPE (e.g., A>G, A>T)
         snp_types = [f"{ref}>{a}" for a in alt]
