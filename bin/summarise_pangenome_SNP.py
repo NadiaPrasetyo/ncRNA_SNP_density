@@ -40,7 +40,7 @@ with open(input_file, 'r') as infile, open(output_file, 'w', newline='') as outf
         snp_type_info = extract_type(info)
 
         # Construct SNP_TYPE (e.g., A>G, A>T)
-        snp_types = [f"{ref}>{a}" for a in alt]
+        snp_types = [f"alt {i + 1}" for i in range(len(alt))]  # Use alt 1, alt 2, etc.
 
         # Gather genome details
         genome_details = []
