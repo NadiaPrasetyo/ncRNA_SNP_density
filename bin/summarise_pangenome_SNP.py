@@ -40,7 +40,7 @@ with open(input_file, 'r') as infile, open(output_file, 'w', newline='') as outf
         snp_type_info = extract_type(info)
 
         # Construct SNP_TYPE (e.g., A>G, A>T)
-        snp_types = [f"alt {i + 1}" for i in range(len(alt))]  # Use alt 1, alt 2, etc.
+        snp_types = [f"{ref}>{a}" for a in alt]
 
         # Gather genome details
         genome_details = []
@@ -51,11 +51,11 @@ with open(input_file, 'r') as infile, open(output_file, 'w', newline='') as outf
             elif gt in ('1|1', '2|2', '3|3'):  # Homozygous
                 allele_index = int(gt.split("|")[0]) - 1  # 1-based index for ALT
                 if 0 <= allele_index < len(snp_types):
-                    genome_details.append(f"{genome} (Homozygous {snp_types[allele_index]})")
+                    genome_details.append(f"{genome} (Homozygous alt {allele_index + 1})")
             elif re.match(r"0\|[1-9]|[1-9]\|0", gt):  # Heterozygous
                 allele_index = max(int(gt.split("|")[0]), int(gt.split("|")[1])) - 1
                 if 0 <= allele_index < len(snp_types):
-                    genome_details.append(f"{genome} (Heterozygous {snp_types[allele_index]})")
+                    genome_details.append(f"{genome} (Heterozygous alt {allele_index + 1})")
         
         # Write to the output file
         writer.writerow({
