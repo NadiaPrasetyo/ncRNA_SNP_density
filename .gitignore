@@ -167,3 +167,6 @@ cython_debug/
 decomposed.vcf
 .Rproj.user
 dbSnp155.bb
+
+
+.pybiomart.sqlite

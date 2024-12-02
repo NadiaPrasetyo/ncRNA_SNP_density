@@ -17,9 +17,6 @@ TRV-CAC5-1
 
 
 
-
-
-
 Interesting points:
 MIR3689A - high density area only around the MIRNA - pre-miRNA
 RCCD1-AS1 - lower density on the gene, higher density around the area (UNC45A, RCCD1)
@@ -31,3 +28,4 @@ SNAR-F - indels? large chunks of SNP density around gene
 SNORD118 - overlap with TMEM107 but higher density around gene
 TRA-AGC4-1 - very high density near gene - not around anything (other than lncRNA)
 TRG-CCC5-1 - high larger area density, but higer around gene
+
