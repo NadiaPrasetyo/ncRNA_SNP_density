@@ -6,7 +6,7 @@ csv.field_size_limit(10**7)
 
 # Input and output file paths
 input_file = 'results/filtered_variants.csv'  # Replace with your actual input file path
-output_file = 'results/pangenome_summary.csv'
+output_file = 'data/pangenome_summary.csv'
 
 
 # Function to extract TYPE from INFO field

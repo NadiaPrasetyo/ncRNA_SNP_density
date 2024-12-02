@@ -43,11 +43,12 @@ variation_counts$GENE <- ifelse(variation_counts$GENE %in% special_genes,
                                 paste0("<span style='color:red;'>", variation_counts$GENE, "</span>"),
                                 variation_counts$GENE)
 
-# Step 4: Create the combined stacked bar plot (both datasets)
-combined_plot <- ggplot(variation_counts, aes(x = reorder(GENE, -Total_Variation_Count), y = Total_Variation_Count, fill = Variation_Type)) +
-  geom_bar(stat = "identity", position = position_dodge(), aes(group = Dataset)) +  # Side-by-side stacks for datasets
-  labs(x = "Gene", y = "Total Variation Count", title = "Variation Counts by Type for Each Gene across Datasets") +
-  scale_fill_brewer(palette = "Set3") +  # Optional: Choose color palette for fill
+# Step 4: Create the combined stacked bar plot (both datasets stacked)
+combined_plot <- ggplot(variation_counts, aes(x = reorder(GENE, -Total_Variation_Count), 
+                                              y = Total_Variation_Count, fill = Variation_Type)) +
+  geom_bar(stat = "identity", position = "stack") +  # Stacked bars for datasets
+  labs(x = "Gene", y = "Total Variation Count (Log scale)", title = "Variation Counts by Type for Each Gene across Datasets") +
+  scale_y_continuous(trans = "log10") +  # Set y-axis to log2 scale
   theme_minimal() +
   theme(axis.text.x = ggtext::element_markdown(size = 7, angle = 45, hjust = 1))  # Use markdown to allow coloring
 

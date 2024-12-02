@@ -79,6 +79,6 @@ def process_gene_variations(csv_file):
 
 # Example usage
 if __name__ == "__main__":
-    csv_file = 'results/pangenome_summary.csv'  # Replace with the actual file path
+    csv_file = 'data/pangenome_summary.csv'  # Replace with the actual file path
     summary = process_gene_variations(csv_file)
     print(summary)
