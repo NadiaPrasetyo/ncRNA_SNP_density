@@ -20,8 +20,7 @@ with open(output_file, 'w') as f:
         if bb.isBigBed():
             print("Opened BigBed file successfully.")
             print(f"Header Info: {bb.header()}\n")
-            f.write("SNP details within gene regions:\n\n")  # Start output file with a header for clarity
-
+            
             # Load gene data from CSV file
             gene_data = pd.read_csv(csv_file)
 

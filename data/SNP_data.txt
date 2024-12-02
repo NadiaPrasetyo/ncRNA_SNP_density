@@ -1,5 +1,3 @@
-SNP details within gene regions:
-
 Gene: RNU5E-1
 Chromosome: chr1
 Start: 11908154, End: 11908155
