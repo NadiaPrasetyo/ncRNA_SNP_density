@@ -1,0 +1,23 @@
+##fileformat=VCFv4.2
+##FILTER=<ID=PASS,Description="All filters passed">
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##INFO=<ID=CONFLICT,Number=.,Type=String,Description="Sample names for which there are multiple paths in the graph with conflicting alleles">
+##INFO=<ID=AC,Number=A,Type=Integer,Description="Total number of alternate alleles in called genotypes">
+##INFO=<ID=AF,Number=A,Type=Float,Description="Estimated allele frequency in the range (0,1]">
+##INFO=<ID=NS,Number=1,Type=Integer,Description="Number of samples with data">
+##INFO=<ID=AN,Number=1,Type=Integer,Description="Total number of alleles in called genotypes">
+##INFO=<ID=LV,Number=1,Type=Integer,Description="Level in the snarl tree (0=top level)">
+##INFO=<ID=PS,Number=1,Type=String,Description="ID of variant corresponding to parent snarl">
+##INFO=<ID=AT,Number=R,Type=String,Description="Allele Traversal as path in graph">
+##INFO=<ID=TYPE,Number=A,Type=String,Description="The type of allele, either snp, mnp, ins, del, or complex.">
+##INFO=<ID=LEN,Number=A,Type=Integer,Description="allele length">
+##INFO=<ID=ORIGIN,Number=1,Type=String,Description="Decomposed from a complex record using vcflib vcfwave and alignment with WFA2-lib.">
+##INFO=<ID=INV,Number=A,Type=String,Description="Count of haplotypes which are aligned in the inverted orientation using vcflib vcfwave.">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	CHM13	HG00438	HG00621	HG00673	HG00733	HG00735	HG00741	HG01071	HG01106	HG01109	HG01123	HG01175	HG01243	HG01258	HG01358	HG01361	HG01891	HG01928	HG01952	HG01978	HG02055	HG02080	HG02109	HG02145	HG02148	HG02257	HG02486	HG02559	HG02572	HG02622	HG02630	HG02717	HG02723	HG02818	HG02886	HG03098	HG03453	HG03486	HG03492	HG03516	HG03540	HG03579	NA18906	NA20129	NA21309
+tRNA-Thr-CGT-5-1	16	>29245102>29245105	C	G	60	.	AC=3;AF=0.0337079;AN=89;AT=>29245102>29245104>29245105,>29245102<29245103>29245105;LV=0;NS=45	GT	0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	1|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	1|0	0|0	0|0	0|0	0|0	0|0	0|1	0|0	0|0	0|0	0|0	0|0
+tRNA-Thr-CGT-5-1	31	>29245105>29245108	T	G	60	.	AC=1;AF=0.011236;AN=89;AT=>29245105>29245107>29245108,>29245105<29245106>29245108;LV=0;NS=45	GT	0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|1	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0
+tRNA-Thr-CGT-5-1	41	>29245108>29245110	CT	C	60	.	AC=3;AF=0.0337079;AN=89;AT=>29245108>29245109>29245110,>29245108>29245110;LV=0;NS=45	GT	0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	1|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	1|0	0|0	0|0	0|0	0|0	0|0	0|1	0|0	0|0	0|0	0|0	0|0
+tRNA-Thr-CGT-5-1	47	>29245110>29245113	G	A	60	.	AC=3;AF=0.0337079;AN=89;AT=>29245110>29245112>29245113,>29245110<29245111>29245113;LV=0;NS=45	GT	0	1|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	1|0	0|0	0|0	0|1	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0
+tRNA-Thr-CGT-5-1	54	>29245113>29245116	G	A	60	.	AC=1;AF=0.011236;AN=89;AT=>29245113>29245115>29245116,>29245113<29245114>29245116;LV=0;NS=45	GT	0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|1	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0
+tRNA-Thr-CGT-5-1	67	>29245116>29245118	C	CT	60	.	AC=1;AF=0.011236;AN=89;AT=>29245116>29245118,>29245116>29245117>29245118;LV=0;NS=45	GT	0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	1|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0
+tRNA-Thr-CGT-5-1	71	>29245118>29245121	G	A	60	.	AC=1;AF=0.011236;AN=89;AT=>29245118>29245120>29245121,>29245118>29245119>29245121;LV=0;NS=45	GT	0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	1|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0	0|0

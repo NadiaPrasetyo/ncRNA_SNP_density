@@ -40,18 +40,37 @@ def reformat_fasta(input_fasta, output_fasta, gene_mapping):
                 outfile.write(line)
 
 def reformat_vcf_with_gene(input_vcf, output_vcf, gene_mapping):
+    """
+    Reformat the VCF file to use gene names as #CHROM and relative positions as POS.
+    """
     with open(input_vcf, 'r') as infile, open(output_vcf, 'w') as outfile:
         for line in infile:
             if line.startswith('##'):
+                # Preserve metadata lines
                 outfile.write(line)
             elif line.startswith('#CHROM'):
-                # Add the GENE column to the header
-                outfile.write("#GENE\t" + line)
+                # Add GENE as the #CHROM header
+                outfile.write(line)
             else:
                 fields = line.strip().split('\t')
                 chrom, pos = fields[0], int(fields[1])
-                gene = map_gene(chrom, pos, pos, gene_mapping)  # Pass start and end as the same value for a single position
-                outfile.write(f"{gene}\t" + line)
+                gene, gene_start = None, None
+
+                # Identify the gene and calculate relative position
+                for entry in gene_mapping:
+                    if entry['CHROM'] == chrom and entry['START'] <= pos <= entry['END']:
+                        gene = entry['GENE']
+                        gene_start = entry['START']
+                        break
+
+                if gene:
+                    relative_pos = pos - gene_start + 1  # Compute 1-based relative position
+                    fields[0] = gene  # Replace CHROM with gene name
+                    fields[1] = str(relative_pos)  # Update POS to relative position
+                    outfile.write("\t".join(fields) + "\n")
+                else:
+                    # If no gene found, skip the variant
+                    print(f"Warning: No gene found for variant {chrom}:{pos}")
 
 
 # File paths
