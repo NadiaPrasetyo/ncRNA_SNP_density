@@ -168,5 +168,6 @@ decomposed.vcf
 .Rproj.user
 dbSnp155.bb
 *.fastq
+*.fq
 
 .pybiomart.sqlite
