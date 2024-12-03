@@ -2,7 +2,7 @@ import os
 
 # Define the input and output directories
 input_dir = 'data/Chromosomes_FASTA'
-output_file = 'data/hg38_chromosomes.fa'
+output_file = 'data/Chromosomes_FASTA/hg38_chromosomes.fa'
 
 # Function to combine FASTA files
 def combine_fasta_files(input_directory, output_filename):

@@ -170,5 +170,6 @@ dbSnp155.bb
 *.fastq
 *.fq
 data/Chromosomes_FASTA/
+data/GEDS/
 
 .pybiomart.sqlite
