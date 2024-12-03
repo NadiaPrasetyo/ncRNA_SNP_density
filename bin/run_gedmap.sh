@@ -15,10 +15,10 @@ while IFS=, read -r chromosome start end gene_id gene_name snp_density rna_type;
         continue
     fi
 
-    #skip the two genes that are HUGE
-    if [[ "$gene_name" == "TRA-AGC5-1" || "$gene_name" == "TRE-TTC5-1" ]]; then
-        continue
-    fi
+    # #skip the two genes that are HUGE
+    # if [[ "$gene_name" == "TRA-AGC5-1" || "$gene_name" == "TRE-TTC5-1" ]]; then
+    #     continue
+    # fi
 
     # Define the FASTA and VCF file paths based on GeneName
     fasta_file="$FASTA_DIR/$gene_name.fa"
