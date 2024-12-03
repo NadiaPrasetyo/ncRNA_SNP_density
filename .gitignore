@@ -169,5 +169,6 @@ decomposed.vcf
 dbSnp155.bb
 *.fastq
 *.fq
+data/Chromosomes_FASTA/
 
 .pybiomart.sqlite
