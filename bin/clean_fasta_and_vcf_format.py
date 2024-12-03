@@ -1,5 +1,6 @@
-import csv
+import os
 import re
+import csv
 
 def load_gene_mapping(csv_file):
     gene_mapping = []
@@ -22,9 +23,13 @@ def map_gene(chrom, start, end, gene_mapping):
             return entry['GENE']
     return "Unknown"
 
-def reformat_fasta(input_fasta, output_fasta, gene_mapping):
-    with open(input_fasta, 'r') as infile, open(output_fasta, 'w') as outfile:
-        for line in infile:
+def reformat_fasta(input_fasta, gene_mapping):
+    # Read the content of the fasta file and write it back after modifications
+    with open(input_fasta, 'r') as infile:
+        lines = infile.readlines()
+    
+    with open(input_fasta, 'w') as outfile:
+        for line in lines:
             if line.startswith('>'):
                 # Extract chromosome and position range
                 header_match = re.search(r'NC_(\d+)\.\d+:(\d+)-(\d+)', line)
@@ -74,8 +79,6 @@ def reformat_vcf_with_gene(input_vcf, output_vcf, gene_mapping):
 
 
 # File paths
-input_fasta = "data/combined_sequences.fa"
-output_fasta = "data/CLEAN_combined_sequences.fa"
 input_vcf = "data/filtered_variants.vcf"
 output_vcf = "data/CLEAN_filtered_variants.vcf"
 gene_csv = "data/SNP-densities-and-RNA.csv"
@@ -83,9 +86,24 @@ gene_csv = "data/SNP-densities-and-RNA.csv"
 # Load gene mapping
 gene_mapping = load_gene_mapping(gene_csv)
 
-# Run the reformatting functions
-# Run the FASTA reformatting
-reformat_fasta(input_fasta, output_fasta, gene_mapping)
+# Process all .fasta files in the 'FASTA' directory and rename them to .fa
+fasta_directory = "data/FASTA"
+for filename in os.listdir(fasta_directory):
+    if filename.endswith(".fasta"):
+        input_fasta = os.path.join(fasta_directory, filename)
+        
+        # Reformat the FASTA file
+        reformat_fasta(input_fasta, gene_mapping)
+        
+        # Rename the file to .fa
+        new_filename = filename.replace(".fasta", ".fa")
+        new_filepath = os.path.join(fasta_directory, new_filename)
+        
+        # Rename the file
+        os.rename(input_fasta, new_filepath)
+        print(f"Renamed {filename} to {new_filename}")
+
+# Run the VCF reformatting (you can modify the VCF as well if needed)
 reformat_vcf_with_gene(input_vcf, output_vcf, gene_mapping)
 
-print("Reformatting complete.")
+print("Reformatting and renaming complete.")
