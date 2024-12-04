@@ -37,6 +37,8 @@ def read_and_sort_gene_ranges(csv_file_path):
                     "chromosome": row["Chromosome"],
                     "start": expanded_start,
                     "end": expanded_end,
+                    "gene_start": start,
+                    "gene_end": end,
                     "gene_name": row["GeneName"]
                 })
         # Sort by chromosome and start position
@@ -102,12 +104,16 @@ def filter_vcf_by_ranges(vcf_file_path, gene_ranges, lines_to_skip=2595):
 
                     # If the variant is within the range, save it
                     if chrom == gene["chromosome"] and gene["start"] <= pos <= gene["end"]:
-                        print(f"Match found: Gene={gene['gene_name']}, Location={chrom}:{pos}")
+                        label = gene["gene_name"]
+                        if pos < gene["gene_start"] or pos > gene["gene_end"]:
+                            label += "_flank"  # Add tag for flanking regions
+
+                        print(f"Match found: Gene={label}, Location={chrom}:{pos}")
                         total_variants_matched += 1
 
                         # Add data for CSV output
                         csv_row = {
-                            "GENE": gene["gene_name"],
+                            "GENE": label,
                             "CHROM": vcf_data["CHROM"],
                             "POS": vcf_data["POS"],
                             "ID": vcf_data["ID"],
@@ -132,6 +138,7 @@ def filter_vcf_by_ranges(vcf_file_path, gene_ranges, lines_to_skip=2595):
 
     print(f"Total variants matched: {total_variants_matched}")
     return header_lines, csv_rows, vcf_lines
+
 
 # Write filtered variants to CSV
 def write_csv(csv_rows):

@@ -10,7 +10,6 @@ csv_file = "data/SNP-densities-and-RNA.csv"  # CSV should have 'gene_name', 'chr
 # Output text file where data will be saved
 output_file = "data/SNP_data.txt"
 
-
 # Open the output file in write mode to store the results
 with open(output_file, 'w') as f:
     # Path to BigBed file
@@ -34,11 +33,18 @@ with open(output_file, 'w') as f:
                 end = gene_row['End']           # Gene end position
                 gene_name = gene_row['GeneName'] # Gene name (e.g., 'RNU5E-1')
 
-                # Print gene, chromosome, start, end for diagnostics
-                print(f"Processing gene: {gene_name} on {chrom} from {start} to {end}")
+                # Calculate the expanded boundaries
+                gene_length = end - start
+                flank_length = int(4.5 * gene_length)
+                expanded_start = max(0, start - flank_length)  # Avoid negative start positions
+                expanded_end = end + flank_length
 
-                # Fetch intervals from the BigBed file for this specific region
-                intervals = bb.entries(chrom, start, end)
+                # Print gene, chromosome, and expanded boundaries for diagnostics
+                print(f"Processing gene: {gene_name} on {chrom}")
+                print(f"Original: {start}-{end} | Expanded: {expanded_start}-{expanded_end}")
+
+                # Fetch intervals from the BigBed file for the expanded region
+                intervals = bb.entries(chrom, expanded_start, expanded_end)
 
                 # List to store SNP names for the current gene
                 snp_names = []
@@ -63,7 +69,8 @@ with open(output_file, 'w') as f:
                             # Write the required information to the output file
                             f.write(f"Gene: {gene_name}\n")
                             f.write(f"Chromosome: {chrom}\n")
-                            f.write(f"Start: {chromStart}, End: {chromEnd}\n")
+                            f.write(f"Expanded Start: {expanded_start}, Expanded End: {expanded_end}\n")
+                            f.write(f"Original Start: {start}, Original End: {end}\n")
                             f.write(f"SNP Name: {name}\n")
                             f.write(f"Reference Allele: {ref}\n")
                             f.write(f"Alternate Alleles: {', '.join(alts)}\n")
@@ -75,7 +82,7 @@ with open(output_file, 'w') as f:
                             print(f"Error processing SNP details for: {interval}")
 
                 # After processing the SNPs for the current gene, print the diagnostics
-                print(f"Gene: {gene_name} - Chromosome: {chrom} | Start: {start}, End: {end}")
+                print(f"Gene: {gene_name} - Chromosome: {chrom} | Expanded Start: {expanded_start}, Expanded End: {expanded_end}")
                 print(f"SNPs found: {', '.join(snp_names)}\n")
 
         else:
