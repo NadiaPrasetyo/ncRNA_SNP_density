@@ -13,7 +13,7 @@ def process_fasta_file(file_path):
     
     # Replace lowercase nucleotides with their uppercase counterparts
     print("Processing content: converting lowercase nucleotides to uppercase...")
-    processed_content = file_content.translate(str.maketrans('aucgt', 'AUCGT'))
+    processed_content = file_content.translate(str.maketrans('aucgtn', 'AUCGTN'))
     
     # Check if any changes were made (this is a simple diagnostic check)
     if file_content != processed_content:
