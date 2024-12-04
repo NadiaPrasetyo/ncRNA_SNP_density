@@ -18,13 +18,19 @@ for line in lines:
     else:
         data_lines.append(line)
 
-# Sort the data lines by chromosome number
-# Since the chromosome number is the first part of the line (before the first tab)
-sorted_data_lines = sorted(data_lines, key=lambda x: (int(x.split('\t')[0][3:]) if x.split('\t')[0][3:].isdigit() else x.split('\t')[0]))
+# Filter out lines where REF or ALT are more than 40 characters
+filtered_data_lines = [
+    line for line in data_lines 
+    if len(line.split('\t')[3]) <= 40 and len(line.split('\t')[4]) <= 40
+]
 
-# Write the sorted VCF file back with the original header
+# Sort the filtered data lines by chromosome number
+# Since the chromosome number is the first part of the line (before the first tab)
+sorted_data_lines = sorted(filtered_data_lines, key=lambda x: (int(x.split('\t')[0][3:]) if x.split('\t')[0][3:].isdigit() else x.split('\t')[0]))
+
+# Write the sorted and filtered VCF file back with the original header
 with open(output_file, 'w') as outfile:
     outfile.writelines(header_lines)
     outfile.writelines(sorted_data_lines)
 
-print(f'Sorted VCF file has been saved to {output_file}')
+print(f'Sorted and filtered VCF file has been saved to {output_file}')
