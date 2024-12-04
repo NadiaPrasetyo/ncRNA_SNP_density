@@ -56,8 +56,12 @@ while IFS=, read -r chromosome start end gene_id gene_name snp_density rna_type;
     # Iterate through all chromosomes in the CHROMOSOMES array
     for chromosome in "${CHROMOSOMES[@]}"; do
         # Define file paths for the gene-specific FASTQ and SAM output
+        GEDS_FILE="$OUTPUT_DIR/$chromosome.geds"
+        GEDMAP_INDEX_FILE="$OUTPUT_DIR/$chromosome.geds.min"
         fastq_file="$FASTQ_DIR/$gene_name.fq"
         sam_file="$ALIGN_OUTPUT_DIR/$gene_name-$chromosome.sam"
+
+        echo " GEDS file: $GEDS_FILE, GEDMAP index file: $GEDMAP_INDEX_FILE, FASTQ file: $fastq_file, SAM file: $sam_file"
 
         echo "  Checking chromosome: $chromosome"
 
@@ -66,7 +70,7 @@ while IFS=, read -r chromosome start end gene_id gene_name snp_density rna_type;
             # Align: Align FASTQ to GEDS for this chromosome (only if the SAM file doesn't exist)
             if [[ ! -f "$sam_file" ]]; then
                 echo "  Running GEDMAP align for $gene_name on chromosome $chromosome..."
-                ../gedmap/gedmap align "$fastq_file" "$GEDS_FILE" "$GEDMAP_INDEX_FILE" -o "$sam_file" -rc -mao 1 -2fa "$GEDMAP_POS2FA_FILE" -d 10
+                ../gedmap/gedmap align "$fastq_file" "$GEDS_FILE" "$GEDMAP_INDEX_FILE" -o "$sam_file"
                 if [[ $? -ne 0 ]]; then
                     echo "  Error: GEDMAP align failed for $gene_name on chromosome $chromosome."
                     continue

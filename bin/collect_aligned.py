@@ -27,10 +27,13 @@ def collect_successfully_aligned_reads_with_filenames(folder_path, output_file="
                     fields = line.strip().split("\t")
                     if len(fields) > 1:  # Ensure the line has at least two fields
                         flag = int(fields[1])
-                        if flag != 4 :  # FLAG != 4 means the read is successfully aligned
+                        if flag != 4:  # FLAG != 4 means the read is successfully aligned
                             # Append the filename and the aligned read to the list
                             aligned_reads.append(f"{file_name}\t{line}")
     
+    # Sort the aligned reads alphabetically by the filename (first part before the tab)
+    aligned_reads.sort()
+
     # Write the collected aligned reads with filenames to an output file
     with open(output_file, "w") as output:
         output.writelines(aligned_reads)
