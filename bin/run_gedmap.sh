@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Directory paths
-FASTA_DIR="data/FASTA"
+FASTA_DIR="data/Chromosomes_FASTA"
 VCF_DIR="data/VCF"
 OUTPUT_DIR="data/GEDS"
 
@@ -14,7 +14,7 @@ for i in {1..22}; do
     
     # Define the FASTA and VCF file paths based on chromosome
     fasta_file="$FASTA_DIR/${chromosome}.fa"
-    vcf_file="$VCF_DIR/${chromosome}_variants.vcf"
+    vcf_file="$VCF_DIR/${chromosome}.vcf"
 
     # Check if both FASTA and VCF files exist
     if [[ -f "$fasta_file" && -f "$vcf_file" ]]; then

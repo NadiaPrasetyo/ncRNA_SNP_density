@@ -1,9 +1,10 @@
 import re
+import os
 
-# Define the path to the input file
-file_path = 'data/Chromosomes_FASTA/hg38_chromosomes.fa'
+# Define the folder path containing the chromosome files
+folder_path = 'data/Chromosomes_FASTA/'
 
-# Function to process the file
+# Function to process a single FASTA file
 def process_fasta_file(file_path):
     print(f"Starting to process the file: {file_path}")
     
@@ -57,5 +58,10 @@ def process_fasta_file(file_path):
         file.write(sorted_content)
     print(f"File '{file_path}' has been overwritten with processed content.")
 
-# Run the function to process the file
-process_fasta_file(file_path)
+# Get all files in the folder with names starting with 'chr' and ending with '.fa'
+file_list = [f for f in os.listdir(folder_path) if f.startswith('chr') and f.endswith('.fa')]
+
+# Process each file
+for file_name in file_list:
+    file_path = os.path.join(folder_path, file_name)
+    process_fasta_file(file_path)

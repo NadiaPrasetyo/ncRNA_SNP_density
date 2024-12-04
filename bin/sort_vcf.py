@@ -21,7 +21,7 @@ for line in lines:
 # Filter out lines where REF or ALT are more than 40 characters
 filtered_data_lines = [
     line for line in data_lines 
-    if len(line.split('\t')[3]) <= 40 and len(line.split('\t')[4]) <= 40
+    if len(line.split('\t')[3]) <= 100 and len(line.split('\t')[4]) <= 100
 ]
 
 # Sort the filtered data lines by chromosome number
