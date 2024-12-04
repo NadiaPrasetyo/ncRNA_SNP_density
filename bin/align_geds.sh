@@ -51,35 +51,34 @@ while IFS=, read -r chromosome start end gene_id gene_name snp_density rna_type;
         continue
     fi
 
-    # Check if the gene corresponds to one of the chromosomes
-    if [[ ! " ${CHROMOSOMES[@]} " =~ " $chromosome " ]]; then
-        echo "Skipping $gene_name: Chromosome $chromosome not in list."
-        continue
-    fi
+    echo "Processing gene: $gene_name"
 
-    # Define file paths for the gene-specific FASTQ and SAM output
-    fastq_file="$FASTQ_DIR/$gene_name.fq"
-    sam_file="$ALIGN_OUTPUT_DIR/$gene_name-$chromosome.sam"
+    # Iterate through all chromosomes in the CHROMOSOMES array
+    for chromosome in "${CHROMOSOMES[@]}"; do
+        # Define file paths for the gene-specific FASTQ and SAM output
+        fastq_file="$FASTQ_DIR/$gene_name.fq"
+        sam_file="$ALIGN_OUTPUT_DIR/$gene_name-$chromosome.sam"
 
-    echo "Processing gene: $gene_name on chromosome $chromosome"
+        echo "  Checking chromosome: $chromosome"
 
-    # Check if the required FASTQ file exists
-    if [[ -f "$fastq_file" ]]; then
-        # Align: Align FASTQ to GEDS for this chromosome (only if the SAM file doesn't exist)
-        if [[ ! -f "$sam_file" ]]; then
-            echo "Running GEDMAP align for $gene_name on chromosome $chromosome..."
-            ../gedmap/gedmap align "$fastq_file" "$GEDS_FILE" "$GEDMAP_INDEX_FILE" -o "$sam_file" -rc -mao 1 -2fa "$GEDMAP_POS2FA_FILE" -d 10
-            if [[ $? -ne 0 ]]; then
-                echo "Error: GEDMAP align failed for $gene_name on chromosome $chromosome."
-                continue
+        # Check if the required FASTQ file exists
+        if [[ -f "$fastq_file" ]]; then
+            # Align: Align FASTQ to GEDS for this chromosome (only if the SAM file doesn't exist)
+            if [[ ! -f "$sam_file" ]]; then
+                echo "  Running GEDMAP align for $gene_name on chromosome $chromosome..."
+                ../gedmap/gedmap align "$fastq_file" "$GEDS_FILE" "$GEDMAP_INDEX_FILE" -o "$sam_file" -rc -mao 1 -2fa "$GEDMAP_POS2FA_FILE" -d 10
+                if [[ $? -ne 0 ]]; then
+                    echo "  Error: GEDMAP align failed for $gene_name on chromosome $chromosome."
+                    continue
+                fi
+            else
+                echo "  SAM file already exists for $gene_name on chromosome $chromosome: $sam_file"
             fi
-        else
-            echo "SAM file already exists for $gene_name on chromosome $chromosome: $sam_file"
-        fi
 
-        echo "Alignment completed for $gene_name on chromosome $chromosome. Output SAM file: $sam_file"
-    else
-        echo "Skipping $gene_name: FASTQ file not found."
-        echo "FASTQ file: $fastq_file"
-    fi
+            echo "  Alignment completed for $gene_name on chromosome $chromosome. Output SAM file: $sam_file"
+        else
+            echo "  Skipping $gene_name: FASTQ file not found."
+            echo "  FASTQ file: $fastq_file"
+        fi
+    done
 done < data/SNP-densities-and-RNA.csv

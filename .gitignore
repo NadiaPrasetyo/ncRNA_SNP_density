@@ -173,5 +173,6 @@ data/Chromosomes_FASTA/
 data/GEDS/
 sorted_all_variants.vcf
 data/VCF/
+data/Alignments/
 
 .pybiomart.sqlite
