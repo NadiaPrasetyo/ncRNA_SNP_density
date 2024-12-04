@@ -34,7 +34,7 @@ def split_vcf_by_chrom(input_vcf):
 
 
 # Input VCF file
-input_vcf_path = "data/sorted_filtered_variants.vcf"  # Replace with your VCF file path
+input_vcf_path = "data/sorted_all_variants.vcf"  # Replace with your VCF file path
 
 # Split the VCF by chromosome (or gene)
 split_vcf_by_chrom(input_vcf_path)

@@ -6,7 +6,11 @@ ALIGN_OUTPUT_DIR="data/Alignments"  # Directory for alignment outputs
 FASTQ_DIR="data/fastq"  # Directory where dynamic fastq files are stored
 
 # Chromosomes list
-CHROMOSOMES=("chr1" "chr2" "chr5" "chr6" "chr7" "chr8" "chr9")
+CHROMOSOMES=()
+for i in {1..22}; do
+    CHROMOSOMES+=("chr$i")
+done
+
 
 # Create output directories if they don't exist
 mkdir -p $OUTPUT_DIR

@@ -258,3 +258,688 @@ TIME in total:                                   4.79 s
 *********************************************************************************
 GEDMAP INDEX
 *********************************************************************************
+
+Running GEDMAP index for chr1...
+.......................................................
+GEDMAP INDEX                                           
+.......................................................
+GEDS:                               data/GEDS/chr1.geds
+K:                                                   20
+W:                                                    5
+INDEX:                          data/GEDS/chr1.geds.min
+.......................................................
+Calculate index per node                               
+Calculate minimizers                                   
+Combine node minimizers                                
+Build minimizer index                                  
+Generate key-value pairs
+Read key-value pairs
+Sort key-value pairs
+Analyse key-value pairs
+67185527/1099511627776 2637078/67185527
+Generate index
+(trimmed kmers 762)
+(trimmed positions 1781253)
+Store index                                            
+Index written.                                         
+Number of single positions in index 64548449 (width=32)
+Number of mult positions in index   13740833 (width=32)
+Number of k-mers in index                      67185527
+.......................................................
+Time for loading:                                0.53 s
+Time for indexing nodes:                        78.71 s
+Time for combining nodes                         3.60 s
+Time for building index                         11.06 s
+Time for trimming index                          0.00 s
+Time for storing:                                0.26 s
+Time in total:                                  94.16 s
+.......................................................
+Running GEDMAP index for chr2...
+.......................................................
+GEDMAP INDEX                                           
+.......................................................
+GEDS:                               data/GEDS/chr2.geds
+K:                                                   20
+W:                                                    5
+INDEX:                          data/GEDS/chr2.geds.min
+.......................................................
+Calculate index per node                               
+Calculate minimizers                                   
+Combine node minimizers                                
+Build minimizer index                                  
+Generate key-value pairs
+Read key-value pairs
+Sort key-value pairs
+Analyse key-value pairs
+72692505/1099511627776 2052440/72692505
+Generate index
+(trimmed kmers 656)
+(trimmed positions 1567334)
+Store index                                            
+Index written.                                         
+Number of single positions in index 70640065 (width=32)
+Number of mult positions in index   11328098 (width=32)
+Number of k-mers in index                      72692505
+.......................................................
+Time for loading:                                0.56 s
+Time for indexing nodes:                        84.91 s
+Time for combining nodes                         3.44 s
+Time for building index                         11.29 s
+Time for trimming index                          0.00 s
+Time for storing:                                0.27 s
+Time in total:                                 100.47 s
+.......................................................
+Running GEDMAP index for chr3...
+.......................................................
+GEDMAP INDEX                                           
+.......................................................
+GEDS:                               data/GEDS/chr3.geds
+K:                                                   20
+W:                                                    5
+INDEX:                          data/GEDS/chr3.geds.min
+.......................................................
+Calculate index per node                               
+Calculate minimizers                                   
+Combine node minimizers                                
+Build minimizer index                                  
+Generate key-value pairs
+Read key-value pairs
+Sort key-value pairs
+Analyse key-value pairs
+59677066/1099511627776 1526107/59677066
+Generate index
+(trimmed kmers 447)
+(trimmed positions 960889)
+Store index                                            
+Index written.                                         
+Number of single positions in index 58150959 (width=32)
+Number of mult positions in index    9625938 (width=32)
+Number of k-mers in index                      59677066
+.......................................................
+Time for loading:                                0.43 s
+Time for indexing nodes:                        64.03 s
+Time for combining nodes                         2.81 s
+Time for building index                          9.22 s
+Time for trimming index                          0.00 s
+Time for storing:                                0.21 s
+Time in total:                                  76.71 s
+.......................................................
+Running GEDMAP index for chr4...
+.......................................................
+GEDMAP INDEX                                           
+.......................................................
+GEDS:                               data/GEDS/chr4.geds
+K:                                                   20
+W:                                                    5
+INDEX:                          data/GEDS/chr4.geds.min
+.......................................................
+Calculate index per node                               
+Calculate minimizers                                   
+Combine node minimizers                                
+Build minimizer index                                  
+Generate key-value pairs
+Read key-value pairs
+Sort key-value pairs
+Analyse key-value pairs
+57544040/1099511627776 1549672/57544040
+Generate index
+(trimmed kmers 432)
+(trimmed positions 803920)
+Store index                                            
+Index written.                                         
+Number of single positions in index 55994368 (width=32)
+Number of mult positions in index    9267257 (width=32)
+Number of k-mers in index                      57544040
+.......................................................
+Time for loading:                                0.40 s
+Time for indexing nodes:                        62.84 s
+Time for combining nodes                         2.80 s
+Time for building index                          8.84 s
+Time for trimming index                          0.00 s
+Time for storing:                                0.21 s
+Time in total:                                  75.09 s
+.......................................................
+Running GEDMAP index for chr5...
+.......................................................
+GEDMAP INDEX                                           
+.......................................................
+GEDS:                               data/GEDS/chr5.geds
+K:                                                   20
+W:                                                    5
+INDEX:                          data/GEDS/chr5.geds.min
+.......................................................
+Calculate index per node                               
+Calculate minimizers                                   
+Combine node minimizers                                
+Build minimizer index                                  
+Generate key-value pairs
+Read key-value pairs
+Sort key-value pairs
+Analyse key-value pairs
+54153155/1099511627776 1592194/54153155
+Generate index
+(trimmed kmers 514)
+(trimmed positions 1041171)
+Store index                                            
+Index written.                                         
+Number of single positions in index 52560961 (width=32)
+Number of mult positions in index    9353562 (width=32)
+Number of k-mers in index                      54153155
+.......................................................
+Time for loading:                                0.45 s
+Time for indexing nodes:                        67.72 s
+Time for combining nodes                         2.62 s
+Time for building index                          8.55 s
+Time for trimming index                          0.00 s
+Time for storing:                                0.20 s
+Time in total:                                  79.54 s
+.......................................................
+Running GEDMAP index for chr6...
+.......................................................
+GEDMAP INDEX                                           
+.......................................................
+GEDS:                               data/GEDS/chr6.geds
+K:                                                   20
+W:                                                    5
+INDEX:                          data/GEDS/chr6.geds.min
+.......................................................
+Calculate index per node                               
+Calculate minimizers                                   
+Combine node minimizers                                
+Build minimizer index                                  
+Generate key-value pairs
+Read key-value pairs
+Sort key-value pairs
+Analyse key-value pairs
+51511077/1099511627776 1569457/51511077
+Generate index
+(trimmed kmers 337)
+(trimmed positions 666475)
+Store index                                            
+Index written.                                         
+Number of single positions in index 49941620 (width=32)
+Number of mult positions in index    8592997 (width=32)
+Number of k-mers in index                      51511077
+.......................................................
+Time for loading:                                0.40 s
+Time for indexing nodes:                        57.36 s
+Time for combining nodes                         2.48 s
+Time for building index                          8.25 s
+Time for trimming index                          0.00 s
+Time for storing:                                0.19 s
+Time in total:                                  68.67 s
+.......................................................
+Running GEDMAP index for chr7...
+.......................................................
+GEDMAP INDEX                                           
+.......................................................
+GEDS:                               data/GEDS/chr7.geds
+K:                                                   20
+W:                                                    5
+INDEX:                          data/GEDS/chr7.geds.min
+.......................................................
+Calculate index per node                               
+Calculate minimizers                                   
+Combine node minimizers                                
+Build minimizer index                                  
+Generate key-value pairs
+Read key-value pairs
+Sort key-value pairs
+Analyse key-value pairs
+46836025/1099511627776 1617646/46836025
+Generate index
+(trimmed kmers 668)
+(trimmed positions 1567997)
+Store index                                            
+Index written.                                         
+Number of single positions in index 45218379 (width=32)
+Number of mult positions in index    8544051 (width=32)
+Number of k-mers in index                      46836025
+.......................................................
+Time for loading:                                0.47 s
+Time for indexing nodes:                        54.71 s
+Time for combining nodes                         2.29 s
+Time for building index                          7.69 s
+Time for trimming index                          0.00 s
+Time for storing:                                0.17 s
+Time in total:                                  65.34 s
+.......................................................
+Running GEDMAP index for chr8...
+.......................................................
+GEDMAP INDEX                                           
+.......................................................
+GEDS:                               data/GEDS/chr8.geds
+K:                                                   20
+W:                                                    5
+INDEX:                          data/GEDS/chr8.geds.min
+.......................................................
+Calculate index per node                               
+Calculate minimizers                                   
+Combine node minimizers                                
+Build minimizer index                                  
+Generate key-value pairs
+Read key-value pairs
+Sort key-value pairs
+Analyse key-value pairs
+44086062/1099511627776 1170295/44086062
+Generate index
+(trimmed kmers 408)
+(trimmed positions 691474)
+Store index                                            
+Index written.                                         
+Number of single positions in index 42915767 (width=32)
+Number of mult positions in index    6855881 (width=32)
+Number of k-mers in index                      44086062
+.......................................................
+Time for loading:                                0.38 s
+Time for indexing nodes:                        49.45 s
+Time for combining nodes                         2.15 s
+Time for building index                          7.00 s
+Time for trimming index                          0.00 s
+Time for storing:                                0.16 s
+Time in total:                                  59.15 s
+.......................................................
+Running GEDMAP index for chr9...
+.......................................................
+GEDMAP INDEX                                           
+.......................................................
+GEDS:                               data/GEDS/chr9.geds
+K:                                                   20
+W:                                                    5
+INDEX:                          data/GEDS/chr9.geds.min
+.......................................................
+Calculate index per node                               
+Calculate minimizers                                   
+Combine node minimizers                                
+Build minimizer index                                  
+Generate key-value pairs
+Read key-value pairs
+Sort key-value pairs
+Analyse key-value pairs
+35635849/1099511627776 1756770/35635849
+Generate index
+(trimmed kmers 496)
+(trimmed positions 931060)
+Store index                                            
+Index written.                                         
+Number of single positions in index 33879079 (width=32)
+Number of mult positions in index    7678580 (width=32)
+Number of k-mers in index                      35635849
+.......................................................
+Time for loading:                                0.38 s
+Time for indexing nodes:                        47.84 s
+Time for combining nodes                         1.98 s
+Time for building index                          6.31 s
+Time for trimming index                          0.00 s
+Time for storing:                                0.14 s
+Time in total:                                  56.65 s
+.......................................................
+Running GEDMAP index for chr10...
+.......................................................
+GEDMAP INDEX                                           
+.......................................................
+GEDS:                              data/GEDS/chr10.geds
+K:                                                   20
+W:                                                    5
+INDEX:                         data/GEDS/chr10.geds.min
+.......................................................
+Calculate index per node                               
+Calculate minimizers                                   
+Combine node minimizers                                
+Build minimizer index                                  
+Generate key-value pairs
+Read key-value pairs
+Sort key-value pairs
+Analyse key-value pairs
+40104960/1099511627776 1193335/40104960
+Generate index
+(trimmed kmers 447)
+(trimmed positions 824225)
+Store index                                            
+Index written.                                         
+Number of single positions in index 38911625 (width=32)
+Number of mult positions in index    6655232 (width=32)
+Number of k-mers in index                      40104960
+.......................................................
+Time for loading:                                0.39 s
+Time for indexing nodes:                        46.08 s
+Time for combining nodes                         1.93 s
+Time for building index                          6.43 s
+Time for trimming index                          0.00 s
+Time for storing:                                0.22 s
+Time in total:                                  55.05 s
+.......................................................
+Running GEDMAP align for tRNA-Lys-TTT-5-1 on chromosome chr11...
+.......................................................
+GEDMAP ALIGN                                           
+.......................................................
+Search                              data/GEDS/chr2.geds
+in                       data/fastq/tRNA-Lys-TTT-5-1.fq
+using                           data/GEDS/chr2.geds.min
+.......................................................
+MAPPING:                                               
+Searched reads                                        1
+Reads per second per thread                        2.31
+Searches                                              1
+Mapped reads                                          0
+Results                                               0
+.......................................................
+Time for loading:                                0.71 s
+Time for mapping:                                0.03 s
+Time for overall:                                0.74 s
+.......................................................
+Running GEDMAP index for chr12...
+.......................................................
+GEDMAP INDEX                                           
+.......................................................
+GEDS:                              data/GEDS/chr12.geds
+K:                                                   20
+W:                                                    5
+INDEX:                         data/GEDS/chr12.geds.min
+.......................................................
+Calculate index per node                               
+Calculate minimizers                                   
+Combine node minimizers                                
+Build minimizer index                                  
+Generate key-value pairs
+Read key-value pairs
+Sort key-value pairs
+Analyse key-value pairs
+39542752/1099511627776 1102989/39542752
+Generate index
+(trimmed kmers 646)
+(trimmed positions 1251446)
+Store index                                            
+Index written.                                         
+Number of single positions in index 38439763 (width=32)
+Number of mult positions in index    6523135 (width=32)
+Number of k-mers in index                      39542752
+.......................................................
+Time for loading:                                0.36 s
+Time for indexing nodes:                        43.54 s
+Time for combining nodes                         1.91 s
+Time for building index                          6.20 s
+Time for trimming index                          0.00 s
+Time for storing:                                0.14 s
+Time in total:                                  52.14 s
+.......................................................
+Running GEDMAP index for chr13...
+.......................................................
+GEDMAP INDEX                                           
+.......................................................
+GEDS:                              data/GEDS/chr13.geds
+K:                                                   20
+W:                                                    5
+INDEX:                         data/GEDS/chr13.geds.min
+.......................................................
+Calculate index per node                               
+Calculate minimizers                                   
+Combine node minimizers                                
+Build minimizer index                                  
+Generate key-value pairs
+Read key-value pairs
+Sort key-value pairs
+Analyse key-value pairs
+30304476/1099511627776 711944/30304476
+Generate index
+(trimmed kmers 140)
+(trimmed positions 238568)
+Store index                                            
+Index written.                                         
+Number of single positions in index 29592532 (width=32)
+Number of mult positions in index    4217545 (width=32)
+Number of k-mers in index                      30304476
+.......................................................
+Time for loading:                                0.22 s
+Time for indexing nodes:                        33.80 s
+Time for combining nodes                         1.57 s
+Time for building index                          4.64 s
+Time for trimming index                          0.00 s
+Time for storing:                                0.11 s
+Time in total:                                  40.34 s
+.......................................................
+Running GEDMAP index for chr14...
+.......................................................
+GEDMAP INDEX                                           
+.......................................................
+GEDS:                              data/GEDS/chr14.geds
+K:                                                   20
+W:                                                    5
+INDEX:                         data/GEDS/chr14.geds.min
+.......................................................
+Calculate index per node                               
+Calculate minimizers                                   
+Combine node minimizers                                
+Build minimizer index                                  
+Generate key-value pairs
+Read key-value pairs
+Sort key-value pairs
+Analyse key-value pairs
+27308449/1099511627776 760086/27308449
+Generate index
+(trimmed kmers 185)
+(trimmed positions 327943)
+Store index                                            
+Index written.                                         
+Number of single positions in index 26548363 (width=32)
+Number of mult positions in index    4623286 (width=32)
+Number of k-mers in index                      27308449
+.......................................................
+Time for loading:                                0.25 s
+Time for indexing nodes:                        32.86 s
+Time for combining nodes                         1.50 s
+Time for building index                          4.38 s
+Time for trimming index                          0.00 s
+Time for storing:                                0.12 s
+Time in total:                                  39.12 s
+.......................................................
+Running GEDMAP index for chr15...
+.......................................................
+GEDMAP INDEX                                           
+.......................................................
+GEDS:                              data/GEDS/chr15.geds
+K:                                                   20
+W:                                                    5
+INDEX:                         data/GEDS/chr15.geds.min
+.......................................................
+Calculate index per node                               
+Calculate minimizers                                   
+Combine node minimizers                                
+Build minimizer index                                  
+Generate key-value pairs
+Read key-value pairs
+Sort key-value pairs
+Analyse key-value pairs
+24669083/1099511627776 1064178/24669083
+Generate index
+(trimmed kmers 263)
+(trimmed positions 437994)
+Store index                                            
+Index written.                                         
+Number of single positions in index 23604905 (width=32)
+Number of mult positions in index    5408465 (width=32)
+Number of k-mers in index                      24669083
+.......................................................
+Time for loading:                                0.23 s
+Time for indexing nodes:                        30.40 s
+Time for combining nodes                         1.40 s
+Time for building index                          4.01 s
+Time for trimming index                          0.00 s
+Time for storing:                                0.09 s
+Time in total:                                  36.13 s
+.......................................................
+Running GEDMAP index for chr16...
+.......................................................
+GEDMAP INDEX                                           
+.......................................................
+GEDS:                              data/GEDS/chr16.geds
+K:                                                   20
+W:                                                    5
+INDEX:                         data/GEDS/chr16.geds.min
+.......................................................
+Calculate index per node                               
+Calculate minimizers                                   
+Combine node minimizers                                
+Build minimizer index                                  
+Generate key-value pairs
+Read key-value pairs
+Sort key-value pairs
+Analyse key-value pairs
+23540536/1099511627776 1063424/23540536
+Generate index
+(trimmed kmers 569)
+(trimmed positions 917674)
+Store index                                            
+Index written.                                         
+Number of single positions in index 22477112 (width=32)
+Number of mult positions in index    5218993 (width=32)
+Number of k-mers in index                      23540536
+.......................................................
+Time for loading:                                0.20 s
+Time for indexing nodes:                        30.11 s
+Time for combining nodes                         1.33 s
+Time for building index                          4.16 s
+Time for trimming index                          0.00 s
+Time for storing:                                0.09 s
+Time in total:                                  35.89 s
+.......................................................
+Running GEDMAP index for chr17...
+.......................................................
+GEDMAP INDEX                                           
+.......................................................
+GEDS:                              data/GEDS/chr17.geds
+K:                                                   20
+W:                                                    5
+INDEX:                         data/GEDS/chr17.geds.min
+.......................................................
+Calculate index per node                               
+Calculate minimizers                                   
+Combine node minimizers                                
+Build minimizer index                                  
+Generate key-value pairs
+Read key-value pairs
+Sort key-value pairs
+Analyse key-value pairs
+22997759/1099511627776 945254/22997759
+Generate index
+(trimmed kmers 871)
+(trimmed positions 1442413)
+Store index                                            
+Index written.                                         
+Number of single positions in index 22052505 (width=32)
+Number of mult positions in index    5316299 (width=32)
+Number of k-mers in index                      22997759
+.......................................................
+Time for loading:                                0.21 s
+Time for indexing nodes:                        28.42 s
+Time for combining nodes                         1.19 s
+Time for building index                          4.17 s
+Time for trimming index                          0.00 s
+Time for storing:                                0.09 s
+Time in total:                                  34.07 s
+.......................................................
+Running GEDMAP index for chr18...
+.......................................................
+GEDMAP INDEX                                           
+.......................................................
+GEDS:                              data/GEDS/chr18.geds
+K:                                                   20
+W:                                                    5
+INDEX:                         data/GEDS/chr18.geds.min
+.......................................................
+Calculate index per node                               
+Calculate minimizers                                   
+Combine node minimizers                                
+Build minimizer index                                  
+Generate key-value pairs
+Read key-value pairs
+Sort key-value pairs
+Analyse key-value pairs
+23705571/1099511627776 503864/23705571
+Generate index
+(trimmed kmers 578)
+(trimmed positions 1487646)
+Store index                                            
+Index written.                                         
+Number of single positions in index 23201707 (width=32)
+Number of mult positions in index    3116392 (width=32)
+Number of k-mers in index                      23705571
+.......................................................
+Time for loading:                                0.24 s
+Time for indexing nodes:                        26.02 s
+Time for combining nodes                         1.17 s
+Time for building index                          3.69 s
+Time for trimming index                          0.00 s
+Time for storing:                                0.09 s
+Time in total:                                  31.20 s
+.......................................................
+Running GEDMAP index for chr19...
+.......................................................
+GEDMAP INDEX                                           
+.......................................................
+GEDS:                              data/GEDS/chr19.geds
+K:                                                   20
+W:                                                    5
+INDEX:                         data/GEDS/chr19.geds.min
+.......................................................
+Calculate index per node                               
+Calculate minimizers                                   
+Combine node minimizers                                
+Build minimizer index                                  
+Generate key-value pairs
+Read key-value pairs
+Sort key-value pairs
+Analyse key-value pairs
+15472752/1099511627776 807845/15472752
+Generate index
+(trimmed kmers 473)
+(trimmed positions 938316)
+Store index                                            
+Index written.                                         
+Number of single positions in index 14664907 (width=32)
+Number of mult positions in index    4874286 (width=32)
+Number of k-mers in index                      15472752
+.......................................................
+Time for loading:                                0.12 s
+Time for indexing nodes:                        21.06 s
+Time for combining nodes                         0.84 s
+Time for building index                          2.89 s
+Time for trimming index                          0.00 s
+Time for storing:                                0.06 s
+Time in total:                                  24.97 s
+.......................................................
+Running GEDMAP index for chr20...
+.......................................................
+GEDMAP INDEX                                           
+.......................................................
+GEDS:                              data/GEDS/chr20.geds
+K:                                                   20
+W:                                                    5
+INDEX:                         data/GEDS/chr20.geds.min
+.......................................................
+Calculate index per node                               
+Calculate minimizers                                   
+Combine node minimizers                                
+Build minimizer index                                  
+Generate key-value pairs
+Read key-value pairs
+Sort key-value pairs
+Analyse key-value pairs
+19047083/1099511627776 526917/19047083
+Generate index
+(trimmed kmers 228)
+(trimmed positions 401951)
+Store index                                            
+Index written.                                         
+Number of single positions in index 18520166 (width=32)
+Number of mult positions in index    3320616 (width=32)
+Number of k-mers in index                      19047083
+.......................................................
+Time for loading:                                0.12 s
+Time for indexing nodes:                        21.72 s
+Time for combining nodes                         0.91 s
+Time for building index                          3.07 s
+Time for trimming index                          0.00 s
+Time for storing:                                0.07 s
+Time in total:                                  25.90 s
+.......................................................

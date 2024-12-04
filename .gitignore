@@ -171,5 +171,7 @@ dbSnp155.bb
 *.fq
 data/Chromosomes_FASTA/
 data/GEDS/
+sorted_all_variants.vcf
+data/VCF/
 
 .pybiomart.sqlite
