@@ -13,6 +13,9 @@ df$NUM_VARIATIONS <- sapply(df$VARIATION_TYPES, function(x) {
   sum(as.numeric(gsub(".*\\((\\d+)\\).*", "\\1", unlist(strsplit(x, ",\\s*")))))
 })
 
+# Fill NA values in NUM_VARIATIONS with 0
+df$NUM_VARIATIONS[is.na(df$NUM_VARIATIONS)] <- 0
+
 # Separate genes and flanks
 genes <- df[!grepl("_flank", df$GENE), ]       # Rows without "_flank" (genes)
 flanks <- df[grepl("_flank", df$GENE), ]       # Rows with "_flank" (flanks)
@@ -34,6 +37,7 @@ merged_df$Enrichment_ZScore <- scale(merged_df$Enrichment)
 
 # View the resulting dataframe with enrichment and Z-scores
 head(merged_df)
+
 # List of special genes
 special_genes <- c(
   "FAM30A", "LINC01671", "lnc-SLCO4A1-8", "MIR4538", "SNAR-A1", "SNAR-B2", 
@@ -56,4 +60,22 @@ plot <- ggplot(merged_df, aes(x = GENE_BASE, y = Enrichment_ZScore)) +
   theme(axis.text.x = ggtext::element_markdown(angle = 90, hjust = 1)) +  # This applies markdown to the x-axis text
   scale_x_discrete(labels = merged_df$GENE_LABEL)   # Use modified labels for x-axis
 
-ggsave("../../results/Enrichment_pangenome_var.pdf", plot = plot)
+# Save the plot
+ggsave("../../results/Enrichment_pangenome_var.pdf", plot = plot, width = 15)
+
+# Reorder the GENE_BASE factor based on Enrichment_ZScore, descending
+merged_df$GENE_BASE <- factor(merged_df$GENE_BASE, levels = merged_df$GENE_BASE[order(-merged_df$Enrichment_ZScore)])
+
+# Plot with sorted enrichment values
+plot <- ggplot(merged_df, aes(x = GENE_BASE, y = Enrichment_ZScore)) +
+  geom_bar(stat = 'identity', fill = 'steelblue') +
+  theme_minimal() +
+  labs(title = 'Enrichment of Variations in Gene Length vs Total Length',
+       x = 'Gene',
+       y = 'Z-score of Enrichment') +
+  theme(axis.text.x = ggtext::element_markdown(angle = 90, hjust = 1)) +  # This applies markdown to the x-axis text
+  scale_x_discrete(labels = merged_df$GENE_LABEL)   # Use modified labels for x-axis
+
+# Save the plot
+ggsave("../../results/Enrichment_pangenome_var_sorted.pdf", plot = plot, width = 15)
+

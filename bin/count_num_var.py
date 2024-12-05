@@ -92,8 +92,69 @@ def process_gene_variations(csv_file):
     
     return results_df
 
-# Example usage
+
+
+
+
+def ensure_all_genes_covered(processed_data, reference_csv):
+    """
+    Ensures all genes from the reference gene list are covered in the processed data.
+    If a gene is missing, it will be added with default values. Gene lengths and total lengths
+    will be copied from the flank counterpart if available.
+    
+    Args:
+        processed_data (pd.DataFrame): The processed gene variations summary.
+        reference_csv (str): Path to the reference gene list.
+        
+    Returns:
+        pd.DataFrame: Updated DataFrame with all genes accounted for.
+    """
+    reference_data = pd.read_csv(reference_csv)
+    reference_data.rename(columns={'GeneName': 'GENE'}, inplace=True)
+    reference_genes = set(reference_data['GENE'])
+    
+    processed_genes = set(processed_data['GENE'])
+    missing_genes = reference_genes - processed_genes
+
+    for gene in missing_genes:
+        # Look for the flank counterpart
+        flank_gene = f"{gene}_flank"
+        flank_data = processed_data.loc[processed_data['GENE'] == flank_gene]
+
+        if not flank_data.empty:
+            # Copy lengths from the flank
+            gene_length = flank_data.iloc[0]['GENE_LENGTH']
+            total_length = flank_data.iloc[0]['TOTAL_LENGTH']
+        else:
+            gene_length = 'NA'
+            total_length = 'NA'
+        
+        processed_data = pd.concat([
+            processed_data,
+            pd.DataFrame([{
+                'GENE': gene,
+                'NUM_VARIATIONS': 0,
+                'VARIATION_TYPES': "SNP",  # Default for missing genes
+                'GENE_LENGTH': gene_length,
+                'TOTAL_LENGTH': total_length
+            }])
+        ])
+    
+    # Sort processed data by gene name for consistency
+    processed_data = processed_data.sort_values(by='GENE').reset_index(drop=True)
+    return processed_data
+
 if __name__ == "__main__":
-    csv_file = 'data/EXTENDED_pangenome_summary.csv'  # Replace with the actual file path
-    summary = process_gene_variations(csv_file)
-    print(summary)
+    csv_file = 'data/EXTENDED_pangenome_summary.csv'  # Replace with actual variation file path
+    reference_csv = 'data/SNP-densities-and-RNA.csv'  # Replace with actual reference file path
+
+    # Step 1: Process variations
+    processed_summary = process_gene_variations(csv_file)
+    
+    # Step 2: Ensure all genes are accounted for
+    final_summary = ensure_all_genes_covered(processed_summary, reference_csv)
+
+    # Save final summary to file
+    final_output_path = Path('results/EXTENDED_pangenome_variation_summary.csv')
+    final_summary.to_csv(final_output_path, index=False)
+    print(f"Final results saved to '{final_output_path}'")
