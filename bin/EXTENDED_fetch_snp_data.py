@@ -8,7 +8,7 @@ bigbed_file = "data/dbSnp155.bb"
 csv_file = "data/SNP-densities-and-RNA.csv"  # CSV should have 'gene_name', 'chrom', 'start', 'end' columns
 
 # Output text file where data will be saved
-output_file = "data/SNP_data.txt"
+output_file = "data/EXTENDED_SNP_data.txt"
 
 # Open the output file in write mode to store the results
 with open(output_file, 'w') as f:
@@ -63,6 +63,12 @@ with open(output_file, 'w') as f:
                             variation_class = snp_details[10]  # Variation class (e.g., SNV)
                             ucsc_notes = snp_details[11]  # UCSC notes
 
+                            # Determine if the SNP is in the gene or in the flank region
+                            if chromStart >= start and chromEnd <= end:
+                                region_type = gene_name  # SNP is inside the gene
+                            else:
+                                region_type = f"{gene_name}_flank"  # SNP is in the flanking region
+
                             # Collect SNP names for diagnostics
                             snp_names.append(name)
 
@@ -76,6 +82,7 @@ with open(output_file, 'w') as f:
                             f.write(f"Alternate Alleles: {', '.join(alts)}\n")
                             f.write(f"Variation Class: {variation_class}\n")
                             f.write(f"UCSC Notes: {ucsc_notes}\n")
+                            f.write(f"Region Type: {region_type}\n")  # Add region type (gene or gene_flank)
                             f.write("-" * 40 + "\n")
 
                         except IndexError:
