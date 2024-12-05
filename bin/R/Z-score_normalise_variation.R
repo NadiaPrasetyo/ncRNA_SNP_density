@@ -1,45 +1,59 @@
 # Load necessary libraries
-library(ggplot2)
+library(dplyr)   # For data manipulation
+library(ggplot2) # For plotting
+library(scales)   # For scaling/normalization
+library(ggtext)  # For colored text in ggplot
 
 # Read the CSV file
-data <- read.csv("../../results/EXTENDED_pangenome_variation_summary.csv", stringsAsFactors = FALSE)
+df <- read.csv('../../results/EXTENDED_pangenome_variation_summary.csv')
 
-# Extract base gene names (remove "_flank" if present)
-data$BASE_GENE <- sub("_flank$", "", data$GENE)
+# Split variation types from the 'VARIATION_TYPES' field to get the number of variations
+# Assuming the number of variations is extracted from the string (e.g., "snp(4)")
+df$NUM_VARIATIONS <- sapply(df$VARIATION_TYPES, function(x) {
+  sum(as.numeric(gsub(".*\\((\\d+)\\).*", "\\1", unlist(strsplit(x, ",\\s*")))))
+})
 
-# Summarize the total variations for each base gene
-total_variations <- aggregate(NUM_VARIATIONS ~ BASE_GENE, data, sum)
+# Separate genes and flanks
+genes <- df[!grepl("_flank", df$GENE), ]       # Rows without "_flank" (genes)
+flanks <- df[grepl("_flank", df$GENE), ]       # Rows with "_flank" (flanks)
 
-# Merge the total variations back with the original data
-data <- merge(data, total_variations, by.x = "BASE_GENE", by.y = "BASE_GENE", suffixes = c("", "_TOTAL"))
+# Merge the gene and flank data based on the base gene name
+# Assuming the gene name is the part before '_flank' (e.g., 'BLACE' for 'BLACE_flank')
+genes$GENE_BASE <- sub("_flank$", "", genes$GENE)
+flanks$GENE_BASE <- sub("_flank$", "", flanks$GENE)
 
-# Function to calculate Z-score for each gene individually
-calculate_z_score <- function(gene_data) {
-  # Calculate the mean and standard deviation for each gene
-  mu <- mean(gene_data$NUM_VARIATIONS_TOTAL)
-  sigma <- sd(gene_data$NUM_VARIATIONS_TOTAL)
-  
-  # Normalize and calculate Z-score for each row in the gene's data
-  gene_data$NORMALIZED_VAR <- gene_data$NUM_VARIATIONS / gene_data$NUM_VARIATIONS_TOTAL
-  gene_data$Z_SCORE <- (gene_data$NORMALIZED_VAR - mu) / sigma
-  return(gene_data)
-}
+# Merge gene data with flank data by the base gene name
+merged_df <- merge(genes, flanks, by = "GENE_BASE", suffixes = c("_gene", "_flank"))
 
-# Apply the function to each gene separately using dplyr's group_by
-library(dplyr)
-data <- data %>%
-  group_by(BASE_GENE) %>%
-  do(calculate_z_score(.))
+# Calculate the enrichment ratio for each gene
+merged_df$Enrichment <- (merged_df$NUM_VARIATIONS_gene / merged_df$GENE_LENGTH_gene) /
+  ((merged_df$NUM_VARIATIONS_gene + merged_df$NUM_VARIATIONS_flank) / merged_df$TOTAL_LENGTH_gene)
 
-# Filter out flank rows for better visualization
-non_flank_data <- data[!grepl("_flank$", data$GENE), ]
+# Normalize the enrichment values (Z-score normalization)
+merged_df$Enrichment_ZScore <- scale(merged_df$Enrichment)
 
-# Plot Z-scores against genes
-ggplot(non_flank_data, aes(x = BASE_GENE, y = Z_SCORE)) +
-  geom_bar(stat = "identity", fill = "steelblue") +
-  labs(title = "Z-scores of Normalized Gene Variations", x = "Gene", y = "Z-score") +
+# View the resulting dataframe with enrichment and Z-scores
+head(merged_df)
+# List of special genes
+special_genes <- c(
+  "FAM30A", "LINC01671", "lnc-SLCO4A1-8", "MIR4538", "SNAR-A1", "SNAR-B2", 
+  "SNAR-C3", "SNAR-C4", "SNAR-G1", "SNAR-G2", "TRE-TTC5-1", "TRG-CCC6-1", 
+  "TRG-CCC4-1", "TRV-CAC5-1"
+)
+
+# Modify the gene names to include HTML-style color tags for special genes
+merged_df$GENE_LABEL <- ifelse(merged_df$GENE_BASE %in% special_genes,
+                               paste0("<span style='color:red;'>", merged_df$GENE_BASE, "</span>"),
+                               merged_df$GENE_BASE)
+
+# Plot with colored x-axis labels using ggtext
+plot <- ggplot(merged_df, aes(x = GENE_BASE, y = Enrichment_ZScore)) +
+  geom_bar(stat = 'identity', fill = 'steelblue') +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  labs(title = 'Enrichment of Variations in Gene Length vs Total Length',
+       x = 'Gene',
+       y = 'Z-score of Enrichment') +
+  theme(axis.text.x = ggtext::element_markdown(angle = 90, hjust = 1)) +  # This applies markdown to the x-axis text
+  scale_x_discrete(labels = merged_df$GENE_LABEL)   # Use modified labels for x-axis
 
-# Save the plot
-ggsave("../../results/z_scores_plot.pdf")
+ggsave("../../results/Enrichment_pangenome_var.pdf", plot = plot)

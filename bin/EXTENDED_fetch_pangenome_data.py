@@ -43,6 +43,7 @@ def read_and_sort_gene_ranges(csv_file_path):
                 })
         # Sort by chromosome and start position
         gene_ranges.sort(key=lambda x: (x["chromosome"], x["start"]))
+        print(gene_ranges)
         print(f"Successfully processed {len(gene_ranges)} gene ranges with expanded boundaries.")
     except FileNotFoundError:
         print(f"CSV file not found at {csv_file_path}")
@@ -51,7 +52,6 @@ def read_and_sort_gene_ranges(csv_file_path):
     return gene_ranges
 
 # Filter VCF file based on sorted ranges
-# Debugging added to filter_vcf_by_ranges
 def filter_vcf_by_ranges(vcf_file_path, gene_ranges, lines_to_skip=2595):
     print("Filtering VCF file based on ranges...")
     csv_rows = []
@@ -59,6 +59,9 @@ def filter_vcf_by_ranges(vcf_file_path, gene_ranges, lines_to_skip=2595):
     header_lines = []
     current_range_idx = 0
     total_variants_matched = 0
+
+    # Track genes with no matches
+    unmatched_genes = {gene["gene_name"]: True for gene in gene_ranges}
 
     try:
         with open(vcf_file_path, 'r') as vcf_file:
@@ -112,6 +115,9 @@ def filter_vcf_by_ranges(vcf_file_path, gene_ranges, lines_to_skip=2595):
                         print(f"Match found: Gene={label}, Location={chrom}:{pos}")
                         total_variants_matched += 1
                         
+                        # Mark gene as matched
+                        unmatched_genes[gene["gene_name"]] = False
+                        
                         # Add data for CSV output
                         csv_row = {
                             "GENE": label,
@@ -145,6 +151,13 @@ def filter_vcf_by_ranges(vcf_file_path, gene_ranges, lines_to_skip=2595):
         print(f"Error reading VCF file: {e}")
 
     print(f"Total variants matched: {total_variants_matched}")
+    
+    # Print unmatched genes
+    print("Genes with no variation found:")
+    for gene_name, matched in unmatched_genes.items():
+        if matched:
+            print(f" - {gene_name}")
+
     return header_lines, csv_rows, vcf_lines
 
 # Debugging added to write_csv
@@ -159,8 +172,6 @@ def write_csv(csv_rows):
         print(f"Filtered variants successfully written to {output_csv_file_path}")
     except Exception as e:
         print(f"Error writing CSV file: {e}")
-
-
 
 # Write filtered variants to VCF
 def write_vcf(header_lines, vcf_lines):
