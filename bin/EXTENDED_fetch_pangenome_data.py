@@ -1,4 +1,5 @@
 import csv
+import re
 
 # Define file paths
 csv_file_path = r"data/SNP-densities-and-RNA.csv"
@@ -18,6 +19,12 @@ output_headers = [
     "NA18906", "NA20129", "NA21309"
 ]
 
+def sort_chromosomes(chromosome):
+    match = re.match(r'(\D+)(\d+)?', chromosome)
+    prefix = match.group(1) if match else ''
+    number = int(match.group(2)) if match and match.group(2) else float('inf')
+    return (prefix, number)
+
 # Read and expand gene ranges from the CSV file
 def read_and_sort_gene_ranges(csv_file_path):
     print("Reading and expanding gene ranges from the CSV file...")
@@ -26,24 +33,40 @@ def read_and_sort_gene_ranges(csv_file_path):
         with open(csv_file_path, 'r') as csv_file:
             reader = csv.DictReader(csv_file)
             for row in reader:
-                start = int(row["Start"])
-                end = int(row["End"])
-                gene_length = end - start + 1
-                flank_length = int(4.5 * gene_length)
-                expanded_start = max(0, start - flank_length)  # Ensure no negative start positions
-                expanded_end = end + flank_length
+                # Validate necessary fields
+                if not all(key in row for key in ["Chromosome", "Start", "End", "GeneName"]):
+                    print(f"Skipping invalid row: {row}")
+                    continue
+                
+                try:
+                    start = int(row["Start"])
+                    end = int(row["End"])
+                    gene_length = end - start + 1
+                    flank_length = int(4.5 * gene_length)
+                    expanded_start = max(0, start - flank_length)  # Ensure no negative start positions
+                    expanded_end = end + flank_length
 
-                gene_ranges.append({
-                    "chromosome": row["Chromosome"],
-                    "start": expanded_start,
-                    "end": expanded_end,
-                    "gene_start": start,
-                    "gene_end": end,
-                    "gene_name": row["GeneName"]
-                })
-        # Sort by chromosome and start position
-        gene_ranges.sort(key=lambda x: (x["chromosome"], x["start"]))
-        print(gene_ranges)
+                    gene_range = {
+                        "chromosome": row["Chromosome"],
+                        "start": expanded_start,
+                        "end": expanded_end,
+                        "gene_start": start,
+                        "gene_end": end,
+                        "gene_name": row["GeneName"]
+                    }
+                    gene_ranges.append(gene_range)
+                except ValueError as ve:
+                    print(f"Skipping row due to value error: {row} -> {ve}")
+            
+            # Sort by chromosome and start position
+            gene_ranges.sort(key=lambda x: (sort_chromosomes(x["chromosome"]), x["start"]))
+
+        # Print each gene's details
+        for idx, gene in enumerate(gene_ranges, start=1):
+            print(f"Gene {idx}: {gene['gene_name']}, Chromosome: {gene['chromosome']}, "
+                  f"Expanded Range: ({gene['start']}, {gene['end']}), "
+                  f"Original Range: ({gene['gene_start']}, {gene['gene_end']})")
+        
         print(f"Successfully processed {len(gene_ranges)} gene ranges with expanded boundaries.")
     except FileNotFoundError:
         print(f"CSV file not found at {csv_file_path}")
@@ -57,7 +80,6 @@ def filter_vcf_by_ranges(vcf_file_path, gene_ranges, lines_to_skip=2595):
     csv_rows = []
     vcf_lines = []
     header_lines = []
-    current_range_idx = 0
     total_variants_matched = 0
 
     # Track genes with no matches
@@ -65,7 +87,7 @@ def filter_vcf_by_ranges(vcf_file_path, gene_ranges, lines_to_skip=2595):
 
     try:
         with open(vcf_file_path, 'r') as vcf_file:
-            # Skip the first 2595 lines
+            # Skip the first lines (header)
             for i in range(lines_to_skip):
                 line = vcf_file.readline()
                 if line.startswith("#"):  # Retain header lines for VCF output
@@ -93,31 +115,19 @@ def filter_vcf_by_ranges(vcf_file_path, gene_ranges, lines_to_skip=2595):
                     "GENOTYPES": fields[9:]
                 }
 
-                # Match against gene ranges
-                while current_range_idx < len(gene_ranges):
-                    gene = gene_ranges[current_range_idx]
-
-                    # If the variant is before the current range, skip it
-                    if chrom < gene["chromosome"] or (chrom == gene["chromosome"] and pos < gene["start"]):
-                        break
-
-                    # If the variant is beyond the current range, move to the next range
-                    if chrom > gene["chromosome"] or (chrom == gene["chromosome"] and pos > gene["end"]):
-                        current_range_idx += 1
-                        continue
-
-                    # If the variant is within the range, save it
+                # Match against all overlapping gene ranges
+                for gene in gene_ranges:
                     if chrom == gene["chromosome"] and gene["start"] <= pos <= gene["end"]:
                         label = gene["gene_name"]
                         if pos < gene["gene_start"] or pos > gene["gene_end"]:
                             label += "_flank"  # Add tag for flanking regions
-
+                        
                         print(f"Match found: Gene={label}, Location={chrom}:{pos}")
                         total_variants_matched += 1
-                        
+
                         # Mark gene as matched
                         unmatched_genes[gene["gene_name"]] = False
-                        
+
                         # Add data for CSV output
                         csv_row = {
                             "GENE": label,
@@ -130,12 +140,12 @@ def filter_vcf_by_ranges(vcf_file_path, gene_ranges, lines_to_skip=2595):
                             "FILTER": vcf_data["FILTER"],
                             "INFO": vcf_data["INFO"],
                             "FORMAT": vcf_data["FORMAT"],
-                            "ORIGINAL_START": gene["gene_start"],  # Ensure this is correctly mapped
-                            "ORIGINAL_END": gene["gene_end"],      # Ensure this is correctly mapped
-                            "EXTENDED_START": gene["start"],       # Ensure this is correctly mapped
-                            "EXTENDED_END": gene["end"]            # Ensure this is correctly mapped
+                            "ORIGINAL_START": gene["gene_start"],
+                            "ORIGINAL_END": gene["gene_end"],
+                            "EXTENDED_START": gene["start"],
+                            "EXTENDED_END": gene["end"]
                         }
-                        
+
                         for idx, sample in enumerate(output_headers[14:]):  # Add genotypes
                             csv_row[sample] = vcf_data["GENOTYPES"][idx] if idx < len(vcf_data["GENOTYPES"]) else "."
 
@@ -144,7 +154,7 @@ def filter_vcf_by_ranges(vcf_file_path, gene_ranges, lines_to_skip=2595):
 
                         # Add data for VCF output
                         vcf_lines.append(line.strip())
-                        break
+
     except FileNotFoundError:
         print(f"VCF file not found at {vcf_file_path}")
     except Exception as e:
@@ -158,7 +168,7 @@ def filter_vcf_by_ranges(vcf_file_path, gene_ranges, lines_to_skip=2595):
         if matched:
             print(f" - {gene_name}")
 
-    return header_lines, csv_rows, vcf_lines
+    return header_lines, csv_rows, vcf_lines, unmatched_genes
 
 # Debugging added to write_csv
 def write_csv(csv_rows):
@@ -200,10 +210,20 @@ def main():
         print("No gene ranges available to process. Exiting.")
         return
 
-    # Step 3: Filter the VCF file
-    header_lines, csv_rows, vcf_lines = filter_vcf_by_ranges(vcf_file_path, gene_ranges)
+    # Step 3: Filter the VCF file (first pass)
+    header_lines, csv_rows, vcf_lines, unmatched_genes = filter_vcf_by_ranges(vcf_file_path, gene_ranges)
 
-    # Step 4: Write output in the selected format
+    # Step 4: Re-scan for unmatched genes
+    remaining_genes = [gene for gene in gene_ranges if unmatched_genes[gene["gene_name"]]]
+    if remaining_genes:
+        print(f"Re-scanning for {len(remaining_genes)} unmatched genes...")
+        header_lines, csv_rows_second_pass, vcf_lines_second_pass, unmatched_genes_second_pass = filter_vcf_by_ranges(
+            vcf_file_path, remaining_genes
+        )
+        csv_rows.extend(csv_rows_second_pass)
+        vcf_lines.extend(vcf_lines_second_pass)
+
+    # Step 5: Write output
     if output_format == "csv":
         write_csv(csv_rows)
     elif output_format == "vcf":
