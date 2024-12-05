@@ -1,5 +1,6 @@
 import csv
 import re
+from collections import defaultdict
 
 def parse_csv(csv_file):
     """Parse the SNP-densities-and-RNA.csv file to extract gene position data."""
@@ -61,7 +62,27 @@ def summarize_data(sam_data, gene_data):
             print(f"No match for gene {gene_name}")
     return summary
 
-
+def concise_summary(sam_data, gene_data):
+    """Create a concise summary with Gene, Chromosome, and a list of Mapped Chromosomes."""
+    summary = defaultdict(set)  # Use a dictionary to collect mapped chromosomes for each gene
+    
+    for sam_entry in sam_data:
+        gene_name = sam_entry['Gene']
+        matched_gene = next((gene for gene in gene_data if gene['GeneName'] == gene_name), None)
+        if matched_gene:
+            summary[gene_name].add(sam_entry['Mapped Chromosome'])
+        else:
+            print(f"No match for gene {gene_name}")
+    
+    concise_list = [
+        {
+            'Gene': gene,
+            'Chromosome': next((gene_data_item['Chromosome'] for gene_data_item in gene_data if gene_data_item['GeneName'] == gene), "N/A"),
+            'Mapped Chromosomes': ", ".join(sorted(mapped_chromosomes))  # Sort and join mapped chromosomes
+        }
+        for gene, mapped_chromosomes in summary.items()
+    ]
+    return concise_list
 
 def save_summary(summary, output_file):
     """Save the summarized data to a CSV file."""
@@ -69,16 +90,27 @@ def save_summary(summary, output_file):
         writer = csv.DictWriter(file, fieldnames=['Gene', 'Chromosome', 'Position', 'Mapped Chromosome', 'Mapped Position', 'Length'])
         writer.writeheader()
         writer.writerows(summary)
+        
+def save_concise_summary(concise_list, output_file):
+    """Save the concise summary to a CSV file."""
+    with open(output_file, mode='w', newline='') as file:
+        writer = csv.DictWriter(file, fieldnames=['Gene', 'Chromosome', 'Mapped Chromosomes'])
+        writer.writeheader()
+        writer.writerows(concise_list)
+
 
 # File paths
 csv_file = 'data/SNP-densities-and-RNA.csv'
 sam_file = 'data/aligned_reads.sam'
 output_file = 'results/aligned_genes_summary.csv'
+concise_summary_file = 'results/concise_aligned_genes_summary.csv'
 
 # Processing
 gene_data = parse_csv(csv_file)
 sam_data = parse_sam(sam_file)
 summary = summarize_data(sam_data, gene_data)
+concise_list = concise_summary(sam_data, gene_data)
 save_summary(summary, output_file)
+save_concise_summary(concise_list, concise_summary_file)
 
 print(f"Summary saved to {output_file}")
