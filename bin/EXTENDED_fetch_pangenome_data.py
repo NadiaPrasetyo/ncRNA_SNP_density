@@ -3,13 +3,13 @@ import csv
 # Define file paths
 csv_file_path = r"data/SNP-densities-and-RNA.csv"
 vcf_file_path = r"data/decomposed.vcf"
-output_csv_file_path = "results/EXTENDED_filtered_variants.csv"
+output_csv_file_path = "data/EXTENDED_filtered_variants.csv"
 output_vcf_file_path = "data/EXTENDED_filtered_variants.vcf"
 
-# Column headers for the output CSV
+# Column headers for the output CSV (add new columns for start and end positions)
 output_headers = [
-    "GENE", "CHROM", "POS", "ID", "REF", "ALT", "QUAL", "FILTER", "INFO", "FORMAT",
-    "CHM13", "HG00438", "HG00621", "HG00673", "HG00733", "HG00735", "HG00741",
+    "GENE", "CHROM", "POS", "ID", "REF", "ALT", "QUAL", "FILTER", "INFO", "FORMAT",  "ORIGINAL_START", "ORIGINAL_END", 
+    "EXTENDED_START", "EXTENDED_END", "HG00438", "HG00621", "HG00673", "HG00733", "HG00735", "HG00741",
     "HG01071", "HG01106", "HG01109", "HG01123", "HG01175", "HG01243", "HG01258",
     "HG01358", "HG01361", "HG01891", "HG01928", "HG01952", "HG01978", "HG02055",
     "HG02080", "HG02109", "HG02145", "HG02148", "HG02257", "HG02486", "HG02559",
@@ -51,6 +51,7 @@ def read_and_sort_gene_ranges(csv_file_path):
     return gene_ranges
 
 # Filter VCF file based on sorted ranges
+# Debugging added to filter_vcf_by_ranges
 def filter_vcf_by_ranges(vcf_file_path, gene_ranges, lines_to_skip=2595):
     print("Filtering VCF file based on ranges...")
     csv_rows = []
@@ -110,7 +111,7 @@ def filter_vcf_by_ranges(vcf_file_path, gene_ranges, lines_to_skip=2595):
 
                         print(f"Match found: Gene={label}, Location={chrom}:{pos}")
                         total_variants_matched += 1
-
+                        
                         # Add data for CSV output
                         csv_row = {
                             "GENE": label,
@@ -122,10 +123,17 @@ def filter_vcf_by_ranges(vcf_file_path, gene_ranges, lines_to_skip=2595):
                             "QUAL": vcf_data["QUAL"],
                             "FILTER": vcf_data["FILTER"],
                             "INFO": vcf_data["INFO"],
-                            "FORMAT": vcf_data["FORMAT"]
+                            "FORMAT": vcf_data["FORMAT"],
+                            "ORIGINAL_START": gene["gene_start"],  # Ensure this is correctly mapped
+                            "ORIGINAL_END": gene["gene_end"],      # Ensure this is correctly mapped
+                            "EXTENDED_START": gene["start"],       # Ensure this is correctly mapped
+                            "EXTENDED_END": gene["end"]            # Ensure this is correctly mapped
                         }
-                        for idx, sample in enumerate(output_headers[10:]):
+                        
+                        for idx, sample in enumerate(output_headers[14:]):  # Add genotypes
                             csv_row[sample] = vcf_data["GENOTYPES"][idx] if idx < len(vcf_data["GENOTYPES"]) else "."
+
+                        # Append the CSV row
                         csv_rows.append(csv_row)
 
                         # Add data for VCF output
@@ -139,8 +147,7 @@ def filter_vcf_by_ranges(vcf_file_path, gene_ranges, lines_to_skip=2595):
     print(f"Total variants matched: {total_variants_matched}")
     return header_lines, csv_rows, vcf_lines
 
-
-# Write filtered variants to CSV
+# Debugging added to write_csv
 def write_csv(csv_rows):
     print("Writing the filtered variants to the output CSV file...")
     try:
@@ -148,9 +155,12 @@ def write_csv(csv_rows):
             writer = csv.DictWriter(output_file, fieldnames=output_headers)
             writer.writeheader()
             writer.writerows(csv_rows)
+
         print(f"Filtered variants successfully written to {output_csv_file_path}")
     except Exception as e:
         print(f"Error writing CSV file: {e}")
+
+
 
 # Write filtered variants to VCF
 def write_vcf(header_lines, vcf_lines):
@@ -167,25 +177,29 @@ def write_vcf(header_lines, vcf_lines):
 def main():
     print("Starting the filtering workflow...")
 
-    # Step 1: Read and sort gene ranges
+    # Step 1: Choose output format
+    output_format = input("Enter output format (csv/vcf): ").strip().lower()
+    if output_format not in {"csv", "vcf"}:
+        print("Invalid output format. Exiting.")
+        return
+
+    # Step 2: Read and sort gene ranges
     gene_ranges = read_and_sort_gene_ranges(csv_file_path)
     if not gene_ranges:
         print("No gene ranges available to process. Exiting.")
         return
 
-    # Step 2: Filter the VCF file
+    # Step 3: Filter the VCF file
     header_lines, csv_rows, vcf_lines = filter_vcf_by_ranges(vcf_file_path, gene_ranges)
 
-    # Step 3: Choose output format
-    output_format = input("Enter output format (csv/vcf): ").strip().lower()
+    # Step 4: Write output in the selected format
     if output_format == "csv":
         write_csv(csv_rows)
     elif output_format == "vcf":
         write_vcf(header_lines, vcf_lines)
-    else:
-        print("Invalid output format. Exiting.")
 
     print("Workflow completed.")
+
 
 if __name__ == "__main__":
     main()

@@ -5,9 +5,8 @@ import re
 csv.field_size_limit(10**7)
 
 # Input and output file paths
-input_file = 'results/EXTENDED_filtered_variants.csv'  # Replace with your actual input file path
+input_file = 'data/EXTENDED_filtered_variants.csv'  # Replace with your actual input file path
 output_file = 'data/EXTENDED_pangenome_summary.csv'
-
 
 # Function to extract TYPE from INFO field
 def extract_type(info):
@@ -20,10 +19,12 @@ with open(input_file, 'r') as infile, open(output_file, 'w', newline='') as outf
     
     # Extract all genome columns
     genome_columns = [col for col in reader.fieldnames if col not in 
-                      ('GENE', 'CHROM', 'POS', 'ID', 'REF', 'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT')]
+                      ('GENE', 'CHROM', 'POS', 'ID', 'REF', 'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT',
+                       'ORIGINAL_START', 'ORIGINAL_END', 'EXTENDED_START', 'EXTENDED_END')]  # Exclude new fields
     
-    # Prepare the writer for the output file
-    fieldnames = ['GENE', 'CHROM', 'POS', 'TYPE', 'SNP_TYPE', 'GENOME_DETAILS']
+    # Prepare the writer for the output file, adding new fields for start and end positions
+    fieldnames = ['GENE', 'CHROM', 'POS', 'TYPE', 'SNP_TYPE', 'GENOME_DETAILS', 
+                  'ORIGINAL_START', 'ORIGINAL_END', 'EXTENDED_START', 'EXTENDED_END']
     writer = csv.DictWriter(outfile, fieldnames=fieldnames)
     writer.writeheader()
 
@@ -39,7 +40,7 @@ with open(input_file, 'r') as infile, open(output_file, 'w', newline='') as outf
         # Extract TYPE from the INFO field
         snp_type_info = extract_type(info)
         
-        # if type is not found, put SNP in the TYPE field
+        # If TYPE is not found, assign "snp" as default
         if not snp_type_info:
             snp_type_info = "snp"
 
@@ -61,14 +62,18 @@ with open(input_file, 'r') as infile, open(output_file, 'w', newline='') as outf
                 if 0 <= allele_index < len(snp_types):
                     genome_details.append(f"{genome} (Heterozygous alt {allele_index + 1})")
         
-        # Write to the output file
+        # Write to the output file, including the start/end positions
         writer.writerow({
             'GENE': gene,
             'CHROM': chrom,
             'POS': pos,
             'TYPE': snp_type_info,
             'SNP_TYPE': ",".join(snp_types),
-            'GENOME_DETAILS': "; ".join(genome_details)
+            'GENOME_DETAILS': "; ".join(genome_details),
+            'ORIGINAL_START': row['ORIGINAL_START'],
+            'ORIGINAL_END': row['ORIGINAL_END'],
+            'EXTENDED_START': row['EXTENDED_START'],
+            'EXTENDED_END': row['EXTENDED_END']
         })
 
 print(f"Processing complete. The output file is saved as {output_file}.")

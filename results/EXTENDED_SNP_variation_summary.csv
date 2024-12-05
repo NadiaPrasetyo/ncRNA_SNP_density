@@ -1,122 +1,122 @@
-GENE,NUM_VARIATIONS,VARIATION_TYPES,NUM_FLANKS,FLANK_VARIATION_TYPES
-RNU5E-1,183,"snv(115), ins(28), del(5), delins(35)",912,"snv(671), delins(146), ins(40), del(51), mnv(4)"
-RNU5D-1,147,"snv(99), delins(24), ins(19), del(5)",725,"snv(571), delins(108), del(31), ins(15)"
-SNORD118,214,"snv(135), delins(52), del(7), ins(20)",891,"delins(156), snv(653), ins(29), del(51), mnv(2)"
-SNAR-B2,151,"snv(112), del(4), delins(23), ins(12)",566,"snv(529), delins(23), del(8), ins(6)"
-TRG-CCC5-1,67,"snv(54), delins(3), mnv(2), del(4), ins(4)",242,"snv(217), delins(10), del(7), mnv(6), ins(2)"
-MIR4538,1021,"delins(270), del(92), snv(632), ins(26), mnv(1)",0,
-SNAR-C4,143,"snv(114), delins(17), ins(11), del(1)",527,"snv(489), ins(4), del(11), delins(23)"
-RNU5F-1,164,"snv(114), ins(16), delins(26), del(8)",705,"snv(555), delins(105), del(29), ins(15), mnv(1)"
-TRK-TTT3-2,79,"snv(69), delins(6), del(2), ins(2)",333,"snv(287), delins(27), del(11), ins(8)"
-TRE-TTC3-1,68,"snv(64), del(2), delins(2)",320,"snv(300), delins(14), ins(2), del(4)"
-TRG1,74,"snv(67), ins(3), del(1), delins(3)",321,"snv(290), delins(23), del(4), ins(4)"
-TRA-CGC5-1-001,73,"snv(56), delins(5), ins(4), del(8)",244,"snv(211), ins(5), delins(21), del(7)"
-tRNA-Gly-CCC-4-1,78,"snv(66), mnv(2), delins(3), ins(3), del(4)",274,"snv(246), del(4), delins(22), mnv(2)"
-tRNA-Glu-CTC-1-2,77,"snv(67), del(2), delins(5), ins(3)",251,"delins(18), snv(221), del(9), ins(2), mnv(1)"
-tRNA-Ile-AAT-12-1,77,"snv(71), delins(3), del(1), ins(2)",339,"snv(303), delins(27), del(2), ins(7)"
-tRNA-Gly-GCC-2-4,76,"snv(68), delins(7), ins(1)",251,"delins(15), snv(223), del(6), ins(7)"
-tRNA-Pro-AGG-2-4,81,"snv(68), delins(5), del(3), ins(5)",409,"snv(354), delins(39), del(11), ins(5)"
-TRG-CCC6-1,81,"snv(64), del(4), delins(6), ins(7)",337,"del(7), snv(300), delins(23), ins(7)"
-TRA-TGC4-1,89,"snv(70), del(3), ins(8), delins(8)",485,"delins(46), snv(407), ins(19), del(12), mnv(1)"
-TRP-AGG1-1,81,"snv(69), ins(9), delins(3)",360,"snv(327), delins(26), ins(3), del(3), mnv(1)"
-TRK-CTT3-1,82,"snv(68), del(3), delins(7), ins(4)",480,"snv(410), ins(11), delins(51), del(8)"
-tRNA-Glu-TTC-4-1,63,"snv(57), ins(2), delins(3), del(1)",341,"snv(321), del(3), delins(16), ins(1)"
-tRNA-Thr-CGT-5-1,90,"snv(70), delins(8), ins(11), del(1)",305,"snv(280), del(5), delins(18), ins(2)"
-TRG-TCC1-1,87,"snv(69), ins(9), delins(8), del(1)",482,"snv(379), delins(72), del(19), ins(12)"
-SNORD13,129,"snv(103), delins(15), ins(7), del(3), mnv(1)",596,"snv(520), delins(47), del(19), ins(8), mnv(2)"
-tRNA-Val-CAC-3-1,87,"snv(69), ins(9), delins(7), del(2)",430,"snv(319), delins(73), ins(17), del(17), mnv(4)"
-tRNA-Thr-TGT-4-1,90,"snv(71), delins(8), ins(9), del(2)",316,"snv(270), delins(36), del(6), ins(4)"
-TRV-TAC1-1,81,"snv(68), ins(7), del(1), delins(5)",435,"delins(41), snv(375), del(6), ins(13)"
-SNAR-A1,116,"snv(102), delins(4), ins(5), del(5)",602,"snv(574), del(12), delins(14), ins(2)"
-LINC00459,41,"snv(38), delins(2), ins(1)",317,"snv(257), del(11), ins(10), delins(39)"
-tRNA-Pro-TGG-1-1,87,"snv(67), ins(9), del(5), delins(6)",394,"snv(334), delins(37), del(18), ins(5)"
-FAM30A,769,"snv(690), delins(43), del(25), ins(11)",5183,"snv(4757), delins(244), ins(61), del(116), mnv(5)"
-tRNA-Gln-CTG-2-1,82,"snv(63), delins(10), ins(8), del(1)",283,"delins(21), del(4), snv(256), ins(2)"
-tRNA-Arg-CCT-3-1,87,"snv(68), delins(10), del(3), ins(6)",484,"snv(412), ins(16), delins(41), del(14), mnv(1)"
-TRV,85,"snv(70), delins(6), ins(7), del(2)",436,"snv(351), delins(47), ins(24), del(12), mnv(2)"
-TRF-GAA1-4,80,"snv(67), ins(6), delins(7)",328,"delins(28), del(11), snv(286), ins(3)"
-tRNA-iMet-CAT-2-1,78,"snv(68), ins(5), delins(4), del(1)",430,"snv(269), delins(102), ins(25), del(33), mnv(1)"
-SNAR-C3,89,"snv(78), delins(7), ins(4)",368,"del(6), snv(351), ins(2), delins(9)"
-TRA-AGC11-1,76,"snv(69), delins(3), ins(4)",320,"snv(298), del(3), delins(16), ins(3)"
-TRL-TAG2-1,89,"snv(78), ins(4), delins(4), del(3)",412,"delins(30), del(9), snv(372), ins(1)"
-tRNA-Met-CAT-6-1,82,"snv(70), delins(7), ins(4), del(1)",430,"snv(402), delins(26), del(2)"
-TRM-CAT3-2,87,"snv(70), del(1), delins(8), ins(8)",295,"delins(34), snv(252), del(8), ins(1)"
-tRNA-Leu-CAG-2-2,95,"snv(78), ins(9), delins(5), del(3)",471,"snv(392), delins(57), del(13), ins(9)"
-TRA-AGC1-1,77,"snv(69), delins(7), ins(1)",287,"snv(268), delins(13), ins(1), del(5)"
-tRNA-Gly-TCC-3-1,87,"snv(69), delins(6), del(3), ins(9)",333,"snv(278), delins(30), ins(18), del(7)"
-tRNA-Lys-CTT-5-1,76,"snv(69), delins(5), ins(1), del(1)",306,"snv(284), del(2), delins(19), ins(1)"
-tRNA-Ile-AAT-2-1,86,"snv(68), del(5), ins(4), delins(9)",494,"snv(383), del(19), delins(78), ins(14)"
-TRA-CGC4-1,78,"snv(70), del(2), ins(1), delins(5)",275,"snv(252), del(5), delins(18)"
-TRK-TTT4-1,77,"snv(69), ins(2), delins(5), del(1)",289,"snv(269), delins(16), del(2), ins(2)"
-SNAR-G2,126,"snv(98), delins(10), del(5), ins(13)",678,"snv(623), delins(41), ins(4), del(10)"
-tRNA-Asn-GTT-1-1,69,"snv(63), delins(4), ins(2)",243,"snv(230), delins(8), del(3), ins(2)"
-TRE-TTC2-1,75,"snv(68), del(2), delins(5)",392,"snv(359), delins(27), del(5), mnv(1)"
-tRNA-Leu-TAG-3-1,86,"snv(76), ins(7), delins(3)",379,"snv(323), delins(42), ins(6), del(8)"
-Val-tRNA,60,"snv(54), delins(4), ins(2)",172,"snv(147), delins(15), del(4), ins(6)"
-TRA-AGC20-1,27,"snv(19), delins(1), del(5), ins(2)",125,"delins(9), ins(1), snv(114), del(1)"
-tRNA-Pro-TGG-3-3,76,"snv(68), delins(5), del(1), ins(2)",328,"delins(20), snv(297), del(5), mnv(2), ins(4)"
-tRNA-Arg-ACG-1-2,76,"snv(69), delins(3), ins(4)",323,"snv(283), delins(23), del(7), mnv(1), ins(9)"
-TRM-CAT2-1,82,"snv(69), delins(8), ins(5)",416,"snv(381), delins(28), del(7)"
-tRNA-Thr-CGT-6-1,73,"snv(62), delins(6), ins(5)",295,"snv(265), delins(23), del(7)"
-TRA-AGC5-1,70,"snv(61), ins(5), del(1), delins(3)",292,"snv(269), delins(21), del(2)"
-tRNA-Val-CAC-2-1,80,"snv(66), delins(6), ins(6), del(2)",261,"snv(241), delins(14), ins(3), del(3)"
-tRNA-Lys-CTT-1-2,79,"snv(69), del(2), ins(4), delins(4)",309,"snv(261), delins(38), del(7), ins(1), mnv(2)"
-TRI-AAT4-1,87,"snv(69), delins(12), del(4), ins(2)",393,"delins(40), snv(342), ins(4), del(7)"
-tRNA-Lys-TTT-1-1,69,"snv(64), delins(4), ins(1)",337,"snv(293), del(16), delins(18), ins(10)"
-TRA-AGC4-1,78,"snv(68), delins(7), ins(3)",286,"delins(22), snv(248), ins(5), del(11)"
-tRNA-Lys-CTT-2-1,67,"snv(62), delins(3), del(2)",221,"snv(204), delins(15), del(2)"
-TRI-AAT5-1,79,"snv(70), ins(3), delins(6)",321,"del(4), snv(299), delins(16), ins(2)"
-tRNA-Thr-TGT-1-1,87,"snv(69), ins(10), del(1), delins(7)",280,"snv(256), delins(17), del(6), ins(1)"
-tRNA-Asp-GTC-1-1,82,"snv(67), delins(8), ins(6), del(1)",372,"delins(36), snv(310), del(16), ins(8), mnv(2)"
-tRNA-Lys-TTT-6-1,69,"snv(64), ins(4), delins(1)",284,"snv(265), delins(16), del(3)"
-TRF-GAA2-1,76,"snv(69), delins(5), ins(2)",338,"snv(288), delins(33), del(15), ins(2)"
-TRP-TGG2-1,81,"snv(67), del(4), delins(7), ins(3)",428,"del(12), delins(40), snv(369), ins(7)"
-TRT-TGT5-1,75,"snv(67), delins(4), del(1), ins(3)",338,"snv(309), delins(21), ins(5), del(3)"
-TRR-TCG1-1,75,"snv(66), delins(3), del(1), ins(5)",443,"snv(404), delins(25), del(10), ins(3), mnv(1)"
-MIR3689A,55,"snv(40), del(4), ins(3), delins(8)",437,"delins(88), snv(300), ins(19), mnv(2), del(28)"
-tRNA-Ala-CGC-3-1,64,"snv(61), delins(1), ins(2)",283,"snv(257), delins(16), del(8), ins(2)"
-TRE-TTC5-1,64,"snv(57), ins(4), delins(1), mnv(2)",254,"snv(229), delins(21), del(4)"
-TRV-AAC5-1,80,"snv(65), ins(7), delins(6), del(2)",355,"snv(282), ins(8), delins(51), del(14)"
-TRR-ACG2-3,84,"snv(69), delins(5), del(4), ins(6)",381,"snv(342), delins(26), del(7), ins(6)"
-TRT-AGT1-2,85,"snv(67), ins(12), delins(6)",465,"snv(424), delins(28), ins(7), del(6)"
-TRL-TAA4-1,99,"delins(8), snv(72), ins(14), del(5)",378,"snv(343), delins(20), del(5), ins(10)"
-tRNA-Ala-TGC-3-1,71,"snv(63), ins(3), delins(5)",330,"snv(300), delins(21), del(5), mnv(1), ins(3)"
-SYT15-AS1,621,"snv(431), delins(145), del(35), ins(10)",3296,"snv(2909), delins(241), ins(50), del(96)"
-TRR-TCG3-1,78,"snv(67), delins(5), ins(4), del(2)",335,"delins(27), snv(304), del(4)"
-TRS-AGA2-6,173,"snv(138), ins(18), delins(12), del(5)",622,"snv(567), del(10), delins(40), ins(5)"
-tRNA-Ser-TGA-2-1,82,"snv(74), ins(6), delins(2)",318,"delins(17), snv(298), del(3)"
-lnc-SLCO4A1-8,421,"snv(261), delins(119), ins(11), del(30)",2197,"snv(2009), delins(141), del(35), mnv(1), ins(11)"
-tRNA-Ile-AAT-1-1,76,"snv(68), delins(4), ins(2), del(1), mnv(1)",410,"snv(363), delins(34), ins(5), mnv(1), del(7)"
-tRNA-Gln-TTG-3-1,68,"snv(62), delins(2), ins(4)",259,"snv(239), ins(4), delins(14), del(2)"
-TRQ-CTG6-1,77,"snv(67), ins(6), delins(3), del(1)",322,"snv(267), delins(40), del(9), ins(6)"
-TRK-TTT7-1,67,"snv(64), delins(3)",305,"snv(284), delins(18), del(3)"
-TRT-TGT2-1,65,"snv(61), delins(3), ins(1)",191,"snv(174), delins(15), del(2)"
-TRV-CAC1-5,66,"snv(56), mnv(1), del(1), ins(4), delins(4)",292,"snv(244), delins(36), ins(5), del(6), mnv(1)"
-tRNA-Ala-CGC-1-1,76,"snv(69), del(2), ins(4), delins(1)",291,"snv(268), delins(19), del(2), ins(2)"
-TRX-CAT1-5,67,"snv(57), delins(4), ins(5), del(1)",224,"snv(208), delins(9), del(3), ins(4)"
-tRNA-Val-CAC-1-3,72,"snv(58), delins(5), ins(9)",399,"snv(302), del(20), ins(12), delins(65)"
-SNAR-G1,123,"snv(104), delins(11), ins(5), del(3)",736,"snv(667), delins(45), del(19), ins(5)"
-tRNA-Arg-TCG-4-1,82,"snv(65), delins(8), ins(7), del(2)",250,"snv(216), delins(25), del(3), ins(6)"
-TRC-GCA11-1,70,"snv(59), delins(7), ins(3), del(1)",395,"snv(348), delins(36), del(10), ins(1)"
-TRD-GTC2-8,44,"snv(42), delins(2)",325,"snv(286), del(5), delins(25), ins(7), mnv(2)"
-TRA-AGC15-1,70,"snv(63), delins(3), ins(4)",315,"delins(27), snv(275), del(8), ins(5)"
-tRNA-Ser-GCT-2-1,83,"snv(76), ins(4), del(1), delins(2)",302,"snv(279), del(5), delins(17), ins(1)"
-tRNA-Ser,90,"snv(70), delins(10), ins(10)",331,"snv(305), delins(23), del(3)"
-RNU6-9,113,"snv(90), ins(14), delins(8), del(1)",523,"snv(440), delins(37), del(34), ins(11), mnv(1)"
-TRC-GCA4-1,79,"snv(60), delins(8), ins(11)",356,"delins(38), snv(300), ins(9), del(8), mnv(1)"
-TRL-AAG2-4,82,"snv(75), delins(6), del(1)",348,"snv(320), delins(23), del(4), ins(1)"
-TRN-GTT2-4,52,"snv(47), delins(1), ins(4)",245,"snv(231), delins(14)"
-TRA-CGC2-1,68,"snv(60), delins(4), ins(2), del(2)",241,"snv(224), delins(14), del(3)"
-RCCD1-AS1,107,"snv(70), delins(25), ins(3), del(9)",607,"snv(570), delins(33), del(3), ins(1)"
-TRG-CCC2-1,70,"snv(62), delins(4), ins(3), del(1)",351,"snv(311), delins(31), del(7), ins(2)"
-TRQ-TTG2-1,66,"snv(57), del(2), ins(5), delins(2)",305,"snv(255), delins(32), ins(6), del(12)"
-tRNA-Val-AAC-3-1,74,"snv(65), ins(6), delins(3)",294,"snv(276), del(5), delins(12), ins(1)"
-tRNA-Ala-TGC-2-1,71,"snv(63), delins(4), del(3), ins(1)",309,"snv(258), delins(39), del(8), ins(4)"
-tRNA-Asn-GTT-4-1,54,"snv(48), delins(3), ins(3)",254,"snv(236), delins(12), del(5), ins(1)"
-tRNA-Ser-CGA-2-1,75,"snv(62), ins(9), del(1), delins(3)",288,"snv(259), delins(23), del(6)"
-tRNA-Asn-GTT-3-2,56,"snv(48), delins(5), ins(3)",294,"delins(11), snv(282), del(1)"
-LINC01671,1079,"snv(628), delins(310), del(79), ins(60), mnv(2)",4354,"snv(3967), delins(287), ins(33), del(65), mnv(2)"
-SNAR-F,106,"snv(87), del(2), delins(12), ins(5)",471,"snv(413), delins(36), ins(4), del(18)"
-BLACE,87,"snv(76), delins(7), del(4)",747,"delins(112), snv(582), del(28), ins(25)"
-tRNA-Lys-TTT-5-1,63,"snv(59), delins(3), ins(1)",304,"snv(272), delins(25), ins(3), mnv(1), del(3)"
-tRNA-Arg-CCT-2-1,82,"snv(69), delins(9), ins(3), del(1)",304,"snv(280), delins(20), del(3), ins(1)"
+GENE,NUM_VARIATIONS,VARIATION_TYPES,NUM_FLANKS,FLANK_VARIATION_TYPES,GENE_LENGTH,TOTAL_LENGTH
+RNU5E-1,183,"snv(115), ins(28), del(5), delins(35)",912,"snv(671), delins(146), ins(40), del(51), mnv(4)",119.0,1181.0
+RNU5D-1,147,"snv(99), delins(24), ins(19), del(5)",725,"snv(571), delins(108), del(31), ins(15)",100.0,990.0
+SNORD118,214,"snv(135), delins(52), del(7), ins(20)",891,"delins(156), snv(653), ins(29), del(51), mnv(2)",137.0,1361.0
+SNAR-B2,151,"snv(112), del(4), delins(23), ins(12)",566,"snv(529), delins(23), del(8), ins(6)",120.0,1190.0
+TRG-CCC5-1,67,"snv(54), delins(3), mnv(2), del(4), ins(4)",242,"snv(217), delins(10), del(7), mnv(6), ins(2)",71.0,701.0
+MIR4538,1021,"delins(270), del(92), snv(632), ins(26), mnv(1)",0,,78.0,770.0
+SNAR-C4,143,"snv(114), delins(17), ins(11), del(1)",527,"snv(489), ins(4), del(11), delins(23)",120.0,1190.0
+RNU5F-1,164,"snv(114), ins(16), delins(26), del(8)",705,"snv(555), delins(105), del(29), ins(15), mnv(1)",116.0,1150.0
+TRK-TTT3-2,79,"snv(69), delins(6), del(2), ins(2)",333,"snv(287), delins(27), del(11), ins(8)",73.0,721.0
+TRE-TTC3-1,68,"snv(64), del(2), delins(2)",320,"snv(300), delins(14), ins(2), del(4)",72.0,710.0
+TRG1,74,"snv(67), ins(3), del(1), delins(3)",321,"snv(290), delins(23), del(4), ins(4)",71.0,701.0
+TRA-CGC5-1-001,73,"snv(56), delins(5), ins(4), del(8)",244,"snv(211), ins(5), delins(21), del(7)",72.0,710.0
+tRNA-Gly-CCC-4-1,78,"snv(66), mnv(2), delins(3), ins(3), del(4)",274,"snv(246), del(4), delins(22), mnv(2)",71.0,701.0
+tRNA-Glu-CTC-1-2,77,"snv(67), del(2), delins(5), ins(3)",251,"delins(18), snv(221), del(9), ins(2), mnv(1)",72.0,710.0
+tRNA-Ile-AAT-12-1,77,"snv(71), delins(3), del(1), ins(2)",339,"snv(303), delins(27), del(2), ins(7)",74.0,730.0
+tRNA-Gly-GCC-2-4,76,"snv(68), delins(7), ins(1)",251,"delins(15), snv(223), del(6), ins(7)",71.0,701.0
+tRNA-Pro-AGG-2-4,81,"snv(68), delins(5), del(3), ins(5)",409,"snv(354), delins(39), del(11), ins(5)",72.0,710.0
+TRG-CCC6-1,81,"snv(64), del(4), delins(6), ins(7)",337,"del(7), snv(300), delins(23), ins(7)",71.0,701.0
+TRA-TGC4-1,89,"snv(70), del(3), ins(8), delins(8)",485,"delins(46), snv(407), ins(19), del(12), mnv(1)",72.0,710.0
+TRP-AGG1-1,81,"snv(69), ins(9), delins(3)",360,"snv(327), delins(26), ins(3), del(3), mnv(1)",72.0,710.0
+TRK-CTT3-1,82,"snv(68), del(3), delins(7), ins(4)",480,"snv(410), ins(11), delins(51), del(8)",73.0,721.0
+tRNA-Glu-TTC-4-1,63,"snv(57), ins(2), delins(3), del(1)",341,"snv(321), del(3), delins(16), ins(1)",72.0,710.0
+tRNA-Thr-CGT-5-1,90,"snv(70), delins(8), ins(11), del(1)",305,"snv(280), del(5), delins(18), ins(2)",74.0,730.0
+TRG-TCC1-1,87,"snv(69), ins(9), delins(8), del(1)",482,"snv(379), delins(72), del(19), ins(12)",72.0,710.0
+SNORD13,129,"snv(103), delins(15), ins(7), del(3), mnv(1)",596,"snv(520), delins(47), del(19), ins(8), mnv(2)",104.0,1030.0
+tRNA-Val-CAC-3-1,87,"snv(69), ins(9), delins(7), del(2)",430,"snv(319), delins(73), ins(17), del(17), mnv(4)",73.0,721.0
+tRNA-Thr-TGT-4-1,90,"snv(71), delins(8), ins(9), del(2)",316,"snv(270), delins(36), del(6), ins(4)",73.0,721.0
+TRV-TAC1-1,81,"snv(68), ins(7), del(1), delins(5)",435,"delins(41), snv(375), del(6), ins(13)",73.0,721.0
+SNAR-A1,116,"snv(102), delins(4), ins(5), del(5)",602,"snv(574), del(12), delins(14), ins(2)",121.0,1201.0
+LINC00459,41,"snv(38), delins(2), ins(1)",317,"snv(257), del(11), ins(10), delins(39)",80.0,790.0
+tRNA-Pro-TGG-1-1,87,"snv(67), ins(9), del(5), delins(6)",394,"snv(334), delins(37), del(18), ins(5)",72.0,710.0
+FAM30A,769,"snv(690), delins(43), del(25), ins(11)",5183,"snv(4757), delins(244), ins(61), del(116), mnv(5)",839.0,8381.0
+tRNA-Gln-CTG-2-1,82,"snv(63), delins(10), ins(8), del(1)",283,"delins(21), del(4), snv(256), ins(2)",72.0,710.0
+tRNA-Arg-CCT-3-1,87,"snv(68), delins(10), del(3), ins(6)",484,"snv(412), ins(16), delins(41), del(14), mnv(1)",73.0,721.0
+TRV,85,"snv(70), delins(6), ins(7), del(2)",436,"snv(351), delins(47), ins(24), del(12), mnv(2)",73.0,721.0
+TRF-GAA1-4,80,"snv(67), ins(6), delins(7)",328,"delins(28), del(11), snv(286), ins(3)",73.0,721.0
+tRNA-iMet-CAT-2-1,78,"snv(68), ins(5), delins(4), del(1)",430,"snv(269), delins(102), ins(25), del(33), mnv(1)",72.0,710.0
+SNAR-C3,89,"snv(78), delins(7), ins(4)",368,"del(6), snv(351), ins(2), delins(9)",119.0,1181.0
+TRA-AGC11-1,76,"snv(69), delins(3), ins(4)",320,"snv(298), del(3), delins(16), ins(3)",73.0,721.0
+TRL-TAG2-1,89,"snv(78), ins(4), delins(4), del(3)",412,"delins(30), del(9), snv(372), ins(1)",82.0,810.0
+tRNA-Met-CAT-6-1,82,"snv(70), delins(7), ins(4), del(1)",430,"snv(402), delins(26), del(2)",73.0,721.0
+TRM-CAT3-2,87,"snv(70), del(1), delins(8), ins(8)",295,"delins(34), snv(252), del(8), ins(1)",73.0,721.0
+tRNA-Leu-CAG-2-2,95,"snv(78), ins(9), delins(5), del(3)",471,"snv(392), delins(57), del(13), ins(9)",83.0,821.0
+TRA-AGC1-1,77,"snv(69), delins(7), ins(1)",287,"snv(268), delins(13), ins(1), del(5)",72.0,710.0
+tRNA-Gly-TCC-3-1,87,"snv(69), delins(6), del(3), ins(9)",333,"snv(278), delins(30), ins(18), del(7)",72.0,710.0
+tRNA-Lys-CTT-5-1,76,"snv(69), delins(5), ins(1), del(1)",306,"snv(284), del(2), delins(19), ins(1)",73.0,721.0
+tRNA-Ile-AAT-2-1,86,"snv(68), del(5), ins(4), delins(9)",494,"snv(383), del(19), delins(78), ins(14)",74.0,730.0
+TRA-CGC4-1,78,"snv(70), del(2), ins(1), delins(5)",275,"snv(252), del(5), delins(18)",72.0,710.0
+TRK-TTT4-1,77,"snv(69), ins(2), delins(5), del(1)",289,"snv(269), delins(16), del(2), ins(2)",73.0,721.0
+SNAR-G2,126,"snv(98), delins(10), del(5), ins(13)",678,"snv(623), delins(41), ins(4), del(10)",119.0,1181.0
+tRNA-Asn-GTT-1-1,69,"snv(63), delins(4), ins(2)",243,"snv(230), delins(8), del(3), ins(2)",74.0,730.0
+TRE-TTC2-1,75,"snv(68), del(2), delins(5)",392,"snv(359), delins(27), del(5), mnv(1)",72.0,710.0
+tRNA-Leu-TAG-3-1,86,"snv(76), ins(7), delins(3)",379,"snv(323), delins(42), ins(6), del(8)",82.0,810.0
+Val-tRNA,60,"snv(54), delins(4), ins(2)",172,"snv(147), delins(15), del(4), ins(6)",73.0,721.0
+TRA-AGC20-1,27,"snv(19), delins(1), del(5), ins(2)",125,"delins(9), ins(1), snv(114), del(1)",71.0,701.0
+tRNA-Pro-TGG-3-3,76,"snv(68), delins(5), del(1), ins(2)",328,"delins(20), snv(297), del(5), mnv(2), ins(4)",72.0,710.0
+tRNA-Arg-ACG-1-2,76,"snv(69), delins(3), ins(4)",323,"snv(283), delins(23), del(7), mnv(1), ins(9)",73.0,721.0
+TRM-CAT2-1,82,"snv(69), delins(8), ins(5)",416,"snv(381), delins(28), del(7)",73.0,721.0
+tRNA-Thr-CGT-6-1,73,"snv(62), delins(6), ins(5)",295,"snv(265), delins(23), del(7)",72.0,710.0
+TRA-AGC5-1,70,"snv(61), ins(5), del(1), delins(3)",292,"snv(269), delins(21), del(2)",72.0,710.0
+tRNA-Val-CAC-2-1,80,"snv(66), delins(6), ins(6), del(2)",261,"snv(241), delins(14), ins(3), del(3)",73.0,721.0
+tRNA-Lys-CTT-1-2,79,"snv(69), del(2), ins(4), delins(4)",309,"snv(261), delins(38), del(7), ins(1), mnv(2)",73.0,721.0
+TRI-AAT4-1,87,"snv(69), delins(12), del(4), ins(2)",393,"delins(40), snv(342), ins(4), del(7)",74.0,730.0
+tRNA-Lys-TTT-1-1,69,"snv(64), delins(4), ins(1)",337,"snv(293), del(16), delins(18), ins(10)",73.0,721.0
+TRA-AGC4-1,78,"snv(68), delins(7), ins(3)",286,"delins(22), snv(248), ins(5), del(11)",72.0,710.0
+tRNA-Lys-CTT-2-1,67,"snv(62), delins(3), del(2)",221,"snv(204), delins(15), del(2)",73.0,721.0
+TRI-AAT5-1,79,"snv(70), ins(3), delins(6)",321,"del(4), snv(299), delins(16), ins(2)",74.0,730.0
+tRNA-Thr-TGT-1-1,87,"snv(69), ins(10), del(1), delins(7)",280,"snv(256), delins(17), del(6), ins(1)",74.0,730.0
+tRNA-Asp-GTC-1-1,82,"snv(67), delins(8), ins(6), del(1)",372,"delins(36), snv(310), del(16), ins(8), mnv(2)",72.0,710.0
+tRNA-Lys-TTT-6-1,69,"snv(64), ins(4), delins(1)",284,"snv(265), delins(16), del(3)",73.0,721.0
+TRF-GAA2-1,76,"snv(69), delins(5), ins(2)",338,"snv(288), delins(33), del(15), ins(2)",73.0,721.0
+TRP-TGG2-1,81,"snv(67), del(4), delins(7), ins(3)",428,"del(12), delins(40), snv(369), ins(7)",72.0,710.0
+TRT-TGT5-1,75,"snv(67), delins(4), del(1), ins(3)",338,"snv(309), delins(21), ins(5), del(3)",73.0,721.0
+TRR-TCG1-1,75,"snv(66), delins(3), del(1), ins(5)",443,"snv(404), delins(25), del(10), ins(3), mnv(1)",73.0,721.0
+MIR3689A,55,"snv(40), del(4), ins(3), delins(8)",437,"delins(88), snv(300), ins(19), mnv(2), del(28)",78.0,770.0
+tRNA-Ala-CGC-3-1,64,"snv(61), delins(1), ins(2)",283,"snv(257), delins(16), del(8), ins(2)",72.0,710.0
+TRE-TTC5-1,64,"snv(57), ins(4), delins(1), mnv(2)",254,"snv(229), delins(21), del(4)",72.0,710.0
+TRV-AAC5-1,80,"snv(65), ins(7), delins(6), del(2)",355,"snv(282), ins(8), delins(51), del(14)",73.0,721.0
+TRR-ACG2-3,84,"snv(69), delins(5), del(4), ins(6)",381,"snv(342), delins(26), del(7), ins(6)",73.0,721.0
+TRT-AGT1-2,85,"snv(67), ins(12), delins(6)",465,"snv(424), delins(28), ins(7), del(6)",74.0,730.0
+TRL-TAA4-1,99,"delins(8), snv(72), ins(14), del(5)",378,"snv(343), delins(20), del(5), ins(10)",83.0,821.0
+tRNA-Ala-TGC-3-1,71,"snv(63), ins(3), delins(5)",330,"snv(300), delins(21), del(5), mnv(1), ins(3)",72.0,710.0
+SYT15-AS1,621,"snv(431), delins(145), del(35), ins(10)",3296,"snv(2909), delins(241), ins(50), del(96)",970.0,9690.0
+TRR-TCG3-1,78,"snv(67), delins(5), ins(4), del(2)",335,"delins(27), snv(304), del(4)",73.0,721.0
+TRS-AGA2-6,173,"snv(138), ins(18), delins(12), del(5)",622,"snv(567), del(10), delins(40), ins(5)",82.0,810.0
+tRNA-Ser-TGA-2-1,82,"snv(74), ins(6), delins(2)",318,"delins(17), snv(298), del(3)",82.0,810.0
+lnc-SLCO4A1-8,421,"snv(261), delins(119), ins(11), del(30)",2197,"snv(2009), delins(141), del(35), mnv(1), ins(11)",587.0,5861.0
+tRNA-Ile-AAT-1-1,76,"snv(68), delins(4), ins(2), del(1), mnv(1)",410,"snv(363), delins(34), ins(5), mnv(1), del(7)",74.0,730.0
+tRNA-Gln-TTG-3-1,68,"snv(62), delins(2), ins(4)",259,"snv(239), ins(4), delins(14), del(2)",72.0,710.0
+TRQ-CTG6-1,77,"snv(67), ins(6), delins(3), del(1)",322,"snv(267), delins(40), del(9), ins(6)",72.0,710.0
+TRK-TTT7-1,67,"snv(64), delins(3)",305,"snv(284), delins(18), del(3)",73.0,721.0
+TRT-TGT2-1,65,"snv(61), delins(3), ins(1)",191,"snv(174), delins(15), del(2)",73.0,721.0
+TRV-CAC1-5,66,"snv(56), mnv(1), del(1), ins(4), delins(4)",292,"snv(244), delins(36), ins(5), del(6), mnv(1)",73.0,721.0
+tRNA-Ala-CGC-1-1,76,"snv(69), del(2), ins(4), delins(1)",291,"snv(268), delins(19), del(2), ins(2)",72.0,710.0
+TRX-CAT1-5,67,"snv(57), delins(4), ins(5), del(1)",224,"snv(208), delins(9), del(3), ins(4)",72.0,710.0
+tRNA-Val-CAC-1-3,72,"snv(58), delins(5), ins(9)",399,"snv(302), del(20), ins(12), delins(65)",73.0,721.0
+SNAR-G1,123,"snv(104), delins(11), ins(5), del(3)",736,"snv(667), delins(45), del(19), ins(5)",128.0,1270.0
+tRNA-Arg-TCG-4-1,82,"snv(65), delins(8), ins(7), del(2)",250,"snv(216), delins(25), del(3), ins(6)",73.0,721.0
+TRC-GCA11-1,70,"snv(59), delins(7), ins(3), del(1)",395,"snv(348), delins(36), del(10), ins(1)",72.0,710.0
+TRD-GTC2-8,44,"snv(42), delins(2)",325,"snv(286), del(5), delins(25), ins(7), mnv(2)",72.0,710.0
+TRA-AGC15-1,70,"snv(63), delins(3), ins(4)",315,"delins(27), snv(275), del(8), ins(5)",73.0,721.0
+tRNA-Ser-GCT-2-1,83,"snv(76), ins(4), del(1), delins(2)",302,"snv(279), del(5), delins(17), ins(1)",82.0,810.0
+tRNA-Ser,90,"snv(70), delins(10), ins(10)",331,"snv(305), delins(23), del(3)",82.0,810.0
+RNU6-9,113,"snv(90), ins(14), delins(8), del(1)",523,"snv(440), delins(37), del(34), ins(11), mnv(1)",107.0,1061.0
+TRC-GCA4-1,79,"snv(60), delins(8), ins(11)",356,"delins(38), snv(300), ins(9), del(8), mnv(1)",72.0,710.0
+TRL-AAG2-4,82,"snv(75), delins(6), del(1)",348,"snv(320), delins(23), del(4), ins(1)",82.0,810.0
+TRN-GTT2-4,52,"snv(47), delins(1), ins(4)",245,"snv(231), delins(14)",74.0,730.0
+TRA-CGC2-1,68,"snv(60), delins(4), ins(2), del(2)",241,"snv(224), delins(14), del(3)",72.0,710.0
+RCCD1-AS1,107,"snv(70), delins(25), ins(3), del(9)",607,"snv(570), delins(33), del(3), ins(1)",159.0,1581.0
+TRG-CCC2-1,70,"snv(62), delins(4), ins(3), del(1)",351,"snv(311), delins(31), del(7), ins(2)",71.0,701.0
+TRQ-TTG2-1,66,"snv(57), del(2), ins(5), delins(2)",305,"snv(255), delins(32), ins(6), del(12)",72.0,710.0
+tRNA-Val-AAC-3-1,74,"snv(65), ins(6), delins(3)",294,"snv(276), del(5), delins(12), ins(1)",73.0,721.0
+tRNA-Ala-TGC-2-1,71,"snv(63), delins(4), del(3), ins(1)",309,"snv(258), delins(39), del(8), ins(4)",72.0,710.0
+tRNA-Asn-GTT-4-1,54,"snv(48), delins(3), ins(3)",254,"snv(236), delins(12), del(5), ins(1)",74.0,730.0
+tRNA-Ser-CGA-2-1,75,"snv(62), ins(9), del(1), delins(3)",288,"snv(259), delins(23), del(6)",82.0,810.0
+tRNA-Asn-GTT-3-2,56,"snv(48), delins(5), ins(3)",294,"delins(11), snv(282), del(1)",74.0,730.0
+LINC01671,1079,"snv(628), delins(310), del(79), ins(60), mnv(2)",4354,"snv(3967), delins(287), ins(33), del(65), mnv(2)",1445.0,14441.0
+SNAR-F,106,"snv(87), del(2), delins(12), ins(5)",471,"snv(413), delins(36), ins(4), del(18)",123.0,1221.0
+BLACE,87,"snv(76), delins(7), del(4)",747,"delins(112), snv(582), del(28), ins(25)",125.0,1241.0
+tRNA-Lys-TTT-5-1,63,"snv(59), delins(3), ins(1)",304,"snv(272), delins(25), ins(3), mnv(1), del(3)",73.0,721.0
+tRNA-Arg-CCT-2-1,82,"snv(69), delins(9), ins(3), del(1)",304,"snv(280), delins(20), del(3), ins(1)",73.0,721.0

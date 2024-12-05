@@ -3,7 +3,8 @@ from pathlib import Path
 
 def process_gene_variations(csv_file):
     """
-    Process a CSV file containing gene variation data and generate a summary of variation counts and types.
+    Process a CSV file containing gene variation data and generate a summary of variation counts and types,
+    along with gene and total lengths. If any of the required length fields are missing, set the length to "NA".
     
     Args:
         csv_file (str): Path to the input CSV file.
@@ -14,19 +15,7 @@ def process_gene_variations(csv_file):
     # Read the CSV file into a pandas DataFrame
     data = pd.read_csv(csv_file)
     
-    # Extract the gene and type columns
-    gene_column = data['GENE']
-    
-    #count the number of variations for each gene
-    results = []
-    
-    # Read the CSV file into a pandas DataFrame
-    data = pd.read_csv(csv_file)
-    
-    # Extract the gene and type columns
-    gene_column = data['GENE']
-    
-    #count the number of variations for each gene
+    # Initialize the results list
     results = []
     
     # Group data by the 'GENE' column
@@ -35,6 +24,31 @@ def process_gene_variations(csv_file):
         variation_counts = {}
         num_variations = 0
         
+        # Get the first row of the gene data to extract lengths
+        gene_row = gene_data.iloc[0]
+        
+        # Check if the required fields are missing or empty, and set lengths accordingly
+        try:
+            original_start = gene_row['ORIGINAL_START']
+            original_end = gene_row['ORIGINAL_END']
+            extended_start = gene_row['EXTENDED_START']
+            extended_end = gene_row['EXTENDED_END']
+            
+            # Check for missing values and set lengths to 'NA' if any required field is missing
+            if pd.isna(original_start) or pd.isna(original_end):
+                original_length = 'NA'
+            else:
+                original_length = original_end - original_start + 1
+
+            if pd.isna(extended_start) or pd.isna(extended_end):
+                total_length = 'NA'
+            else:
+                total_length = extended_end - extended_start + 1
+
+        except KeyError:
+            original_length = 'NA'
+            total_length = 'NA'
+
         # Iterate through each row for this gene
         for _, row in gene_data.iterrows():
             # If 'TYPE' is not null or empty, process the variations
@@ -60,9 +74,10 @@ def process_gene_variations(csv_file):
         results.append({
             'GENE': gene,
             'NUM_VARIATIONS': num_variations,  # The total count of variations (including 1 for null TYPEs)
-            'VARIATION_TYPES': formatted_variation_counts  # List of variation types with counts
+            'VARIATION_TYPES': formatted_variation_counts,  # List of variation types with counts
+            'GENE_LENGTH': original_length,  # Original gene length (or 'NA' if missing)
+            'TOTAL_LENGTH': total_length  # Extended total length (or 'NA' if missing)
         })
-        
     
     # Convert results into a DataFrame
     results_df = pd.DataFrame(results)
