@@ -68,7 +68,7 @@ def process_gene_variations(csv_file):
     results_df = pd.DataFrame(results)
     
     # Define output path and ensure the directory exists
-    output_path = Path('results/gene_variation_summary.csv')
+    output_path = Path('results/EXTENDED_pangenome_variation_summary.csv')
     output_path.parent.mkdir(parents=True, exist_ok=True)
     
     # Save the results to a new CSV file
@@ -79,6 +79,6 @@ def process_gene_variations(csv_file):
 
 # Example usage
 if __name__ == "__main__":
-    csv_file = 'data/pangenome_summary.csv'  # Replace with the actual file path
+    csv_file = 'data/EXTENDED_pangenome_summary.csv'  # Replace with the actual file path
     summary = process_gene_variations(csv_file)
     print(summary)

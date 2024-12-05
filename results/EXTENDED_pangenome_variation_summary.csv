@@ -1,0 +1,126 @@
+GENE,NUM_VARIATIONS,VARIATION_TYPES
+BLACE,4,snp(4)
+BLACE_flank,87,"snp(54), ins(16), complex(1), del(15), mnp(1)"
+MIR3689A,3,"ins(1), snp(2)"
+MIR3689A_flank,81,"snp(47), del(13), ins(7), mnp(14)"
+RNU5D-1,18,snp(18)
+RNU5D-1_flank,31,"snp(27), del(3), ins(1)"
+RNU5E-1,17,"snp(16), mnp(1)"
+RNU5E-1_flank,54,"snp(43), del(3), ins(6), mnp(2)"
+RNU5F-1,18,"snp(16), ins(2)"
+RNU5F-1_flank,23,"snp(21), del(1), ins(1)"
+SNORD13,5,snp(5)
+SNORD13_flank,26,"snp(25), ins(1)"
+TRA-AGC1-1,3,snp(3)
+TRA-AGC1-1_flank,9,"del(1), snp(8)"
+TRA-AGC11-1,2,snp(2)
+TRA-AGC11-1_flank,3,snp(3)
+TRA-AGC20-1,1,snp(1)
+TRA-AGC20-1_flank,9,"snp(7), ins(2)"
+TRA-AGC4-1_flank,11,"snp(5), mnp(1), del(3), ins(2)"
+TRA-AGC5-1,4,"snp(3), del(1)"
+TRA-AGC5-1_flank,13,"snp(11), ins(2)"
+TRA-CGC2-1_flank,8,snp(8)
+TRA-CGC4-1,2,snp(2)
+TRA-CGC4-1_flank,13,snp(13)
+TRA-CGC5-1-001,3,snp(3)
+TRA-CGC5-1-001_flank,4,snp(4)
+TRC-GCA11-1,2,snp(2)
+TRC-GCA11-1_flank,12,snp(12)
+TRD-GTC2-8,54,"ins(50), snp(4)"
+TRD-GTC2-8_flank,75,"snp(56), mnp(3), del(4), ins(11), complex(1)"
+TRE-TTC3-1,4,snp(4)
+TRE-TTC3-1_flank,18,snp(18)
+TRE-TTC5-1,10,"snp(8), mnp(1), complex(1)"
+TRE-TTC5-1_flank,30,"snp(28), mnp(1), del(1)"
+TRG-CCC5-1,10,"snp(9), mnp(1)"
+TRG-CCC5-1_flank,75,"snp(58), mnp(15), del(1), ins(1)"
+TRG-CCC6-1,2,snp(2)
+TRG-CCC6-1_flank,6,snp(6)
+TRG1,4,snp(4)
+TRG1_flank,10,"snp(9), ins(1)"
+TRI-AAT5-1_flank,4,snp(4)
+TRK-TTT3-2_flank,16,"snp(12), del(4)"
+TRK-TTT4-1,3,snp(3)
+TRK-TTT4-1_flank,6,snp(6)
+TRK-TTT7-1,7,snp(7)
+TRK-TTT7-1_flank,11,snp(11)
+TRL-AAG2-4,3,snp(3)
+TRL-AAG2-4_flank,3,snp(3)
+TRL-TAA4-1,7,snp(7)
+TRL-TAA4-1_flank,14,"snp(12), ins(2)"
+TRM-CAT3-2,3,snp(3)
+TRM-CAT3-2_flank,12,"snp(10), del(1), ins(1)"
+TRN-GTT2-4,3,"snp(2), mnp(1)"
+TRN-GTT2-4_flank,19,snp(19)
+TRQ-CTG6-1_flank,9,"snp(7), ins(2)"
+TRQ-TTG2-1_flank,8,snp(8)
+TRR-ACG2-3_flank,9,snp(9)
+TRS-AGA2-6,1,snp(1)
+TRS-AGA2-6_flank,13,snp(13)
+TRT-TGT2-1,1,snp(1)
+TRT-TGT2-1_flank,6,snp(6)
+TRV,4,snp(4)
+TRV-AAC5-1,5,snp(5)
+TRV-AAC5-1_flank,14,"snp(4), del(6), ins(4)"
+TRV-CAC1-5_flank,17,"snp(11), ins(6)"
+TRV_flank,17,"snp(10), ins(6), mnp(1)"
+TRX-CAT1-5_flank,5,snp(5)
+Val-tRNA,3,"snp(2), mnp(1)"
+Val-tRNA_flank,18,"snp(14), mnp(1), ins(2), del(1)"
+tRNA-Ala-CGC-1-1_flank,8,snp(8)
+tRNA-Ala-CGC-3-1,1,snp(1)
+tRNA-Ala-CGC-3-1_flank,8,snp(8)
+tRNA-Ala-TGC-2-1_flank,9,"snp(6), del(3)"
+tRNA-Ala-TGC-3-1_flank,16,snp(16)
+tRNA-Arg-ACG-1-2,1,snp(1)
+tRNA-Arg-ACG-1-2_flank,13,"snp(10), mnp(1), ins(1), del(1)"
+tRNA-Arg-TCG-4-1_flank,6,snp(6)
+tRNA-Asn-GTT-1-1,9,snp(9)
+tRNA-Asn-GTT-1-1_flank,31,"mnp(2), snp(29)"
+tRNA-Asn-GTT-3-2,3,snp(3)
+tRNA-Asn-GTT-3-2_flank,11,snp(11)
+tRNA-Asn-GTT-4-1,5,"ins(1), snp(4)"
+tRNA-Asn-GTT-4-1_flank,10,snp(10)
+tRNA-Gln-CTG-2-1,4,snp(4)
+tRNA-Gln-CTG-2-1_flank,11,"snp(10), mnp(1)"
+tRNA-Gln-TTG-3-1_flank,10,snp(10)
+tRNA-Glu-CTC-1-2_flank,6,"del(1), ins(1), snp(4)"
+tRNA-Glu-TTC-4-1,1,snp(1)
+tRNA-Glu-TTC-4-1_flank,10,snp(10)
+tRNA-Gly-CCC-4-1,18,"mnp(3), snp(13), ins(2)"
+tRNA-Gly-CCC-4-1_flank,103,"snp(70), mnp(30), ins(2), del(1)"
+tRNA-Gly-GCC-2-4,10,"snp(9), mnp(1)"
+tRNA-Gly-GCC-2-4_flank,38,"snp(30), mnp(7), ins(1)"
+tRNA-Ile-AAT-1-1,1,snp(1)
+tRNA-Ile-AAT-1-1_flank,31,"snp(25), mnp(6)"
+tRNA-Ile-AAT-12-1,1,snp(1)
+tRNA-Ile-AAT-12-1_flank,12,"snp(10), ins(2)"
+tRNA-Ile-AAT-2-1,3,snp(3)
+tRNA-Ile-AAT-2-1_flank,9,"snp(7), del(1), ins(1)"
+tRNA-Lys-CTT-2-1_flank,5,snp(5)
+tRNA-Lys-TTT-6-1,3,snp(3)
+tRNA-Lys-TTT-6-1_flank,7,snp(7)
+tRNA-Pro-TGG-3-3,1,snp(1)
+tRNA-Pro-TGG-3-3_flank,13,"snp(12), ins(1)"
+tRNA-Ser,2,snp(2)
+tRNA-Ser-CGA-2-1,2,snp(2)
+tRNA-Ser-CGA-2-1_flank,10,"snp(8), del(1), ins(1)"
+tRNA-Ser-GCT-2-1,2,snp(2)
+tRNA-Ser-GCT-2-1_flank,8,snp(8)
+tRNA-Ser-TGA-2-1,1,snp(1)
+tRNA-Ser-TGA-2-1_flank,7,snp(7)
+tRNA-Ser_flank,7,snp(7)
+tRNA-Thr-CGT-5-1,7,snp(7)
+tRNA-Thr-CGT-5-1_flank,15,"snp(14), ins(1)"
+tRNA-Thr-CGT-6-1,7,snp(7)
+tRNA-Thr-CGT-6-1_flank,9,"snp(8), mnp(1)"
+tRNA-Thr-TGT-1-1,1,snp(1)
+tRNA-Thr-TGT-1-1_flank,5,snp(5)
+tRNA-Val-AAC-3-1,5,snp(5)
+tRNA-Val-AAC-3-1_flank,4,snp(4)
+tRNA-Val-CAC-1-3,1,snp(1)
+tRNA-Val-CAC-1-3_flank,15,"snp(6), del(6), ins(2), mnp(1)"
+tRNA-Val-CAC-2-1_flank,9,snp(9)
+tRNA-iMet-CAT-2-1,5,"snp(3), ins(2)"
+tRNA-iMet-CAT-2-1_flank,53,"snp(20), del(9), ins(22), mnp(2)"
