@@ -13,6 +13,7 @@ def process_file(input_file, output_file):
     # Split the file into individual entries
     entries = content.split('----------------------------------------')
     
+    counter = 0
     for entry in entries:
         if not entry.strip():
             continue
@@ -20,7 +21,7 @@ def process_file(input_file, output_file):
         # Extract fields using regular expressions
         gene_match = re.search(r'Gene:\s*(\S+)', entry)
         variation_class_match = re.search(r'Variation Class:\s*(\S+)', entry)
-        region_type_match = re.search(r'Region Type:\s*(\S+)', entry)
+        region_type_match = re.search(r'Region Type:\s*(.*)', entry)  # Match the full region type, allowing spaces
         original_start_match = re.search(r'Original Start:\s*(\d+)', entry)
         original_end_match = re.search(r'Original End:\s*(\d+)', entry)
         expanded_start_match = re.search(r'Expanded Start:\s*(\d+)', entry)
@@ -30,7 +31,9 @@ def process_file(input_file, output_file):
         if gene_match and variation_class_match and original_start_match and original_end_match and expanded_start_match and expanded_end_match:
             gene = gene_match.group(1)
             variation_class = variation_class_match.group(1)
-            region_type = region_type_match.group(1) if region_type_match else 'N/A'
+            region_type = region_type_match.group(1).strip() if region_type_match else 'N/A'
+            
+            region_type = region_type.replace(" ", "")  # Removes spaces between words
             
             # Extract the start and end positions for both original and expanded ranges
             original_start = int(original_start_match.group(1))
@@ -46,8 +49,8 @@ def process_file(input_file, output_file):
             gene_data[gene]['gene_lengths'].append(gene_length)
             gene_data[gene]['total_lengths'].append(total_length)
             
-            # Count variations and flanks based on region type
-            if "flank" in region_type.lower():
+            # Count variations and flanks based on region type (check for "flank")
+            if "flank" in region_type.lower():  # This now works because we removed the space
                 gene_data[gene]['flanks'][variation_class] += 1
             else:
                 gene_data[gene]['variations'][variation_class] += 1

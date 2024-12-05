@@ -4,7 +4,7 @@ RNU5D-1,147,"snv(99), delins(24), ins(19), del(5)",725,"snv(571), delins(108), d
 SNORD118,214,"snv(135), delins(52), del(7), ins(20)",891,"delins(156), snv(653), ins(29), del(51), mnv(2)",137.0,1361.0
 SNAR-B2,151,"snv(112), del(4), delins(23), ins(12)",566,"snv(529), delins(23), del(8), ins(6)",120.0,1190.0
 TRG-CCC5-1,67,"snv(54), delins(3), mnv(2), del(4), ins(4)",242,"snv(217), delins(10), del(7), mnv(6), ins(2)",71.0,701.0
-MIR4538,1021,"delins(270), del(92), snv(632), ins(26), mnv(1)",0,,78.0,770.0
+MIR4538,84,"snv(60), delins(17), del(6), ins(1)",937,"delins(253), del(86), snv(572), ins(25), mnv(1)",78.0,770.0
 SNAR-C4,143,"snv(114), delins(17), ins(11), del(1)",527,"snv(489), ins(4), del(11), delins(23)",120.0,1190.0
 RNU5F-1,164,"snv(114), ins(16), delins(26), del(8)",705,"snv(555), delins(105), del(29), ins(15), mnv(1)",116.0,1150.0
 TRK-TTT3-2,79,"snv(69), delins(6), del(2), ins(2)",333,"snv(287), delins(27), del(11), ins(8)",73.0,721.0
