@@ -63,46 +63,35 @@ with open(output_file, 'w') as f:
                             variation_class = snp_details[10]  # Variation class (e.g., SNV)
                             ucsc_notes = snp_details[11]  # UCSC notes
 
-                            # Check for overlap with multiple genes
-                            overlapping_genes = []
+                            # Check if the SNP is in the gene or flank region
+                            in_gene = chromStart >= start and chromEnd <= end
+                            in_flank = chromStart >= expanded_start and chromEnd <= expanded_end
 
-                            # Iterate through all the genes to check for overlap with the current SNP
-                            for _, other_gene_row in gene_data.iterrows():
-                                other_gene_name = other_gene_row['GeneName']
-                                other_start = other_gene_row['Start']
-                                other_end = other_gene_row['End']
-                                other_chrom = other_gene_row['Chromosome']
+                            if in_gene and in_flank:
+                                # SNP is in both the gene and flank region, label only with gene_name
+                                region_type = gene_name
+                            elif in_gene:
+                                # SNP is inside the gene
+                                region_type = gene_name
+                            elif in_flank:
+                                # SNP is in the flank region
+                                region_type = f"{gene_name}_flank"
 
-                                # Skip genes on different chromosomes
-                                if chrom != other_chrom:
-                                    continue
+                            # Collect SNP names for diagnostics
+                            snp_names.append(name)
 
-                                # Check for overlap with the current SNP position
-                                if not (chromEnd < other_start or chromStart > other_end):  # There is overlap
-                                    overlapping_genes.append(other_gene_name)
-
-                            # Determine if the SNP is in the gene or in the flank region
-                            for overlapping_gene in overlapping_genes:
-                                if chromStart >= start and chromEnd <= end:
-                                    region_type = overlapping_gene  # SNP is inside the gene
-                                else:
-                                    region_type = f"{overlapping_gene}_flank"  # SNP is in the flanking region
-
-                                # Collect SNP names for diagnostics
-                                snp_names.append(name)
-
-                                # Write the required information to the output file
-                                f.write(f"Gene: {overlapping_gene}\n")
-                                f.write(f"Chromosome: {chrom}\n")
-                                f.write(f"Expanded Start: {expanded_start}, Expanded End: {expanded_end}\n")
-                                f.write(f"Original Start: {start}, Original End: {end}\n")
-                                f.write(f"SNP Name: {name}\n")
-                                f.write(f"Reference Allele: {ref}\n")
-                                f.write(f"Alternate Alleles: {', '.join(alts)}\n")
-                                f.write(f"Variation Class: {variation_class}\n")
-                                f.write(f"UCSC Notes: {ucsc_notes}\n")
-                                f.write(f"Region Type: {region_type}\n")  # Add region type (gene or gene_flank)
-                                f.write("-" * 40 + "\n")
+                            # Write the required information to the output file
+                            f.write(f"Gene: {gene_name}\n")
+                            f.write(f"Chromosome: {chrom}\n")
+                            f.write(f"Expanded Start: {expanded_start}, Expanded End: {expanded_end}\n")
+                            f.write(f"Original Start: {start}, Original End: {end}\n")
+                            f.write(f"SNP Name: {name}\n")
+                            f.write(f"Reference Allele: {ref}\n")
+                            f.write(f"Alternate Alleles: {', '.join(alts)}\n")
+                            f.write(f"Variation Class: {variation_class}\n")
+                            f.write(f"UCSC Notes: {ucsc_notes}\n")
+                            f.write(f"Region Type: {region_type}\n")  # Add region type (gene or gene_flank)
+                            f.write("-" * 40 + "\n")
 
                         except IndexError:
                             print(f"Error processing SNP details for: {interval}")
