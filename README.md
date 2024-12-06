@@ -44,9 +44,9 @@ The pipeline follows several key steps to identify SNP variation density pattern
 5. **Results**: Summarize findings in CSV files and produce visualizations (e.g., histograms, bar plots, UCSC links).
 
 ## Dependencies
-- Python (3.x)
-- R
-- Required Python packages (installed via `requirements.txt`):
+- Python (3.10.12)
+- R (4.4.2)
+- Required Python packages:
   - `bioservices 1.11.2`
   - `cattrs 24.1.2`
   - `certifi 2024.8.30`
@@ -86,6 +86,7 @@ The pipeline follows several key steps to identify SNP variation density pattern
    ```bash
    git clone https://github.com/yourusername/ncRNA_SNP_Density.git
    cd ncRNA_SNP_Density
+   ```
 
 ### Author
 [Nadia Prasetyo](https://github.com/NadiaPrasetyo)
