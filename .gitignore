@@ -174,5 +174,6 @@ data/GEDS/
 sorted_all_variants.vcf
 data/VCF/
 data/Alignments/
+data/BLASTN_RefSeq/
 
 .pybiomart.sqlite
