@@ -45,7 +45,8 @@ def extract_info_from_json(file_path):
                         'max_identity': 0,
                         'max_align_len': 0,
                         'e_value': float('inf'),
-                        'accession': description.get('accession', 'Unknown')
+                        'accession': description.get('accession', 'Unknown'),
+                        'mapped_position': None  # To store the hit_from for the max identity
                     }
 
                 # Extracting hsps (high-scoring pairs)
@@ -57,11 +58,13 @@ def extract_info_from_json(file_path):
                     # Update maximum alignment length
                     hits_info[hit_title]['max_align_len'] = max(hits_info[hit_title]['max_align_len'], hsp['align_len'])
                     
-                    # Update maximum identity
-                    hits_info[hit_title]['max_identity'] = max(hits_info[hit_title]['max_identity'], hsp['identity'])
-                    
                     # Update e-value (taking the smallest)
                     hits_info[hit_title]['e_value'] = min(hits_info[hit_title]['e_value'], hsp['evalue'])
+
+                    # Check if this HSP has the max identity so far and update
+                    if hsp['identity'] > hits_info[hit_title]['max_identity']:
+                        hits_info[hit_title]['max_identity'] = hsp['identity']
+                        hits_info[hit_title]['mapped_position'] = hsp['hit_from']
 
     return query_title, query_len, hits_info
 
@@ -89,7 +92,7 @@ with open(path, mode='w', newline='') as file:
     writer = csv.writer(file)
     
     # Write header row
-    writer.writerow(['GENE', 'Hit Title', 'Scientific Name', 'Max Score', 'Total Score', 'Query Cover', 'E value', 'Per. ident'])
+    writer.writerow(['GENE', 'Hit Title', 'Scientific Name', 'Max Score', 'Total Score', 'Query Cover', 'E value', 'Per. ident', 'Mapped Position'])
     
     if extracted_data:
         for entry in extracted_data:
@@ -99,6 +102,9 @@ with open(path, mode='w', newline='') as file:
                 # Calculate query cover as the maximum alignment length percentage
                 query_cover = (hit_data['max_align_len'] / query_len) * 100 if query_len else 0
                 
+                if query_cover > 100:
+                    query_cover = 100
+                
                 # Calculate percentage identity as the maximum identity percentage
                 percent_identity = (hit_data['max_identity'] / query_len) * 100 if query_len else 0
 
@@ -107,9 +113,10 @@ with open(path, mode='w', newline='') as file:
                 max_score = hit_data['max_score']
                 total_score = hit_data['total_score']
                 e_value = hit_data['e_value']
+                mapped_position = hit_data['mapped_position']
 
                 # Write row to CSV
-                writer.writerow([query_title, hit_title, scientific_name, max_score, total_score, f'{query_cover:.2f}%', e_value, f'{percent_identity:.2f}'])
+                writer.writerow([query_title, hit_title, scientific_name, max_score, total_score, f'{query_cover:.2f}%', e_value, f'{percent_identity:.2f}', mapped_position])
     else:
         print("No valid data extracted from the files.")
 
