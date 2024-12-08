@@ -18,8 +18,8 @@ output_headers = [
     "NA18906", "NA20129", "NA21309"
 ]
 
-# Read gene ranges from the CSV file
 def read_and_sort_gene_ranges(csv_file_path):
+    """Reads and sorts gene ranges from the provided CSV file."""
     print("Reading and sorting gene ranges from the CSV file...")
     gene_ranges = []
     try:
@@ -41,8 +41,8 @@ def read_and_sort_gene_ranges(csv_file_path):
         print(f"Error reading CSV file: {e}")
     return gene_ranges
 
-# Filter VCF file based on sorted ranges
 def filter_vcf_by_ranges(vcf_file_path, gene_ranges, lines_to_skip=2595):
+    """Filters VCF file variants that fall within specified gene ranges."""
     print("Filtering VCF file based on ranges...")
     csv_rows = []
     vcf_lines = []
@@ -126,8 +126,8 @@ def filter_vcf_by_ranges(vcf_file_path, gene_ranges, lines_to_skip=2595):
     print(f"Total variants matched: {total_variants_matched}")
     return header_lines, csv_rows, vcf_lines
 
-# Write filtered variants to CSV
 def write_csv(csv_rows):
+    """Writes the filtered variants to a CSV file."""
     print("Writing the filtered variants to the output CSV file...")
     try:
         with open(output_csv_file_path, 'w', newline='') as output_file:
@@ -138,8 +138,8 @@ def write_csv(csv_rows):
     except Exception as e:
         print(f"Error writing CSV file: {e}")
 
-# Write filtered variants to VCF
 def write_vcf(header_lines, vcf_lines):
+    """Writes the filtered variants to a VCF file."""
     print("Writing the filtered variants to the output VCF file...")
     try:
         with open(output_vcf_file_path, 'w') as output_file:
@@ -149,8 +149,8 @@ def write_vcf(header_lines, vcf_lines):
     except Exception as e:
         print(f"Error writing VCF file: {e}")
 
-# Main workflow
 def main():
+    """Main workflow for filtering VCF file based on gene ranges."""
     print("Starting the filtering workflow...")
 
     # Step 1: Read and sort gene ranges

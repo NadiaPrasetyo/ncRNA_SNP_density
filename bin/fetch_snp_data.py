@@ -1,92 +1,110 @@
 import pyBigWig
 import pandas as pd
 
-# Path to your BigBed file
-bigbed_file = "data/dbSnp155.bb"
+# File paths
+bigbed_file = "data/dbSnp155.bb"  # Path to your BigBed file
+csv_file = "data/SNP-densities-and-RNA.csv"  # Path to CSV containing gene data
+output_file = "data/SNP_data.txt"  # Output file for SNP data
 
-# Path to your CSV file containing genes with chromosomal locations
-csv_file = "data/SNP-densities-and-RNA.csv"  # CSV should have 'gene_name', 'chrom', 'start', 'end' columns
+def process_gene_snp_data(bigbed_file, csv_file, output_file):
+    """
+    Processes SNP data for genes listed in a CSV file using a BigBed file.
 
-# Output text file where data will be saved
-output_file = "data/SNP_data.txt"
+    Parameters:
+    bigbed_file (str): Path to the BigBed file.
+    csv_file (str): Path to the CSV file containing gene information.
+    output_file (str): Path to the output file where results will be saved.
 
-
-# Open the output file in write mode to store the results
-with open(output_file, 'w') as f:
-    # Path to BigBed file
-    bb = pyBigWig.open(bigbed_file)
-
+    Outputs:
+    Writes SNP data to the specified output file.
+    """
     try:
-        if bb.isBigBed():
-            print("Opened BigBed file successfully.")
-            print(f"Header Info: {bb.header()}\n")
-            
-            # Load gene data from CSV file
-            gene_data = pd.read_csv(csv_file)
+        # Open the BigBed file
+        bb = pyBigWig.open(bigbed_file)
+        if not bb.isBigBed():
+            raise ValueError("The specified file is not a valid BigBed file.")
 
-            # Debugging: Print column names in the CSV file (for diagnostics)
-            print(f"CSV Columns: {gene_data.columns.tolist()}")
+        print("Opened BigBed file successfully.")
+        print(f"Header Info: {bb.header()}")
 
-            # Iterate through the CSV file (one gene at a time)
+        # Load gene data from the CSV file
+        gene_data = pd.read_csv(csv_file)
+
+        # Check for required columns
+        required_columns = {'Chromosome', 'Start', 'End', 'GeneName'}
+        if not required_columns.issubset(gene_data.columns):
+            raise KeyError(f"The input CSV file must contain the columns: {', '.join(required_columns)}.")
+
+        print(f"CSV Columns: {gene_data.columns.tolist()}")
+
+        # Open the output file for writing
+        with open(output_file, 'w') as f:
+            # Process each gene
             for _, gene_row in gene_data.iterrows():
-                chrom = gene_row['Chromosome']   # Chromosome name (e.g., 'chr1')
-                start = gene_row['Start']        # Gene start position
-                end = gene_row['End']           # Gene end position
-                gene_name = gene_row['GeneName'] # Gene name (e.g., 'RNU5E-1')
+                try:
+                    chrom = str(gene_row['Chromosome']).strip()
+                    start = int(gene_row['Start'])
+                    end = int(gene_row['End'])
+                    gene_name = gene_row['GeneName']
 
-                # Print gene, chromosome, start, end for diagnostics
-                print(f"Processing gene: {gene_name} on {chrom} from {start} to {end}")
+                    print(f"Processing gene: {gene_name} on {chrom} from {start} to {end}")
 
-                # Fetch intervals from the BigBed file for this specific region
-                intervals = bb.entries(chrom, start, end)
+                    # Fetch intervals from the BigBed file
+                    intervals = bb.entries(chrom, start, end)
+                    snp_names = []
 
-                # List to store SNP names for the current gene
-                snp_names = []
+                    if intervals:
+                        for interval in intervals:
+                            try:
+                                # Extract interval details
+                                snp_details = interval[2].split("\t")
+                                chromStart = interval[0]
+                                chromEnd = interval[1]
+                                name = snp_details[0]
+                                ref = snp_details[1]
+                                alts = snp_details[3].split(",")[:int(snp_details[2])]
+                                variation_class = snp_details[10]
+                                ucsc_notes = snp_details[11]
 
-                if intervals:
-                    for interval in intervals:
-                        # The interval is a tuple with the format: (chromosome, start_position, data)
-                        snp_details = interval[2].split("\t")  # Split the details string by tab
+                                snp_names.append(name)
 
-                        try:
-                            chromStart = interval[0]  # Start position
-                            chromEnd = interval[1]  # End position (next base after start for single-base variants)
-                            name = snp_details[0]  # SNP name (dbSNP ID)
-                            ref = snp_details[1]  # Reference allele
-                            alts = snp_details[3].split(",")[:int(snp_details[2])]  # Alternate alleles
-                            variation_class = snp_details[10]  # Variation class (e.g., SNV)
-                            ucsc_notes = snp_details[11]  # UCSC notes
+                                # Write details to the output file
+                                f.write(f"Gene: {gene_name}\n")
+                                f.write(f"Chromosome: {chrom}\n")
+                                f.write(f"Start: {chromStart}, End: {chromEnd}\n")
+                                f.write(f"SNP Name: {name}\n")
+                                f.write(f"Reference Allele: {ref}\n")
+                                f.write(f"Alternate Alleles: {', '.join(alts)}\n")
+                                f.write(f"Variation Class: {variation_class}\n")
+                                f.write(f"UCSC Notes: {ucsc_notes}\n")
+                                f.write("-" * 40 + "\n")
+                            except IndexError as ie:
+                                print(f"Error processing SNP details for interval: {interval} | Error: {ie}")
+                    else:
+                        print(f"No SNPs found for gene {gene_name} on {chrom}:{start}-{end}")
 
-                            # Collect SNP names for diagnostics
-                            snp_names.append(name)
+                    print(f"SNPs found for {gene_name}: {', '.join(snp_names) if snp_names else 'None'}\n")
 
-                            # Write the required information to the output file
-                            f.write(f"Gene: {gene_name}\n")
-                            f.write(f"Chromosome: {chrom}\n")
-                            f.write(f"Start: {chromStart}, End: {chromEnd}\n")
-                            f.write(f"SNP Name: {name}\n")
-                            f.write(f"Reference Allele: {ref}\n")
-                            f.write(f"Alternate Alleles: {', '.join(alts)}\n")
-                            f.write(f"Variation Class: {variation_class}\n")
-                            f.write(f"UCSC Notes: {ucsc_notes}\n")
-                            f.write("-" * 40 + "\n")
+                except Exception as gene_error:
+                    print(f"Error processing gene {gene_row['GeneName']}: {gene_error}")
 
-                        except IndexError:
-                            print(f"Error processing SNP details for: {interval}")
+        print(f"SNP data has been written to {output_file}.")
 
-                # After processing the SNPs for the current gene, print the diagnostics
-                print(f"Gene: {gene_name} - Chromosome: {chrom} | Start: {start}, End: {end}")
-                print(f"SNPs found: {', '.join(snp_names)}\n")
-
-        else:
-            print("The file is not a BigBed file.")
-
+    except FileNotFoundError as fnfe:
+        print(f"Error: {fnfe}")
+    except ValueError as ve:
+        print(f"Error: {ve}")
+    except KeyError as ke:
+        print(f"Error: {ke}")
     except Exception as e:
-        print(f"An error occurred: {e}")
-
+        print(f"An unexpected error occurred: {e}")
     finally:
-        # Close the BigBed file
-        bb.close()
+        try:
+            # Close the BigBed file if it was opened
+            bb.close()
+            print("BigBed file closed successfully.")
+        except:
+            print("Failed to close the BigBed file.")
 
-    print("Processing completed.")
-    print(f"SNP data has been written to {output_file}.")
+if __name__ == "__main__":
+    process_gene_snp_data(bigbed_file, csv_file, output_file)

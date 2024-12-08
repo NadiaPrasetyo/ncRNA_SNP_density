@@ -20,13 +20,30 @@ output_headers = [
 ]
 
 def sort_chromosomes(chromosome):
+    """
+    Sort chromosomes with a numerical suffix. For example, 'chr1' < 'chr10'.
+    
+    Args:
+    - chromosome (str): Chromosome name as a string.
+    
+    Returns:
+    - tuple: A tuple with the prefix and number part of the chromosome name.
+    """
     match = re.match(r'(\D+)(\d+)?', chromosome)
     prefix = match.group(1) if match else ''
     number = int(match.group(2)) if match and match.group(2) else float('inf')
     return (prefix, number)
 
-# Read and expand gene ranges from the CSV file
 def read_and_sort_gene_ranges(csv_file_path):
+    """
+    Reads the CSV file with gene data, expands the gene ranges, and sorts them by chromosome and start position.
+    
+    Args:
+    - csv_file_path (str): The path to the CSV file containing gene data.
+    
+    Returns:
+    - list: A list of dictionaries with expanded gene ranges.
+    """
     print("Reading and expanding gene ranges from the CSV file...")
     gene_ranges = []
     try:
@@ -74,8 +91,22 @@ def read_and_sort_gene_ranges(csv_file_path):
         print(f"Error reading CSV file: {e}")
     return gene_ranges
 
-# Filter VCF file based on sorted ranges
 def filter_vcf_by_ranges(vcf_file_path, gene_ranges, lines_to_skip=2595):
+    """
+    Filters a VCF file based on gene ranges and generates a list of matching variants for output.
+    
+    Args:
+    - vcf_file_path (str): Path to the VCF file.
+    - gene_ranges (list): List of dictionaries with expanded gene ranges.
+    - lines_to_skip (int): Number of lines to skip from the start of the VCF file (for header lines).
+    
+    Returns:
+    - tuple: A tuple containing:
+        - header_lines (list): List of header lines to write to the output VCF.
+        - csv_rows (list): List of rows to write to the CSV output.
+        - vcf_lines (list): List of VCF lines to write to the VCF output.
+        - unmatched_genes (dict): A dictionary of genes that did not have any variants matched.
+    """
     print("Filtering VCF file based on ranges...")
     csv_rows = []
     vcf_lines = []
@@ -170,8 +201,13 @@ def filter_vcf_by_ranges(vcf_file_path, gene_ranges, lines_to_skip=2595):
 
     return header_lines, csv_rows, vcf_lines, unmatched_genes
 
-# Debugging added to write_csv
 def write_csv(csv_rows):
+    """
+    Writes the filtered variants to a CSV file.
+    
+    Args:
+    - csv_rows (list): List of rows to write to the CSV file.
+    """
     print("Writing the filtered variants to the output CSV file...")
     try:
         with open(output_csv_file_path, 'w', newline='') as output_file:
@@ -183,8 +219,14 @@ def write_csv(csv_rows):
     except Exception as e:
         print(f"Error writing CSV file: {e}")
 
-# Write filtered variants to VCF
 def write_vcf(header_lines, vcf_lines):
+    """
+    Writes the filtered variants to a VCF file.
+    
+    Args:
+    - header_lines (list): List of header lines to write to the VCF file.
+    - vcf_lines (list): List of VCF lines to write to the VCF file.
+    """
     print("Writing the filtered variants to the output VCF file...")
     try:
         with open(output_vcf_file_path, 'w') as output_file:
@@ -194,8 +236,10 @@ def write_vcf(header_lines, vcf_lines):
     except Exception as e:
         print(f"Error writing VCF file: {e}")
 
-# Main workflow
 def main():
+    """
+    Main workflow to filter variants based on gene ranges and output to a chosen format (CSV or VCF).
+    """
     print("Starting the filtering workflow...")
 
     # Step 1: Choose output format
