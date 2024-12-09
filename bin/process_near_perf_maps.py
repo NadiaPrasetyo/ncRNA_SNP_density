@@ -12,10 +12,11 @@ def extract_chromosome_from_filename(filename):
 def process_sam_file(sam_file):
     # Store results: gene name -> {read_length, unique chromosomes for the hits, non-perfect hits, perfect hit count}
     results = defaultdict(lambda: {'read_length': None, 'chromosomes': set(), 'non_perfect_hits': 0, 'perfect_hit_count': 0})
+    all_genes = set()  # Track all gene names encountered
     
     # Read the .sam file
     with open(sam_file, 'r') as file:
-        for line in file:
+        for line_number, line in enumerate(file, start=1):
             if line.startswith('@'):  # Skip header lines
                 continue
 
@@ -24,11 +25,13 @@ def process_sam_file(sam_file):
             
             # Ensure the line has at least 12 columns (standard SAM format)
             if len(columns) < 12:
+                print(f"Line {line_number} skipped: Insufficient columns (expected at least 12, got {len(columns)})")
                 continue  # Skip lines that don't have the expected number of columns
 
             # Extract necessary fields from the modified columns
             filename = columns[0]  # Filename is in the first column
             gene_name = columns[1]  # Gene name (column 1)
+            all_genes.add(gene_name)  # Track all genes encountered
             chromosome = extract_chromosome_from_filename(filename)
             position = columns[3]  # Position (column 3)
             cigar = columns[6]  # CIGAR string (column 6)
@@ -52,16 +55,17 @@ def process_sam_file(sam_file):
                     except ValueError:
                         continue  # Skip malformed NM:i: fields
 
-            # Check if the hit is a perfect hit (no 'X' for mismatches, quality score 42)
-            if 'X' not in cigar and num_mismatches == 0 and quality_score == 42:
+            # Refined perfect hit criteria
+            cigar_has_no_x = 'X' not in cigar  # CIGAR string must not have mismatches
+            if cigar_has_no_x:
                 # Get the read length from the CIGAR string
                 read_length = sum(int(x) for x in re.findall(r'(\d+)', cigar))  # Length from CIGAR
                 
-                # For the first perfect hit, store the read length
+                # For the first valid hit, store the read length
                 if results[gene_name]['read_length'] is None:
                     results[gene_name]['read_length'] = read_length
                 
-                # Store the unique chromosome where the perfect hit occurred
+                # Store the unique chromosome where the hit occurred
                 if chromosome not in results[gene_name]['chromosomes']:
                     results[gene_name]['chromosomes'].add(chromosome)
                     # Increment the perfect hit count for this gene
@@ -69,7 +73,14 @@ def process_sam_file(sam_file):
             else:
                 # Non-perfect hit
                 results[gene_name]['non_perfect_hits'] += 1
-    
+
+    # Add genes with no perfect hits to the results
+    for gene in all_genes:
+        if gene not in results or results[gene]['perfect_hit_count'] == 0:
+            results[gene]['perfect_hit_count'] = 0
+            results[gene]['read_length'] = None  # No read length to report
+            results[gene]['chromosomes'] = set()  # No chromosomes to report
+
     return results
 
 def generate_summary(results):
@@ -85,9 +96,11 @@ def generate_summary(results):
         
         # Format the summary for each gene
         if read_length:
-            # Create a string for the chromosomes without repeating the read length
             chromosomes_summary = ", ".join([f"{chr}" for chr in chromosomes])
             summary.append([gene_name, f"{perfect_hit_count} ({read_length}bp, {chromosomes_summary})", non_perfect_hits])
+        else:
+            # For genes with no perfect hits
+            summary.append([gene_name, "0", non_perfect_hits])
     
     return summary
 
