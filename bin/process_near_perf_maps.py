@@ -10,8 +10,8 @@ def extract_chromosome_from_filename(filename):
     return None  # Return None if no match found
 
 def process_sam_file(sam_file):
-    # Store results: gene name -> [unique chromosome locations], non-perfect hits
-    results = defaultdict(lambda: {'read_length': None, 'chromosomes': set(), 'non_perfect_hits': 0})
+    # Store results: gene name -> {read_length, unique chromosomes for the hits, non-perfect hits, perfect hit count}
+    results = defaultdict(lambda: {'read_length': None, 'chromosomes': set(), 'non_perfect_hits': 0, 'perfect_hit_count': 0})
     
     # Read the .sam file
     with open(sam_file, 'r') as file:
@@ -62,7 +62,10 @@ def process_sam_file(sam_file):
                     results[gene_name]['read_length'] = read_length
                 
                 # Store the unique chromosome where the perfect hit occurred
-                results[gene_name]['chromosomes'].add(chromosome)
+                if chromosome not in results[gene_name]['chromosomes']:
+                    results[gene_name]['chromosomes'].add(chromosome)
+                    # Increment the perfect hit count for this gene
+                    results[gene_name]['perfect_hit_count'] += 1
             else:
                 # Non-perfect hit
                 results[gene_name]['non_perfect_hits'] += 1
@@ -78,12 +81,13 @@ def generate_summary(results):
         read_length = data['read_length']
         chromosomes = sorted(data['chromosomes'])
         non_perfect_hits = data['non_perfect_hits']
+        perfect_hit_count = data['perfect_hit_count']
         
-        # Format summary for each gene
+        # Format the summary for each gene
         if read_length:
             # Create a string for the chromosomes without repeating the read length
             chromosomes_summary = ", ".join([f"{chr}" for chr in chromosomes])
-            summary.append([gene_name, f"1 ({read_length}bp, {chromosomes_summary})", non_perfect_hits])
+            summary.append([gene_name, f"{perfect_hit_count} ({read_length}bp, {chromosomes_summary})", non_perfect_hits])
     
     return summary
 
@@ -91,7 +95,9 @@ def write_summary_to_csv(summary, output_file):
     # Write the summary to a CSV file
     with open(output_file, mode='w', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow(['Gene Name', 'Chromosomes and Read Length', 'Non-perfect Hits'])  # CSV header
+        # CSV header
+        writer.writerow(['Gene Name', 'Number of Unique Mapping', 'No. of Near Perfect Matches'])
+        # Write each row of the summary
         writer.writerows(summary)
 
 # Example Usage

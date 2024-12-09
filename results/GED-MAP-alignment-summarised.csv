@@ -1,4 +1,4 @@
-Gene Name,Chromosomes and Read Length,Non-perfect Hits
+Gene Name,Number of Unique Mapping,No. of Near Perfect Matches
 BLACE,"1 (125bp, chr7)",20
 FAM30A,"1 (839bp, chr14)",0
 LINC00459,"1 (80bp, chr13)",0
@@ -9,7 +9,7 @@ RCCD1-AS1,"1 (159bp, chr15)",0
 RNU5D-1,"1 (100bp, chr1)",0
 RNU5E-1,"1 (119bp, chr1)",0
 RNU5F-1,"1 (116bp, chr1)",0
-RNU6-9,"1 (107bp, chr15, chr2)",15
+RNU6-9,"2 (107bp, chr15, chr2)",15
 SNAR-B2,"1 (120bp, chr19)",0
 SNAR-C3,"1 (119bp, chr19)",0
 SNAR-C4,"1 (120bp, chr19)",0
@@ -31,49 +31,49 @@ TRA-CGC5-1-001,"1 (72bp, chr6)",1
 TRA-TGC4-1,"1 (72bp, chr12)",3
 TRC-GCA11-1,"1 (72bp, chr7)",4
 TRC-GCA4-1,"1 (72bp, chr17)",4
-TRD-GTC2-8,"1 (72bp, chr1, chr12, chr17)",3
-TRE-TTC2-1,"1 (72bp, chr13, chr15)",1
+TRD-GTC2-8,"3 (72bp, chr1, chr12, chr17)",3
+TRE-TTC2-1,"2 (72bp, chr13, chr15)",1
 TRE-TTC3-1,"1 (72bp, chr1)",1
-TRF-GAA1-4,"1 (73bp, chr11, chr12, chr13, chr19, chr6)",1
+TRF-GAA1-4,"5 (73bp, chr11, chr12, chr13, chr19, chr6)",1
 TRF-GAA2-1,"1 (73bp, chr11)",5
-TRG-CCC2-1,"1 (71bp, chr16, chr2)",0
+TRG-CCC2-1,"2 (71bp, chr16, chr2)",0
 TRG-CCC6-1,"1 (71bp, chr1)",4
 TRG-TCC1-1,"1 (72bp, chr19)",2
 TRG1,"1 (71bp, chr1)",4
 TRI-AAT4-1,"1 (74bp, chr17)",1
-TRI-AAT5-1,"1 (74bp, chr14, chr17, chr6)",0
-TRK-CTT3-1,"1 (73bp, chr16, chr5)",5
-TRK-TTT3-2,"1 (73bp, chr1, chr17, chr6)",2
+TRI-AAT5-1,"3 (74bp, chr14, chr17, chr6)",0
+TRK-CTT3-1,"2 (73bp, chr16, chr5)",5
+TRK-TTT3-2,"3 (73bp, chr1, chr17, chr6)",2
 TRK-TTT4-1,"1 (73bp, chr6)",4
 TRK-TTT7-1,"1 (73bp, chr6)",3
-TRL-AAG2-4,"1 (82bp, chr14, chr16, chr5)",1
+TRL-AAG2-4,"3 (82bp, chr14, chr16, chr5)",1
 TRL-TAA4-1,"1 (83bp, chr6)",0
 TRL-TAG2-1,"1 (82bp, chr14)",3
 TRM-CAT2-1,"1 (73bp, chr16)",1
 TRM-CAT3-2,"1 (73bp, chr6)",1
-TRN-GTT2-4,"1 (74bp, chr1, chr10, chr13, chr17)",0
+TRN-GTT2-4,"4 (74bp, chr1, chr10, chr13, chr17)",0
 TRP-TGG2-1,"1 (72bp, chr11)",5
 TRQ-CTG6-1,"1 (72bp, chr6)",2
 TRQ-TTG2-1,"1 (72bp, chr6)",1
-TRR-ACG2-3,"1 (73bp, chr3, chr6)",1
+TRR-ACG2-3,"2 (73bp, chr3, chr6)",1
 TRR-TCG1-1,"1 (73bp, chr15)",4
 TRR-TCG3-1,"1 (73bp, chr17)",4
 TRS-AGA2-6,"1 (82bp, chr6)",2
-TRT-AGT1-2,"1 (74bp, chr17, chr19)",1
+TRT-AGT1-2,"2 (74bp, chr17, chr19)",1
 TRT-TGT2-1,"1 (73bp, chr1)",1
 TRT-TGT5-1,"1 (73bp, chr14)",1
 TRV-AAC5-1,"1 (73bp, chr6)",3
 TRV-CAC1-5,"1 (73bp, chr1)",3
 TRV-TAC1-1,"1 (73bp, chr11)",1
 TRV,"1 (73bp, chr5)",3
-TRX-CAT1-5,"1 (72bp, chr1, chr6)",0
+TRX-CAT1-5,"2 (72bp, chr1, chr6)",0
 Val-tRNA,"1 (73bp, chr1)",3
 lnc-SLCO4A1-8,"1 (587bp, chr20)",0
 tRNA-Ala-CGC-1-1,"1 (72bp, chr6)",2
 tRNA-Ala-CGC-3-1,"1 (72bp, chr2)",3
 tRNA-Ala-TGC-2-1,"1 (72bp, chr6)",2
 tRNA-Ala-TGC-3-1,"1 (72bp, chr5)",2
-tRNA-Arg-ACG-1-2,"1 (73bp, chr14, chr6)",2
+tRNA-Arg-ACG-1-2,"2 (73bp, chr14, chr6)",2
 tRNA-Arg-CCT-2-1,"1 (73bp, chr17)",0
 tRNA-Arg-CCT-3-1,"1 (73bp, chr16)",2
 tRNA-Arg-TCG-4-1,"1 (73bp, chr6)",2
@@ -81,25 +81,25 @@ tRNA-Asn-GTT-4-1,"1 (74bp, chr1)",1
 tRNA-Asp-GTC-1-1,"1 (72bp, chr12)",1
 tRNA-Gln-CTG-2-1,"1 (72bp, chr6)",2
 tRNA-Gln-TTG-3-1,"1 (72bp, chr6)",1
-tRNA-Glu-CTC-1-2,"1 (72bp, chr1, chr6)",1
+tRNA-Glu-CTC-1-2,"2 (72bp, chr1, chr6)",1
 tRNA-Glu-TTC-4-1,"1 (72bp, chr1)",2
 tRNA-Gly-CCC-4-1,"1 (71bp, chr1)",0
-tRNA-Gly-GCC-2-4,"1 (71bp, chr16, chr2, chr6)",2
-tRNA-Gly-TCC-3-1,"1 (72bp, chr1, chr17)",1
+tRNA-Gly-GCC-2-4,"3 (71bp, chr16, chr2, chr6)",2
+tRNA-Gly-TCC-3-1,"2 (72bp, chr1, chr17)",1
 tRNA-Ile-AAT-1-1,"1 (74bp, chr6)",2
 tRNA-Ile-AAT-12-1,"1 (74bp, chr6)",2
 tRNA-Leu-CAG-2-2,"1 (83bp, chr16)",2
 tRNA-Leu-TAG-3-1,"1 (82bp, chr16)",3
 tRNA-Lys-CTT-1-2,"1 (73bp, chr14)",5
-tRNA-Lys-CTT-2-1,"1 (73bp, chr1, chr16, chr5, chr6)",1
+tRNA-Lys-CTT-2-1,"4 (73bp, chr1, chr16, chr5, chr6)",1
 tRNA-Lys-CTT-5-1,"1 (73bp, chr16)",3
 tRNA-Lys-TTT-1-1,"1 (73bp, chr16)",4
 tRNA-Lys-TTT-5-1,"1 (73bp, chr11)",4
 tRNA-Lys-TTT-6-1,"1 (73bp, chr6)",3
 tRNA-Met-CAT-6-1,"1 (73bp, chr16)",2
-tRNA-Pro-AGG-2-4,"1 (72bp, chr11, chr16, chr6, chr7)",2
+tRNA-Pro-AGG-2-4,"4 (72bp, chr11, chr16, chr6, chr7)",2
 tRNA-Pro-TGG-1-1,"1 (72bp, chr14)",5
-tRNA-Pro-TGG-3-3,"1 (72bp, chr16, chr5)",4
+tRNA-Pro-TGG-3-3,"2 (72bp, chr16, chr5)",4
 tRNA-Ser-CGA-2-1,"1 (82bp, chr6)",1
 tRNA-Ser-GCT-2-1,"1 (82bp, chr6)",2
 tRNA-Ser-TGA-2-1,"1 (82bp, chr6)",0
@@ -107,8 +107,8 @@ tRNA-Ser,"1 (82bp, chr6)",2
 tRNA-Thr-CGT-5-1,"1 (74bp, chr6)",0
 tRNA-Thr-CGT-6-1,"1 (72bp, chr6)",0
 tRNA-Thr-TGT-1-1,"1 (74bp, chr6)",1
-tRNA-Thr-TGT-4-1,"1 (73bp, chr14, chr5)",0
-tRNA-Val-CAC-1-3,"1 (73bp, chr1, chr5)",2
+tRNA-Thr-TGT-4-1,"2 (73bp, chr14, chr5)",0
+tRNA-Val-CAC-1-3,"2 (73bp, chr1, chr5)",2
 tRNA-Val-CAC-2-1,"1 (73bp, chr6)",3
 tRNA-Val-CAC-3-1,"1 (73bp, chr19)",3
 tRNA-iMet-CAT-2-1,"1 (72bp, chr6)",1
