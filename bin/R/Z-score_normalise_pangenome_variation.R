@@ -63,19 +63,23 @@ plot <- ggplot(merged_df, aes(x = GENE_BASE, y = Enrichment_ZScore)) +
 # Save the plot
 ggsave("../../results/Enrichment_pangenome_var.pdf", plot = plot, width = 15)
 
-# Reorder the GENE_BASE factor based on Enrichment_ZScore, descending
-merged_df$GENE_BASE <- factor(merged_df$GENE_BASE, levels = merged_df$GENE_BASE[order(-merged_df$Enrichment_ZScore)])
+# Sort the dataframe based on Enrichment_ZScore (high to low)
+merged_df_sorted <- merged_df %>% arrange(desc(Enrichment_ZScore))
 
-# Plot with sorted enrichment values
-plot <- ggplot(merged_df, aes(x = GENE_BASE, y = Enrichment_ZScore)) +
+# Reorder the GENE_BASE factor based on the sorted Enrichment_ZScore
+merged_df_sorted$GENE_BASE <- factor(merged_df_sorted$GENE_BASE, levels = merged_df_sorted$GENE_BASE)
+
+# Plot a sorted bar plot based on Z-scores with special gene labels
+plot_sorted <- ggplot(merged_df_sorted, aes(x = reorder(GENE_BASE, -Enrichment_ZScore), y = Enrichment_ZScore)) +
   geom_bar(stat = 'identity', fill = 'steelblue') +
   theme_minimal() +
   labs(title = 'Enrichment of Variations in Gene Length vs Total Length',
        x = 'Gene',
        y = 'Z-score of Enrichment') +
-  theme(axis.text.x = ggtext::element_markdown(angle = 90, hjust = 1)) +  # This applies markdown to the x-axis text
-  scale_x_discrete(labels = merged_df$GENE_LABEL)   # Use modified labels for x-axis
+  theme(axis.text.x = ggtext::element_markdown(angle = 90, hjust = 1)) +  # Apply markdown for special genes
+  scale_x_discrete(labels = merged_df_sorted$GENE_LABEL)  # Use modified labels for x-axis
 
-# Save the plot
-ggsave("../../results/Enrichment_pangenome_var_sorted.pdf", plot = plot, width = 15)
+# Save the sorted plot
+ggsave("../../results/Enrichment_pangenome_var_sorted.pdf", plot = plot_sorted, width = 15)
+
 

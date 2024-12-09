@@ -47,13 +47,13 @@ plot_unsorted <- ggplot(df, aes(x = GENE, y = Enrichment_ZScore)) +
 ggsave('../../results/SNP_Enrichment_histogram.pdf', plot = plot_unsorted, width = 15)
 
 # Sort the dataframe based on Enrichment_ZScore (high to low)
-df_sorted <- df %>% arrange(Enrichment_ZScore)
+df_sorted <- df %>% arrange(desc(Enrichment_ZScore))
 
 # Reorder the GENE factor based on the sorted Enrichment_ZScore
 df_sorted$GENE <- factor(df_sorted$GENE, levels = df_sorted$GENE)
 
 # Plot a sorted histogram based on Z-scores with special gene labels
-plot_sorted <- ggplot(df_sorted, aes(x = reorder(GENE, Enrichment_ZScore), y = Enrichment_ZScore)) +
+plot_sorted <- ggplot(df_sorted, aes(x = reorder(GENE, -Enrichment_ZScore), y = Enrichment_ZScore)) +
   geom_bar(stat = 'identity', fill = 'indianred') +
   theme_minimal() +
   labs(title = 'Sorted Enrichment of Variations in Gene Length vs Total Length',
