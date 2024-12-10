@@ -6,7 +6,7 @@ def process_fasta_file(file_path):
     Processes a FASTA file by:
     1. Converting lowercase nucleotides to uppercase.
     2. Replacing 'Chr' with 'chr'.
-    3. Splitting the content into individual chromosomes, removing duplicates.
+    3. Splitting the content into individual chromosomes.
     4. Sorting chromosomes by their numeric identifiers.
     5. Overwriting the original file with the processed content.
 
@@ -44,26 +44,12 @@ def process_fasta_file(file_path):
         print("Splitting the content into individual chromosomes...")
         chromosomes = re.split(r'(?=^>chr)', processed_content, flags=re.MULTILINE)
         
-        # Remove duplicates by keeping only the first occurrence of each chromosome
-        seen_chromosomes = set()
-        unique_chromosomes = []
-        
-        print("Removing duplicates...")
-        for chromosome in chromosomes:
-            # Extract chromosome name (e.g., chr1, chr2, etc.)
-            match = re.search(r'^>chr\d+', chromosome)
-            if match:
-                chrom_name = match.group()
-                if chrom_name not in seen_chromosomes:
-                    unique_chromosomes.append(chromosome)
-                    seen_chromosomes.add(chrom_name)
-        
         # Sort chromosomes by the numeric part of the chromosome name
         print("Sorting chromosomes by number...")
-        unique_chromosomes = sorted(unique_chromosomes, key=lambda x: int(re.search(r'\d+', x).group()) if re.search(r'\d+', x) else float('inf'))
+        sorted_chromosomes = sorted(chromosomes, key=lambda x: int(re.search(r'\d+', x).group()) if re.search(r'\d+', x) else float('inf'))
         
         # Recombine the sorted chromosomes back into the content
-        sorted_content = ''.join(unique_chromosomes)
+        sorted_content = ''.join(sorted_chromosomes)
         
         # Check if any changes were made (this is a simple diagnostic check)
         if processed_content != sorted_content:
@@ -111,6 +97,7 @@ def process_all_fasta_files(folder_path):
 folder_path = 'data/Chromosomes_FASTA/'  # Path to the folder containing the chromosome FASTA files
 
 try:
-    process_all_fasta_files(folder_path)
+    # process_all_fasta_files(folder_path)
+    process_fasta_file("data/hg38.fa")
 except Exception as e:
     print(f"Error: The process failed due to: {e}")

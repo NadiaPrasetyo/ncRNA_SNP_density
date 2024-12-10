@@ -28,3 +28,13 @@ SNAR-F - indels? large chunks of SNP density around gene
 SNORD118 - overlap with TMEM107 but higher density around gene
 TRA-AGC4-1 - very high density near gene - not around anything (other than lncRNA)
 TRG-CCC5-1 - high larger area density, but higer around gene
+
+
+
+Annotations:
+Chicken (Gallus gallus g6a):
+SNORD118 (U8): chr18:11328560-11328683
+>galGal6_dna range=chr18:11328560-11328683 5'pad=0 3'pad=0 strand=+ repeatMasking=none
+ATCAGAGAGGTGCCCGCGGGTGTTGCCGGCCCGCGCCACGTGGTTGTAAT
+CACACGTCATCACGCTCCGCTCATCACGCACTGCCCGCACTGCGGGAGCA
+GGTCAGGATGTACCGCACTGACGA
