@@ -31,6 +31,12 @@ for vcf_file in "$VCF_DIR"/*.vcf; do
         base_name=$(basename "$vcf_file" .vcf)
         output_prefix="$OUTPUT_DIR/$base_name"  # Prefix for output files
 
+        # Check if output files already exist
+        if [[ -f "${output_prefix}.geds" ]]; then
+            echo "Output file ${output_prefix}.geds already exists. Skipping $vcf_file."
+            continue
+        fi
+
         echo "Running gedmap parse for VCF file: $vcf_file"
 
         # Execute gedmap parse, catching errors
