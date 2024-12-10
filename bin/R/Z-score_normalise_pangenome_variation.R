@@ -1,8 +1,9 @@
 # Load necessary libraries
 library(dplyr)   # For data manipulation
 library(ggplot2) # For plotting
-library(scales)   # For scaling/normalization
+library(scales)  # For scaling/normalization
 library(ggtext)  # For colored text in ggplot
+library(ggrepel) # For better text labeling in scatter plots
 
 # Read the CSV file
 df <- read.csv('../../results/EXTENDED_pangenome_variation_summary.csv')
@@ -31,6 +32,11 @@ merged_df <- merge(genes, flanks, by = "GENE_BASE", suffixes = c("_gene", "_flan
 # Calculate the enrichment ratio for each gene
 merged_df$Enrichment <- (merged_df$NUM_VARIATIONS_gene / merged_df$GENE_LENGTH_gene) /
   (merged_df$NUM_VARIATIONS_flank / (merged_df$TOTAL_LENGTH_gene - merged_df$GENE_LENGTH_gene))
+
+# Calculate metrics for scatter plot
+merged_df$Gene_Var_Metric <- merged_df$NUM_VARIATIONS_gene / merged_df$GENE_LENGTH_gene
+merged_df$Flank_Var_Metric <- merged_df$NUM_VARIATIONS_flank / 
+  (merged_df$TOTAL_LENGTH_gene - merged_df$GENE_LENGTH_gene)
 
 # View the resulting dataframe with enrichment
 head(merged_df)
@@ -79,4 +85,16 @@ plot_sorted <- ggplot(merged_df_sorted, aes(x = reorder(GENE_BASE, -Enrichment),
 # Save the sorted plot
 ggsave("../../results/Enrichment_pangenome_var_sorted.pdf", plot = plot_sorted, width = 15)
 
+# Create a scatter plot for (Gene Variations / Gene Length) vs. (Flank Variations / Flank Length)
+scatter_plot <- ggplot(merged_df, aes(x = Gene_Var_Metric, y = Flank_Var_Metric, label = GENE_BASE)) +
+  geom_point(aes(color = GENE_BASE %in% special_genes), size = 3) +
+  scale_color_manual(values = c("steelblue", "red"), labels = c("Other Genes", "Special Genes")) +
+  geom_text_repel(aes(label = GENE_BASE), size = 3) +
+  theme_minimal() +
+  labs(title = "Scatter Plot of Gene Variations vs Flank Variations",
+       x = "Gene Variations / Gene Length",
+       y = "Flank Variations / Flank Length",
+       color = "Gene Category")
 
+# Save the scatter plot
+ggsave("../../results/Pangenome_Var_vs_Flank_Var_Scatter_All_Labels.pdf", plot = scatter_plot, width = 10, height = 8)

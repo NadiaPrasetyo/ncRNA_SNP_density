@@ -175,5 +175,6 @@ sorted_all_variants.vcf
 data/VCF/
 data/Alignments/
 data/BLASTN_RefSeq/
+data/hg38.fa
 
 .pybiomart.sqlite
