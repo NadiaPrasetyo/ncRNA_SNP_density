@@ -176,5 +176,8 @@ data/VCF/
 data/Alignments/
 data/BLASTN_RefSeq/
 data/hg38.fa
+data/animals/rfam/
+data/animals/
+!data/animals/output/
 
 .pybiomart.sqlite
