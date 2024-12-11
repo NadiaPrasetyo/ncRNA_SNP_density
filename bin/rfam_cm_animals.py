@@ -40,8 +40,6 @@ def calculate_z_value(genome_path):
         print(f"Error calculating Z value for {genome_path}: {e}")
     return None
 
-
-
 # Ensure Rfam CM files are pressed
 for rfam_name, rfam_cm in rfam_cms.items():
     rfam_path = os.path.join(rfam_dir, rfam_cm)
@@ -68,6 +66,11 @@ for genome in genomes:
         tblout_file = f"{cmscan_file}.tblout"
         deoverlapped_tblout_file = f"{cmscan_file}.deoverlapped.tblout"
 
+        # Check if output files already exist
+        if os.path.exists(cmscan_file) and os.path.exists(tblout_file) and os.path.exists(deoverlapped_tblout_file):
+            print(f"Output files for {genome} with RFAM {rfam_name} already exist. Skipping.")
+            continue
+
         # Construct the cmscan command
         cmscan_cmd = (
             f"cmscan -Z {z_value:.6f} --cut_ga --rfam --nohmmonly "
@@ -87,4 +90,3 @@ for genome in genomes:
             print(f"Error running cmscan for genome {genome} with RFAM {rfam_name}: {e}")
 
 print("Processing complete. Results are in the output directory.")
-
