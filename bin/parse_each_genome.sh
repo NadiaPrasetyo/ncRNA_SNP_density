@@ -16,6 +16,7 @@ OUTPUT_DIR="data/GEDS/genomes"  # Directory to store output
 
 # Create output directory if it doesn't exist
 mkdir -p "$OUTPUT_DIR"
+mkdir -p "$OUTPUT_DIR/tmp"
 
 # Check if the FASTA file exists
 if [[ ! -f "$FASTA_FILE" ]]; then
@@ -40,7 +41,7 @@ for vcf_file in "$VCF_DIR"/*.vcf; do
         echo "Running gedmap parse for VCF file: $vcf_file"
 
         # Execute gedmap parse, catching errors
-        if ! ../gedmap/gedmap parse "$FASTA_FILE" "$vcf_file" -o "$output_prefix"; then
+        if ! ../gedmap/gedmap parse "$FASTA_FILE" "$vcf_file" -o "$output_prefix" -tmp "$OUTPUT_DIR/tmp" ; then
             echo "Error: gedmap parse failed for VCF file $vcf_file" >&2
             continue
         fi
