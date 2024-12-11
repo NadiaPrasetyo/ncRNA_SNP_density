@@ -1,0 +1,13 @@
+#idx target name          accession query name           accession clan name mdl mdl from   mdl to seq from   seq to strand trunc pass   gc  bias  score   E-value inc olp anyidx afrct1 afrct2 winidx wfrct1 wfrct2 description of target
+#--- -------------------- --------- -------------------- --------- --------- --- -------- -------- -------- -------- ------ ----- ---- ---- ----- ------ --------- --- --- ------ ------ ------ ------ ------ ------ ---------------------
+1    U8                   RF00096   chr18                -         -          cm        1      135 11328683 11328560      -    no    1 0.65   0.0   65.7   5.3e-09  !   *       -      -      -      -      -      - U8 small nucleolar RNA
+#
+# Program:         cmscan
+# Version:         1.1.2 (July 2016)
+# Pipeline mode:   SCAN
+# Query file:      data/animals/galGal6.fa
+# Target file:     data/animals/rfam/RF00096.cm
+# Option settings: cmscan -Z 2130.730850 --tblout data/animals/output/galGal6-U8.cmscan.tblout --fmt 2 --cut_ga --rfam --nohmmonly data/animals/rfam/RF00096.cm data/animals/galGal6.fa 
+# Current dir:     /media/nadiaprasetyo/Data/ncRNA_SNP_density
+# Date:            Wed Dec 11 14:47:37 2024
+# [ok]

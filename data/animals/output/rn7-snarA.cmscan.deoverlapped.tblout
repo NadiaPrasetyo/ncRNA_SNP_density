@@ -1,0 +1,12 @@
+#idx target name          accession query name           accession clan name mdl mdl from   mdl to seq from   seq to strand trunc pass   gc  bias  score   E-value inc olp anyidx afrct1 afrct2 winidx wfrct1 wfrct2 description of target
+#--- -------------------- --------- -------------------- --------- --------- --- -------- -------- -------- -------- ------ ----- ---- ---- ----- ------ --------- --- --- ------ ------ ------ ------ ------ ------ ---------------------
+#
+# Program:         cmscan
+# Version:         1.1.2 (July 2016)
+# Pipeline mode:   SCAN
+# Query file:      data/animals/rn7.fa
+# Target file:     data/animals/rfam/RF02556.cm
+# Option settings: cmscan -Z 5295.831456 --tblout data/animals/output/rn7-snarA.cmscan.tblout --fmt 2 --cut_ga --rfam --nohmmonly data/animals/rfam/RF02556.cm data/animals/rn7.fa 
+# Current dir:     /media/nadiaprasetyo/Data/ncRNA_SNP_density
+# Date:            Wed Dec 11 15:44:00 2024
+# [ok]

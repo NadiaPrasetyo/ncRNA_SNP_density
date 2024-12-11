@@ -1,0 +1,17 @@
+#idx target name          accession query name           accession clan name mdl mdl from   mdl to seq from   seq to strand trunc pass   gc  bias  score   E-value inc olp anyidx afrct1 afrct2 winidx wfrct1 wfrct2 description of target
+#--- -------------------- --------- -------------------- --------- --------- --- -------- -------- -------- -------- ------ ----- ---- ---- ----- ------ --------- --- --- ------ ------ ------ ------ ------ ------ ---------------------
+1    U8                   RF00096   chr10                -         -          cm        1      135 128185110 128185244      +    no    1 0.37   0.0   65.9   1.2e-08  !   *       -      -      -      -      -      - U8 small nucleolar RNA
+2    U8                   RF00096   chr10                -         -          cm        1      135   4119887   4120018      +    no    1 0.40   0.0   49.7   5.6e-05  !   *       -      -      -      -      -      - U8 small nucleolar RNA
+1    U8                   RF00096   chr11                -         -          cm        1      135 68964253 68964387      +    no    1 0.46   0.0  124.8   5.8e-22  !   *       -      -      -      -      -      - U8 small nucleolar RNA
+2    U8                   RF00096   chr11                -         -          cm        1      135  3424401  3424285      -    no    1 0.44   0.0   43.4    0.0015  !   *       -      -      -      -      -      - U8 small nucleolar RNA
+1    U8                   RF00096   chr12                -         -          cm        1      135 13213764 13213630      -    no    1 0.46   0.0  112.9   2.8e-19  !   *       -      -      -      -      -      - U8 small nucleolar RNA
+#
+# Program:         cmscan
+# Version:         1.1.2 (July 2016)
+# Pipeline mode:   SCAN
+# Query file:      data/animals/mm39.fa
+# Target file:     data/animals/rfam/RF00096.cm
+# Option settings: cmscan -Z 5456.444902 --tblout data/animals/output/mm39-U8.cmscan.tblout --fmt 2 --cut_ga --rfam --nohmmonly data/animals/rfam/RF00096.cm data/animals/mm39.fa 
+# Current dir:     /media/nadiaprasetyo/Data/ncRNA_SNP_density
+# Date:            Wed Dec 11 15:50:42 2024
+# [ok]

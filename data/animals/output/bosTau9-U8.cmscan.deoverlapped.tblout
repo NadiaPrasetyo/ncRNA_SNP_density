@@ -1,0 +1,19 @@
+#idx target name          accession query name           accession clan name mdl mdl from   mdl to  seq from    seq to strand trunc pass   gc  bias  score   E-value inc olp anyidx afrct1 afrct2 winidx wfrct1 wfrct2 description of target
+#--- -------------------- --------- -------------------- --------- --------- --- -------- -------- --------- --------- ------ ----- ---- ---- ----- ------ --------- --- --- ------ ------ ------ ------ ------ ------ ---------------------
+1    U8                   RF00096   chr1                 -         -          cm        1      135 135910534 135910669      +    no    1 0.42   0.0  120.4   5.6e-21  !   *       -      -      -      -      -      - U8 small nucleolar RNA
+1    U8                   RF00096   chr12                -         -          cm        1      135 21676064 21676195      +    no    1 0.47   0.0  104.7     2e-17  !   *       -      -      -      -      -      - U8 small nucleolar RNA
+1    U8                   RF00096   chr16                -         -          cm        1      135 25657743 25657849      +    no    1 0.36   0.0   66.3   9.9e-09  !   *       -      -      -      -      -      - U8 small nucleolar RNA
+1    U8                   RF00096   chr19                -         -          cm        1      135 27820917 27820782      -    no    1 0.46   0.0  152.0     4e-28  !   *       -      -      -      -      -      - U8 small nucleolar RNA
+1    U8                   RF00096   chr2                 -         -          cm        1      135 16965555 16965690      +    no    1 0.41   0.0   43.8    0.0012  !   *       -      -      -      -      -      - U8 small nucleolar RNA
+1    U8                   RF00096   chrX                 -         -          cm        1      135 113029591 113029724      +    no    1 0.43   0.0   97.3   9.4e-16  !   *       -      -      -      -      -      - U8 small nucleolar RNA
+2    U8                   RF00096   chrX                 -         -          cm        1      135 117257070 117257192      +    no    1 0.36   0.0   46.1   0.00036  !   *       -      -      -      -      -      - U8 small nucleolar RNA
+#
+# Program:         cmscan
+# Version:         1.1.2 (July 2016)
+# Pipeline mode:   SCAN
+# Query file:      data/animals/bosTau9.fa
+# Target file:     data/animals/rfam/RF00096.cm
+# Option settings: cmscan -Z 5431.707584 --tblout data/animals/output/bosTau9-U8.cmscan.tblout --fmt 2 --cut_ga --rfam --nohmmonly data/animals/rfam/RF00096.cm data/animals/bosTau9.fa 
+# Current dir:     /media/nadiaprasetyo/Data/ncRNA_SNP_density
+# Date:            Wed Dec 11 16:36:32 2024
+# [ok]

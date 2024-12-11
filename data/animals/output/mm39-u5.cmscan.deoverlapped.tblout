@@ -1,0 +1,23 @@
+#idx target name          accession query name           accession clan name mdl mdl from   mdl to  seq from    seq to strand trunc pass   gc  bias  score   E-value inc olp anyidx afrct1 afrct2 winidx wfrct1 wfrct2 description of target
+#--- -------------------- --------- -------------------- --------- --------- --- -------- -------- --------- --------- ------ ----- ---- ---- ----- ------ --------- --- --- ------ ------ ------ ------ ------ ------ ---------------------
+1    U5                   RF00020   chr1                 -         -          cm        1      117 171330731 171330616      -    no    1 0.38   0.0  115.2   4.8e-19  !   *       -      -      -      -      -      - U5 spliceosomal RNA
+2    U5                   RF00020   chr1                 -         -          cm        1      117 192427879 192427994      +    no    1 0.39   0.0  110.1     7e-18  !   *       -      -      -      -      -      - U5 spliceosomal RNA
+1    U5                   RF00020   chr10                -         -          cm        1      117 130393333 130393217      -    no    1 0.36   0.0   90.0   2.6e-13  !   *       -      -      -      -      -      - U5 spliceosomal RNA
+1    U5                   RF00020   chr14                -         -          cm        1      117 96682391 96682506      +    no    1 0.40   0.0   95.6   1.4e-14  !   *       -      -      -      -      -      - U5 spliceosomal RNA
+1    U5                   RF00020   chr17                -         -          cm        1      117 95177416 95177301      -    no    1 0.39   0.0   75.6     5e-10  !   *       -      -      -      -      -      - U5 spliceosomal RNA
+1    U5                   RF00020   chr19                -         -          cm        1      117 61152919 61152803      -    no    1 0.35   0.0   87.7   8.6e-13  !   *       -      -      -      -      -      - U5 spliceosomal RNA
+1    U5                   RF00020   chr4                 -         -          cm        1      117 117068041 117068156      +    no    1 0.37   0.0  112.0   2.6e-18  !   *       -      -      -      -      -      - U5 spliceosomal RNA
+2    U5                   RF00020   chr4                 -         -          cm        1      117 117047139 117047254      +    no    1 0.41   0.0  111.4   3.5e-18  !   *       -      -      -      -      -      - U5 spliceosomal RNA
+3    U5                   RF00020   chr4                 -         -          cm        1      117 117059725 117059840      +    no    1 0.41   0.0  111.2   3.9e-18  !   *       -      -      -      -      -      - U5 spliceosomal RNA
+1    U5                   RF00020   chr9                 -         -          cm        1      117 65109123 65109008      -    no    1 0.39   0.0  114.2   7.9e-19  !   *       -      -      -      -      -      - U5 spliceosomal RNA
+2    U5                   RF00020   chr9                 -         -          cm        1      117 65103969 65103854      -    no    1 0.40   0.0  114.2     8e-19  !   *       -      -      -      -      -      - U5 spliceosomal RNA
+#
+# Program:         cmscan
+# Version:         1.1.2 (July 2016)
+# Pipeline mode:   SCAN
+# Query file:      data/animals/mm39.fa
+# Target file:     data/animals/rfam/RF00020.cm
+# Option settings: cmscan -Z 5456.444902 --tblout data/animals/output/mm39-u5.cmscan.tblout --fmt 2 --cut_ga --rfam --nohmmonly data/animals/rfam/RF00020.cm data/animals/mm39.fa 
+# Current dir:     /media/nadiaprasetyo/Data/ncRNA_SNP_density
+# Date:            Wed Dec 11 15:53:34 2024
+# [ok]
