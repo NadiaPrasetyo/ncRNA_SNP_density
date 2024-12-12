@@ -65,6 +65,6 @@ def add_locus_data(input_file, output_file):
     print("Processing complete.")  # Diagnostic print
 
 # Example usage
-input_file = "data/filtered_ncRNA_list.csv"
+input_file = "data/SNP-densities-and-RNA.csv"
 output_file = "data/other_animals_RNA.csv"
 add_locus_data(input_file, output_file)
