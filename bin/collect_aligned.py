@@ -81,7 +81,7 @@ def collect_successfully_aligned_reads_with_filenames(folder_path, output_file="
 
 # Usage example:
 folder_path = "data/Alignments"  # Replace with actual folder path
-output_file = "data/aligned_reads.sam"  # Replace with desired output file path
+output_file = "data/aligned_genome_reads.sam"  # Replace with desired output file path
 
 try:
     collect_successfully_aligned_reads_with_filenames(folder_path, output_file)
