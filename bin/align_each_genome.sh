@@ -68,7 +68,7 @@ while IFS=, read -r chromosome start end gene_id gene_name snp_density rna_type;
 
     for GENOME in "${GENOMES[@]}"; do
         # Define file paths
-        GEDS_FILE="$OUTPUT_DIR/$GENOME.geds"
+        GEDS_FILE="$OUTPUT_DIR/processed_$GENOME.geds"
         GEDMAP_INDEX_FILE="$OUTPUT_DIR/$GENOME.geds.min"
         fastq_file="$FASTQ_DIR/$gene_name.fq"
         sam_file="$ALIGN_OUTPUT_DIR/$gene_name-$GENOME.sam"
