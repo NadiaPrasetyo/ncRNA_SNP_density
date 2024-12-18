@@ -93,3 +93,6 @@ tRNA-Thr-CGT-5-1     1694268    1116211132.00   690116.20
 tRNA-Thr-TGT-4-1     1219252060 2217429922.20   310280119.07        
 tRNA-Val-CAC-3-1     4232429    2781007211.30   1683112.03          
 tRNA-iMet-CAT-2-1    1694785    1116371740.20   690305.93 
+
+can you alter this script so that if the found chromosome are chr#-extra, you strip the extra so that the final chromosome is just chr#:
+
