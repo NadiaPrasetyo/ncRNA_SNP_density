@@ -26,20 +26,40 @@ The list of ncRNA sequences to be analyzed is provided in the `data/SNP-densitie
 - **notes.txt**: Additional notes related to the project.
 
 ## Key Files in `bin/`
+
 - `bin/R/Barplot_pangenome_variation.R`: R script to generate bar plots for variation across the pangenome.
 - `bin/R/Enrichment_SNP155.R`: R script to analyze SNP enrichment in the pangenome.
 - `bin/R/Z-score_normalise_pangenome_variation.R`: R script to normalize variation across the pangenome using Z-scores.
+- `bin/align_each_genome.sh`: Shell script for aligning individual genomes.
 - `bin/align_geds.sh`: Shell script for indexing and aligning pangenome construct data sets (GEDS).
-- `bin/clean_fasta_CAPS.py`: Python script for cleaning FASTA sequences, capitalising all of the bases: ACGTN.
+- `bin/clean_fasta_CAPS.py`: Python script for cleaning FASTA sequences, capitalizing all of the bases (ACGTN).
 - `bin/collect_aligned.py`: Python script to collect aligned sequences.
 - `bin/combine_fasta.py`: Python script to combine multiple FASTA files.
-- `bin/fasta_to_fastq.py`: Converts FASTA format to FASTQ.
-- `bin/fetch_fasta_NCBI.py`: Fetches FASTA sequences from NCBI.
-- `bin/fetch_pangenome_data.py`: Fetches pangenome data from UCSC decomposed.vcf.
-- `bin/fetch_snp_data.py`: Fetches SNP data from UCSC dbSnp155.bb.
+- `bin/count_num_var.py`: Python script to count the number of variations in the data.
+- `bin/EXTENDED_fetch_pangenome_data.py`: Python script to fetch extended pangenome data.
+- `bin/EXTENDED_fetch_snp_data.py`: Python script to fetch extended SNP data.
+- `bin/fasta_to_fastq.py`: Python script to convert FASTA format to FASTQ.
+- `bin/fetch_animals_loci.py`: Python script to fetch loci information for different animals.
+- `bin/fetch_fasta_NCBI.py`: Python script to fetch FASTA sequences from NCBI.
+- `bin/fetch_fasta_seq.py`: Python script to fetch FASTA sequences.
+- `bin/fetch_pangenome_data.py`: Python script to fetch pangenome data from UCSC decomposed.vcf.
+- `bin/fetch_snp_data.py`: Python script to fetch SNP data from UCSC dbSnp155.bb.
+- `bin/filter_vcf_by_genome.py`: Python script to filter VCF files by genome.
+- `bin/gene_range_calc.py`: Python script to calculate gene ranges for analysis.
+- `bin/generate_UCSC_link.py`: Python script to generate UCSC genome browser links.
+- `bin/parse_chrom_loc.py`: Python script to parse chromosome locations.
+- `bin/parse_each_genome.sh`: Shell script for parsing individual genomes.
+- `bin/process_blast_result.py`: Python script to process BLAST results.
+- `bin/process_near_perf_maps.py`: Python script to process near-perfect maps.
+- `bin/rfam_cm_animals.py`: Python script to fetch Rfam CM data for animals.
+- `bin/run_gedmap.sh`: Shell script to run GEDMAP analysis.
+- `bin/separate_genome_alignment.py`: Python script to separate genome alignment data.
+- `bin/separate_vcf.py`: Python script to separate VCF data.
+- `bin/sort_and_clean_vcf.py`: Python script to sort and clean VCF files.
+- `bin/SPKM_count.py`: Python script to count SPKM (Scaled Pseudo-Kmers).
 - `bin/summarise_alignment.py`: Python script to summarize alignment data.
-- `bin/summarise_pangenome_SNP.py`: Summarizes SNP data across the pangenome to plottable data.
-- `bin/summarise_SNP_data.py`: Summarizes SNP variation data to plottable data.
+- `bin/summarise_pangenome_SNP.py`: Python script to summarize SNP data across the pangenome to plottable data.
+- `bin/summarise_SNP_data.py`: Python script to summarize SNP variation data to plottable data.
 
 ## Workflow Overview
 The pipeline follows several key steps to identify SNP variation density patterns in ncRNA:
@@ -57,6 +77,47 @@ The pipeline follows several key steps to identify SNP variation density pattern
 5. Use GED-MAP to index and align each ncRNA fastq sequences with the chromosome pangenome construct to find any alignments and hits where the ncRNA sequence is found in the chromosome. Done in `bin/align_geds.sh`.
 6. Collect the aligned results (SAM file) using `bin/collect_aligned.py`.
 7. Summarise the aligned results using `bin/summarise_alignment.py`.And analyse in the docs `docs/Map-notes.ipynb`.
+
+## Key Files in `data/`
+
+- `data/Alignments/`: Contains alignment data for various genomic sequences. This directory is not tracked due to ists large size but the contents can be made using the scripts in bin/.
+- `data/animals/`: Directory containing animal-related genomic data. This directory is not tracked due to ists large size but the data can be downloaded separately
+  - `data/animals/output/`: Directory for output data of animal-rfam cmscan. Contains the deoverlapped tblout scan of each animal genome with the different rfam models.
+  - `data/animals/rfam/`: Directory for Rfam models for animals.
+  - `data/animals/bosTau9.fa`: FASTA file for Bos taurus (cow) genome.
+  - `data/animals/bosTau9.vcf`: VCF file for Bos taurus (cow) variants.
+  - `data/animals/danRer11.fa`: FASTA file for Danio rerio (zebrafish) genome.
+  - `data/animals/danRer11.vcf`: VCF file for Danio rerio (zebrafish) variants.
+  - `data/animals/galGal6.fa`: FASTA file for Gallus gallus (chicken) genome.
+  - `data/animals/galGal6.vcf`: VCF file for Gallus gallus (chicken) variants.
+  - `data/animals/hg38.fa`: FASTA file for Homo sapiens (human) genome.
+  - `data/animals/hg38.vcf`: VCF file for Homo sapiens (human) variants.
+  - `data/animals/mm39.fa`: FASTA file for Mus musculus (mouse) genome.
+  - `data/animals/mm39.vcf`: VCF file for Mus musculus (mouse) variants.
+  - `data/animals/rn7.fa`: FASTA file for Rattus norvegicus (rat) genome.
+  - `data/animals/rn7.vcf`: VCF file for Rattus norvegicus (rat) variants.
+- `data/BLASTN_RefSeq/`: Directory containing BLASTN results from NCBI RefSeq downloaded as separate JSONs. This directory is not tracked due to its large size.
+- `data/FASTA/`: Directory containing FASTA sequence files for various ncRNAs.
+- `data/fastq/`: Directory containing FastQ converted sequences for analysis with GED-MAP.
+- `data/GEDS/`: Directory containing data for genomic datasets related to the pangenome. This directory is not tracked due to its large size but the contents can be made using the scripts in bin/.
+- `data/separated_genome_sam/`: Directory containing separated SAM files for genome data.
+- `data/VCF/`: Directory containing genome VCF files. Untracked due to size, contents can be made using scripts in bin/.
+- `data/adjusted_genome_alignment.sam`: SAM file for adjusted genome alignment.
+- `data/aligned_genome_reads.sam`: SAM file for aligned genome reads.
+- `data/aligned_reads.sam`: SAM file for aligned sequence reads.
+- `data/animals_var.csv`: CSV file containing variant data for different animals.
+- `data/BLASTn_results_summary.csv`: CSV file summarizing BLASTn results.
+- `data/combined_sequences.fa`: Combined FASTA file for sequences across multiple sources.
+- `data/EXTENDED_filtered_variants.csv`: CSV file containing extended filtered variant data.
+- `data/EXTENDED_pangenome_summary.csv`: CSV file summarizing extended pangenome data.
+- `data/EXTENDED_SNP_data.txt`: Text file containing extended SNP data.
+- `data/filtered_ncRNA_list.csv`: CSV file containing a filtered list of ncRNAs.
+- `data/filtered_variants.csv`: CSV file containing filtered variants.
+- `data/filtered_variants.vcf`: VCF file containing filtered variants.
+- `data/other_animals_RNA.csv`: CSV file containing RNA data for other animals.
+- `data/pangenome_summary.csv`: CSV file summarizing pangenome data.
+- `data/SNP_data.txt`: Text file containing SNP data for the pangenome.
+- `data/SNP-densities-and-RNA.csv`: CSV file containing SNP density data and corresponding RNA sequences.
 
 ## Dependencies
 - Python (3.10.12)
@@ -89,12 +150,25 @@ The pipeline follows several key steps to identify SNP variation density pattern
 - External Libraries:
   - [GED-MAP](https://github.com/thomas-buechler-ulm/gedmap)
   - [SDSL library](https://github.com/simongog/sdsl-lite)
+  - [Rfam CM](https://docs.rfam.org/en/latest/genome-annotation.html)
+  - [UCSC twoBitToFa (9.0M)](https://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/)
 
 
 ### Data
 - Pangenome HPRC variant data: [UCSC download - HPRC decomposed.vcf.gz (899M)](https://hgdownload.soe.ucsc.edu/gbdb/hg38/hprc/)
 - Human SNP variation data: [dbSnp155.bb (68G)](http://hgdownload.soe.ucsc.edu/gbdb/hg38/snp/)
 - Human Chromosome sequences: [UCSC: hg38 chromosomes ](https://hgdownload.soe.ucsc.edu/goldenpath/hg38/chromosomes/)
+- Human genome: [hg38.2bit (797M)](http://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/)
+- Chicken genome: [galGal6.2bit (299M)](https://hgdownload.soe.ucsc.edu/goldenPath/galGal6/bigZips/)
+- Chicken variation: [9031_GCA_000002315.5_current_ids.vcf.gz (361M)](https://ftp.ebi.ac.uk/pub/databases/eva/rs_releases/release_6/by_species/gallus_gallus/GCA_000002315.5/)
+- Mouse genome: [mm39.2bit (681M)](https://hgdownload.soe.ucsc.edu/goldenPath/mm39/bigZips/)
+- Mouse variation: [10090_GCA_000001635.9_current_ids.vcf.gz (1.6G)](https://ftp.ebi.ac.uk/pub/databases/eva/rs_releases/release_6/by_species/mus_musculus/GCA_000001635.9/)
+- Rat genome: [rn7.2bit (660M)](https://hgdownload.soe.ucsc.edu/goldenPath/rn7/bigZips/)
+- Rat variation: [10116_GCA_015227675.2_current_ids.vcf.gz (100M)](https://ftp.ebi.ac.uk/pub/databases/eva/rs_releases/release_6/by_species/rattus_norvegicus/GCA_015227675.2/)
+- Zebrafish genome: [danRer11.2bit (421M)](https://hgdownload.soe.ucsc.edu/goldenPath/danRer11/bigZips/)
+- Zebrafish variation: [7955_GCA_000002035.4_current_ids.vcf.gz (201M)](https://ftp.ebi.ac.uk/pub/databases/eva/rs_releases/release_6/by_species/danio_rerio/GCA_000002035.4/)
+- Cow genome: [bosTau9.2bit(680M)](https://hgdownload.soe.ucsc.edu/goldenPath/bosTau9/bigZips/)
+- Cow variation: [9913_GCA_002263795.2_current_ids.vcf.gz (1.5G)](https://ftp.ebi.ac.uk/pub/databases/eva/rs_releases/release_6/by_species/bos_taurus/GCA_002263795.2/)
 
 ### Author
 [Nadia Prasetyo](https://github.com/NadiaPrasetyo)
