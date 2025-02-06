@@ -181,5 +181,6 @@ data/animals/
 !data/animals/output/
 *.bigWig
 data/*.bigWig
+*.bigBed
 
 .pybiomart.sqlite
