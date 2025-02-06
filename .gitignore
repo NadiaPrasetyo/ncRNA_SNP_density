@@ -179,5 +179,6 @@ data/hg38.fa
 data/animals/rfam/
 data/animals/
 !data/animals/output/
+*.bigWig
 
 .pybiomart.sqlite
