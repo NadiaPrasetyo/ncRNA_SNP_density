@@ -10,12 +10,15 @@ data_directory = 'data/'
 input_csv_file = 'data/SNP-densities-and-RNA.csv'
 
 # Output CSV file path
-output_csv_file = 'CpG_methylation_data.csv'
+output_csv_file = 'output_methylation_data.csv'
 
 # Function to process the BigBed files and fetch methylation data for the given gene regions
 def process_bigbed_file_for_genes(bigbed_filename, genes, output_writer):
     try:
         print(f"\nProcessing file: {bigbed_filename}")
+        
+        # Extract tissue from the filename (assumes format: ENCFFXXXXXX_tissue_CpG.bigBed)
+        tissue = os.path.basename(bigbed_filename).split('_')[1]
         
         # Open the BigBed file with pyBigWig
         bw = pyBigWig.open(bigbed_filename)
@@ -54,7 +57,7 @@ def process_bigbed_file_for_genes(bigbed_filename, genes, output_writer):
                 methylation_percentage = tab_data[7]  # Percentage of read showing methylation
 
                 # Write the relevant information to the CSV
-                output_writer.writerow([chrom, strand, start, end, methylation_percentage, gene_name])
+                output_writer.writerow([chrom, strand, start, end, methylation_percentage, gene_name, tissue])
 
         # Close the BigBed file
         bw.close()
@@ -98,7 +101,7 @@ def main():
     with open(output_csv_file, mode='w', newline='') as output_file:
         output_writer = csv.writer(output_file)
         # Write the header row
-        output_writer.writerow(['Chromosome', 'Strand', 'Start', 'End', 'Methylation_Percentage', 'GeneName'])
+        output_writer.writerow(['Chromosome', 'Strand', 'Start', 'End', 'Methylation_Percentage', 'GeneName', 'Tissue'])
         
         # Loop through all the BigBed files in the data directory
         for filename in os.listdir(data_directory):
