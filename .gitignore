@@ -182,5 +182,6 @@ data/animals/
 *.bigWig
 data/*.bigWig
 *.bigBed
+*.bed
 
 .pybiomart.sqlite
