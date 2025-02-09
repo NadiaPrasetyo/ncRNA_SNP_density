@@ -10,7 +10,7 @@ data_directory = 'data/'
 input_csv_file = 'data/SNP_RNA_GC.csv'
 
 # Output CSV file path
-output_csv_file = 'output_methylation_data.csv'
+output_csv_file = 'data/CpG_methylation_data.csv'
 
 # Function to process the BigBed files and fetch methylation data for the given gene regions
 def process_bigbed_file_for_genes(bigbed_filename, genes, output_writer):
@@ -33,6 +33,8 @@ def process_bigbed_file_for_genes(bigbed_filename, genes, output_writer):
             gene_start = gene['Start']
             gene_end = gene['End']
             gene_name = gene['GeneName']
+            gene_length = gene['Length']  # Length field
+            median_cg_content = gene['Median_CG_Content']  # Median_CG_Content field
 
             print(f"  Querying region: {chrom}:{gene_start}-{gene_end} for gene: {gene_name}")
             
@@ -56,8 +58,8 @@ def process_bigbed_file_for_genes(bigbed_filename, genes, output_writer):
                 strand = tab_data[2]
                 methylation_percentage = tab_data[7]  # Percentage of read showing methylation
 
-                # Write the relevant information to the CSV
-                output_writer.writerow([chrom, strand, start, end, methylation_percentage, gene_name, tissue])
+                # Write the relevant information to the CSV, including Length and Median_CG_Content
+                output_writer.writerow([chrom, strand, start, end, methylation_percentage, gene_name, tissue, gene_length, median_cg_content])
 
         # Close the BigBed file
         bw.close()
@@ -79,7 +81,9 @@ def read_gene_regions(csv_filename):
                     'Chromosome': row['Chromosome'],
                     'Start': int(row['Start']),
                     'End': int(row['End']),
-                    'GeneName': row['GeneName']  # Add GeneName for output
+                    'GeneName': row['GeneName'],  # Add GeneName for output
+                    'Length': int(row['Length']),  # Include Length field
+                    'Median_CG_Content': float(row['Median_CG_Content'])  # Include Median_CG_Content field
                 }
                 genes.append(gene)
     except Exception as e:
@@ -100,8 +104,8 @@ def main():
     # Open the output CSV file for writing
     with open(output_csv_file, mode='w', newline='') as output_file:
         output_writer = csv.writer(output_file)
-        # Write the header row
-        output_writer.writerow(['Chromosome', 'Strand', 'Start', 'End', 'Methylation_Percentage', 'GeneName', 'Tissue'])
+        # Write the header row, including Length and Median_CG_Content
+        output_writer.writerow(['Chromosome', 'Strand', 'Start', 'End', 'Methylation_Percentage', 'GeneName', 'Tissue', 'Length', 'Median_CG_Content'])
         
         # Loop through all the BigBed files in the data directory
         for filename in os.listdir(data_directory):
