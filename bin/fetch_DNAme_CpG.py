@@ -7,7 +7,7 @@ import traceback
 data_directory = 'data/'
 
 # Path to your CSV file containing gene regions
-input_csv_file = 'data/SNP-densities-and-RNA.csv'
+input_csv_file = 'data/SNP_RNA_GC.csv'
 
 # Output CSV file path
 output_csv_file = 'output_methylation_data.csv'
