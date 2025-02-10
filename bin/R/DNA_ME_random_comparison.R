@@ -12,6 +12,9 @@ data$Methylation_Percentage <- as.numeric(data$Methylation_Percentage)
 print(str(data))
 
 # Part 1: Tissue-based analysis
+# Get the unique tissue types
+tissues <- unique(data$Tissue)
+
 # Loop through each tissue and create a scatter plot for gene vs random methylation percentages
 for (tissue in tissues) {
   tissue_data <- filter(data, Tissue == tissue)
@@ -41,9 +44,9 @@ for (tissue in tissues) {
   if (nrow(tissue_data) > 0) {
     # Check if data for plotting exists
     if (sum(tissue_data$GeneType == "Gene") > 0 && sum(tissue_data$GeneType == "Random") > 0) {
-      # Try using geom_boxplot to ensure data is being plotted
+      # Create scatter plot with jitter using geom_jitter
       plot <- ggplot(tissue_data, aes(x = GeneType, y = Methylation_Percentage, color = GeneType)) +
-        geom_boxplot(alpha = 0.7) +  # Change to boxplot to better visualize data distribution
+        geom_jitter(alpha = 0.7, size = 3, width = 0.1) +  # Jitter added here
         labs(
           title = paste("Methylation Percentage in", tissue),
           x = "Gene Type",
@@ -52,7 +55,7 @@ for (tissue in tissues) {
         theme_minimal()
       
       # Save plot as PDF
-      ggsave(paste0("../../results/DNAme/", tissue, "_boxplot.pdf"), plot)
+      ggsave(paste0("../../results/DNAme/", tissue, "_scatter_jitter_plot.pdf"), plot)
     } else {
       print(paste("No data to plot for tissue:", tissue))
     }
@@ -60,6 +63,8 @@ for (tissue in tissues) {
     print(paste("No data for tissue:", tissue))
   }
 }
+
+
 
 
 
