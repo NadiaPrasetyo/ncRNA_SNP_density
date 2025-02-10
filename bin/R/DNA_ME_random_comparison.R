@@ -67,68 +67,74 @@ for (tissue in tissues) {
 
 
 
-
-
 # Part 2: Individual gene analysis
 # Function to filter randoms based on gene's length and CG content
-#filter_randoms <- function(gene, tissue_data) {
-# randoms <- tissue_data %>%
-#    filter(
-#      grepl("^Random\\d+", GeneName),
-#      abs(Length - gene$Length) <= 200,
-#      abs(Median_CG_Content - gene$Median_CG_Content) <= 20
-#    )
-#  print(paste("Filtering Randoms for Gene:", gene$GeneName[1]))
-#  print(paste("Random Rows Found:", nrow(randoms)))
-#  return(randoms)
-#}
+filter_randoms <- function(gene, tissue_data) {
+  randoms <- tissue_data %>%
+    filter(
+      grepl("^Random\\d+", GeneName),
+      abs(Length - gene$Length) <= 200,
+      abs(Median_CG_Content - gene$Median_CG_Content) <= 20
+    )
+  print(paste("Filtering Randoms for Gene:", gene$GeneName[1]))
+  print(paste("Random Rows Found:", nrow(randoms)))
+  return(randoms)
+}
 
 # Get unique gene names excluding the "Random#" genes
-#genes <- unique(data$GeneName[!grepl("^Random\\d+", data$GeneName)])
+genes <- unique(data$GeneName[!grepl("^Random\\d+", data$GeneName)])
+
+# Define the desired order for GeneType on the x-axis
+desired_order <- c("blood", "random blood", "embryo", "random embryo", 
+                   "brain", "random brain", "epithelium", "random epithelium")
 
 # Loop through each gene for individual analysis
-#for (gene in genes) {
-#  gene_data <- filter(data, GeneName == gene)
+for (gene in genes) {
+  gene_data <- filter(data, GeneName == gene)
   
   # Create an empty data frame to store the results for each gene and tissue
-#  all_data <- data.frame(
-#    Tissue = character(),
- #   Methylation_Percentage = numeric(),
-  #  GeneType = character()
-#  )
+  all_data <- data.frame(
+    Tissue = character(),
+    Methylation_Percentage = numeric(),
+    GeneType = character()
+  )
   
-#  print(paste("Processing Gene:", gene))
+  print(paste("Processing Gene:", gene))
   
-#  # Loop through each tissue to create random comparisons for the gene
- # for (tissue in tissues) {
-#    tissue_data <- filter(data, Tissue == tissue)
-#    randoms <- filter_randoms(gene_data[1, ], tissue_data)
+  # Loop through each tissue to create random comparisons for the gene
+  for (tissue in tissues) {
+    tissue_data <- filter(data, Tissue == tissue)
+    randoms <- filter_randoms(gene_data[1, ], tissue_data)
     
     # Combine gene data with the corresponding randoms
-#    all_data <- bind_rows(
-#      all_data,
-#      tissue_data %>% filter(GeneName == gene) %>% mutate(GeneType = tissue),
-#      randoms %>% mutate(GeneType = paste("random", tissue, sep = " "))
-#    )
-#  }
+    all_data <- bind_rows(
+      all_data,
+      tissue_data %>% filter(GeneName == gene) %>% mutate(GeneType = tissue),
+      randoms %>% mutate(GeneType = paste("random", tissue, sep = " "))
+    )
+  }
   
   # If there is data for the gene, create and save the scatter plot
-#  if (nrow(all_data) > 0) {
-#    print(paste("Rows in Final Plot Data for Gene", gene, ":", nrow(all_data)))
+  if (nrow(all_data) > 0) {
+    print(paste("Rows in Final Plot Data for Gene", gene, ":", nrow(all_data)))
     
-#    plot <- ggplot(all_data, aes(x = GeneType, y = Methylation_Percentage, color = GeneType)) +
-#      geom_jitter(width = 0.2, alpha = 0.7) +
-#      labs(
- #       title = paste("Methylation Percentage for", gene),
-#        x = "Tissue and Random Comparison",
-#        y = "Methylation Percentage"
-#      ) +
-#      theme_minimal() +
-#      theme(axis.text.x = element_text(angle = 45, hjust = 1))
+    # Ensure the order of GeneType on the x-axis
+    all_data$GeneType <- factor(all_data$GeneType, levels = desired_order)
+    
+    plot <- ggplot(all_data, aes(x = GeneType, y = Methylation_Percentage, color = GeneType)) +
+      geom_jitter(width = 0.2, alpha = 0.7) +
+      labs(
+        title = paste("Methylation Percentage for", gene),
+        x = "Tissue and Random Comparison",
+        y = "Methylation Percentage"
+      ) +
+      theme_minimal() +
+      theme(axis.text.x = element_text(angle = 45, hjust = 1))
     
     # Save plot as PDF
-#    ggsave(paste0("../../results/DNAme/", gene, "_individual_scatter_plot.pdf"), plot)
- # } else {
-#    print(paste("No data for gene:", gene))
- # }
-#}
+    ggsave(paste0("../../results/DNAme/", gene, "_individual_scatter_plot.pdf"), plot)
+  } else {
+    print(paste("No data for gene:", gene))
+  }
+}
+
