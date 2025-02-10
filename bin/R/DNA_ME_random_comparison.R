@@ -1,0 +1,128 @@
+# Load required libraries
+library(dplyr)
+library(ggplot2)
+
+# Load data
+data <- read.csv("../../data/CpG_methylation_data.csv")
+
+# Convert Methylation_Percentage to numeric
+data$Methylation_Percentage <- as.numeric(data$Methylation_Percentage)
+
+# Check structure of the data
+print(str(data))
+
+# Part 1: Tissue-based analysis
+# Loop through each tissue and create a scatter plot for gene vs random methylation percentages
+for (tissue in tissues) {
+  tissue_data <- filter(data, Tissue == tissue)
+  
+  # Create a GeneType column to differentiate genes and randoms
+  tissue_data <- tissue_data %>%
+    mutate(GeneType = ifelse(grepl("^Random\\d+", GeneName), "Random", "Gene"))
+  
+  # Debugging: Print unique GeneType values to check if the filtering is correct
+  print(paste("Processing Tissue:", tissue))
+  print("Unique GeneTypes in Tissue Data:")
+  print(unique(tissue_data$GeneType))
+  
+  # Debugging: Print the number of rows for Gene and Random
+  print(paste("Gene Rows:", sum(tissue_data$GeneType == "Gene")))
+  print(paste("Random Rows:", sum(tissue_data$GeneType == "Random")))
+  
+  # Check if there are any NA values in Methylation_Percentage
+  if (any(is.na(tissue_data$Methylation_Percentage))) {
+    print("Warning: NA values found in Methylation_Percentage")
+    tissue_data <- filter(tissue_data, !is.na(Methylation_Percentage))
+  }
+  
+  # Debugging: Check if there are any zero rows after NA removal
+  print(paste("Rows after removing NA in Methylation_Percentage:", nrow(tissue_data)))
+  
+  if (nrow(tissue_data) > 0) {
+    # Check if data for plotting exists
+    if (sum(tissue_data$GeneType == "Gene") > 0 && sum(tissue_data$GeneType == "Random") > 0) {
+      # Try using geom_boxplot to ensure data is being plotted
+      plot <- ggplot(tissue_data, aes(x = GeneType, y = Methylation_Percentage, color = GeneType)) +
+        geom_boxplot(alpha = 0.7) +  # Change to boxplot to better visualize data distribution
+        labs(
+          title = paste("Methylation Percentage in", tissue),
+          x = "Gene Type",
+          y = "Methylation Percentage"
+        ) +
+        theme_minimal()
+      
+      # Save plot as PDF
+      ggsave(paste0("../../results/DNAme/", tissue, "_boxplot.pdf"), plot)
+    } else {
+      print(paste("No data to plot for tissue:", tissue))
+    }
+  } else {
+    print(paste("No data for tissue:", tissue))
+  }
+}
+
+
+
+# Part 2: Individual gene analysis
+# Function to filter randoms based on gene's length and CG content
+#filter_randoms <- function(gene, tissue_data) {
+# randoms <- tissue_data %>%
+#    filter(
+#      grepl("^Random\\d+", GeneName),
+#      abs(Length - gene$Length) <= 200,
+#      abs(Median_CG_Content - gene$Median_CG_Content) <= 20
+#    )
+#  print(paste("Filtering Randoms for Gene:", gene$GeneName[1]))
+#  print(paste("Random Rows Found:", nrow(randoms)))
+#  return(randoms)
+#}
+
+# Get unique gene names excluding the "Random#" genes
+#genes <- unique(data$GeneName[!grepl("^Random\\d+", data$GeneName)])
+
+# Loop through each gene for individual analysis
+#for (gene in genes) {
+#  gene_data <- filter(data, GeneName == gene)
+  
+  # Create an empty data frame to store the results for each gene and tissue
+#  all_data <- data.frame(
+#    Tissue = character(),
+ #   Methylation_Percentage = numeric(),
+  #  GeneType = character()
+#  )
+  
+#  print(paste("Processing Gene:", gene))
+  
+#  # Loop through each tissue to create random comparisons for the gene
+ # for (tissue in tissues) {
+#    tissue_data <- filter(data, Tissue == tissue)
+#    randoms <- filter_randoms(gene_data[1, ], tissue_data)
+    
+    # Combine gene data with the corresponding randoms
+#    all_data <- bind_rows(
+#      all_data,
+#      tissue_data %>% filter(GeneName == gene) %>% mutate(GeneType = tissue),
+#      randoms %>% mutate(GeneType = paste("random", tissue, sep = " "))
+#    )
+#  }
+  
+  # If there is data for the gene, create and save the scatter plot
+#  if (nrow(all_data) > 0) {
+#    print(paste("Rows in Final Plot Data for Gene", gene, ":", nrow(all_data)))
+    
+#    plot <- ggplot(all_data, aes(x = GeneType, y = Methylation_Percentage, color = GeneType)) +
+#      geom_jitter(width = 0.2, alpha = 0.7) +
+#      labs(
+ #       title = paste("Methylation Percentage for", gene),
+#        x = "Tissue and Random Comparison",
+#        y = "Methylation Percentage"
+#      ) +
+#      theme_minimal() +
+#      theme(axis.text.x = element_text(angle = 45, hjust = 1))
+    
+    # Save plot as PDF
+#    ggsave(paste0("../../results/DNAme/", gene, "_individual_scatter_plot.pdf"), plot)
+ # } else {
+#    print(paste("No data for gene:", gene))
+ # }
+#}
