@@ -4,7 +4,7 @@ library(ggplot2)
 library(stats)  # For KS test
 
 # Load data
-data <- read.csv("../../data/CpG_methylation_data.csv")
+data <- read.csv("../../data/CHH_methylation_data.csv")
 
 # Convert Methylation_Percentage to numeric
 data$Methylation_Percentage <- as.numeric(data$Methylation_Percentage)
@@ -40,9 +40,13 @@ for (tissue in tissues) {
     # Store KS test results
     ks_results <- rbind(ks_results, data.frame(Tissue = tissue, KS_Statistic = ks_test$statistic, P_Value = ks_test$p.value))
     
+    # Calculate median points
+    medians <- tissue_data %>% group_by(GeneType) %>% summarise(Median = median(Methylation_Percentage, na.rm = TRUE))
+    
     # Create scatter plot
     plot <- ggplot(tissue_data, aes(x = GeneType, y = Methylation_Percentage, color = GeneType)) +
       geom_jitter(alpha = 0.7, size = 3, width = 0.1) +  # Jitter added here
+      geom_point(data = medians, aes(x = GeneType, y = Median), color = "black", size = 4, shape = 18) +  # Add median points
       labs(
         title = paste("Methylation Percentage in", tissue),
         x = "Gene Type",
@@ -51,16 +55,14 @@ for (tissue in tissues) {
       theme_minimal()
     
     # Save plot as PDF
-    ggsave(paste0("../../results/DNAme/", tissue, "_scatter_jitter_plot.pdf"), plot)
+    ggsave(paste0("../../results/DNAme/", tissue, "_CHH_scatter_jitter_plot.pdf"), plot)
   } else {
     print(paste("No sufficient data for KS test in tissue:", tissue))
   }
 }
 
 # Save KS test results to CSV
-write.csv(ks_results, "../../results/DNAme/ks_test_results.csv", row.names = FALSE)
-
-
+write.csv(ks_results, "../../results/DNAme/_CHH_ks_test_results.csv", row.names = FALSE)
 
 
 # Part 2: Individual gene analysis
@@ -117,8 +119,12 @@ for (gene in genes) {
     # Ensure the order of GeneType on the x-axis
     all_data$GeneType <- factor(all_data$GeneType, levels = desired_order)
     
+    # Calculate median points
+    medians <- all_data %>% group_by(GeneType) %>% summarise(Median = median(Methylation_Percentage, na.rm = TRUE))
+    
     plot <- ggplot(all_data, aes(x = GeneType, y = Methylation_Percentage, color = GeneType)) +
       geom_jitter(width = 0.2, alpha = 0.7) +
+      geom_point(data = medians, aes(x = GeneType, y = Median), color = "black", size = 4, shape = 18) +  # Add median points
       labs(
         title = paste("Methylation Percentage for", gene),
         x = "Tissue and Random Comparison",
@@ -128,9 +134,8 @@ for (gene in genes) {
       theme(axis.text.x = element_text(angle = 45, hjust = 1))
     
     # Save plot as PDF
-    ggsave(paste0("../../results/DNAme/", gene, "_individual_scatter_plot.pdf"), plot)
+    ggsave(paste0("../../results/DNAme/", gene, "_CHH_individual_scatter_plot.pdf"), plot)
   } else {
     print(paste("No data for gene:", gene))
   }
 }
-
