@@ -1,6 +1,7 @@
 # Load required libraries
 library(dplyr)
 library(ggplot2)
+library(stats)  # For KS test
 
 # Load data
 data <- read.csv("../../data/CpG_methylation_data.csv")
@@ -10,6 +11,9 @@ data$Methylation_Percentage <- as.numeric(data$Methylation_Percentage)
 
 # Check structure of the data
 print(str(data))
+
+# Create a dataframe to store KS test results
+ks_results <- data.frame(Tissue = character(), KS_Statistic = numeric(), P_Value = numeric(), stringsAsFactors = FALSE)
 
 # Part 1: Tissue-based analysis
 # Get the unique tissue types
@@ -23,46 +27,38 @@ for (tissue in tissues) {
   tissue_data <- tissue_data %>%
     mutate(GeneType = ifelse(grepl("^Random\\d+", GeneName), "Random", "Gene"))
   
-  # Debugging: Print unique GeneType values to check if the filtering is correct
   print(paste("Processing Tissue:", tissue))
-  print("Unique GeneTypes in Tissue Data:")
-  print(unique(tissue_data$GeneType))
   
-  # Debugging: Print the number of rows for Gene and Random
-  print(paste("Gene Rows:", sum(tissue_data$GeneType == "Gene")))
-  print(paste("Random Rows:", sum(tissue_data$GeneType == "Random")))
+  # Extract methylation percentages for genes and randoms
+  gene_methylation <- tissue_data$Methylation_Percentage[tissue_data$GeneType == "Gene"]
+  random_methylation <- tissue_data$Methylation_Percentage[tissue_data$GeneType == "Random"]
   
-  # Check if there are any NA values in Methylation_Percentage
-  if (any(is.na(tissue_data$Methylation_Percentage))) {
-    print("Warning: NA values found in Methylation_Percentage")
-    tissue_data <- filter(tissue_data, !is.na(Methylation_Percentage))
-  }
-  
-  # Debugging: Check if there are any zero rows after NA removal
-  print(paste("Rows after removing NA in Methylation_Percentage:", nrow(tissue_data)))
-  
-  if (nrow(tissue_data) > 0) {
-    # Check if data for plotting exists
-    if (sum(tissue_data$GeneType == "Gene") > 0 && sum(tissue_data$GeneType == "Random") > 0) {
-      # Create scatter plot with jitter using geom_jitter
-      plot <- ggplot(tissue_data, aes(x = GeneType, y = Methylation_Percentage, color = GeneType)) +
-        geom_jitter(alpha = 0.7, size = 3, width = 0.1) +  # Jitter added here
-        labs(
-          title = paste("Methylation Percentage in", tissue),
-          x = "Gene Type",
-          y = "Methylation Percentage"
-        ) +
-        theme_minimal()
-      
-      # Save plot as PDF
-      ggsave(paste0("../../results/DNAme/", tissue, "_scatter_jitter_plot.pdf"), plot)
-    } else {
-      print(paste("No data to plot for tissue:", tissue))
-    }
+  if (length(gene_methylation) > 0 && length(random_methylation) > 0) {
+    # Perform KS test
+    ks_test <- ks.test(gene_methylation, random_methylation)
+    
+    # Store KS test results
+    ks_results <- rbind(ks_results, data.frame(Tissue = tissue, KS_Statistic = ks_test$statistic, P_Value = ks_test$p.value))
+    
+    # Create scatter plot
+    plot <- ggplot(tissue_data, aes(x = GeneType, y = Methylation_Percentage, color = GeneType)) +
+      geom_jitter(alpha = 0.7, size = 3, width = 0.1) +  # Jitter added here
+      labs(
+        title = paste("Methylation Percentage in", tissue),
+        x = "Gene Type",
+        y = "Methylation Percentage"
+      ) +
+      theme_minimal()
+    
+    # Save plot as PDF
+    ggsave(paste0("../../results/DNAme/", tissue, "_scatter_jitter_plot.pdf"), plot)
   } else {
-    print(paste("No data for tissue:", tissue))
+    print(paste("No sufficient data for KS test in tissue:", tissue))
   }
 }
+
+# Save KS test results to CSV
+write.csv(ks_results, "../../results/DNAme/ks_test_results.csv", row.names = FALSE)
 
 
 

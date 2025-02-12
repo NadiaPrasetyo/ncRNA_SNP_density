@@ -12,6 +12,9 @@ input_csv_file = 'data/SNP_RNA_GC.csv'
 # Output CSV file path
 output_csv_file = 'data/CpG_methylation_data.csv'
 
+# List to store genes where methylation percentage could not be found
+missing_genes = []
+
 # Function to process the BigBed files and fetch methylation data for the given gene regions
 def process_bigbed_file_for_genes(bigbed_filename, genes, output_writer):
     try:
@@ -43,8 +46,11 @@ def process_bigbed_file_for_genes(bigbed_filename, genes, output_writer):
             
             if entries is None:
                 print(f"  No entries found for region: {chrom}:{gene_start}-{gene_end}")
+                missing_genes.append(gene_name)
                 continue
             
+            found_methylation = False  # Track if we found methylation data for this gene
+
             for start, end, score in entries:
                 # Process the tab-separated data in score
                 tab_data = score.split('\t')
@@ -60,6 +66,12 @@ def process_bigbed_file_for_genes(bigbed_filename, genes, output_writer):
 
                 # Write the relevant information to the CSV, including Length and Median_CG_Content
                 output_writer.writerow([chrom, strand, start, end, methylation_percentage, gene_name, tissue, gene_length, median_cg_content])
+
+                found_methylation = True
+
+            # If no methylation data was found, add the gene to the missing list
+            if not found_methylation:
+                missing_genes.append(gene_name)
 
         # Close the BigBed file
         bw.close()
@@ -111,6 +123,12 @@ def main():
         for filename in os.listdir(data_directory):
             if filename.endswith('.bigBed'):  # Check if it's a BigBed file
                 process_bigbed_file_for_genes(os.path.join(data_directory, filename), genes, output_writer)
+
+    # Print all genes where methylation percentage could not be found
+    if missing_genes:
+        print("\nGenes where methylation percentage could not be found:")
+        for gene in set(missing_genes):  # Use set to avoid duplicate gene names
+            print(f"  - {gene}")
 
 # Run the script
 if __name__ == "__main__":

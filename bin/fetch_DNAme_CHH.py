@@ -1,12 +1,11 @@
 import os
 import csv
 import re
+import itertools
 
-# Function to read .bed files and process gene ranges
 def process_bed_files(bed_folder, gene_csv, output_csv):
     print("Reading gene ranges from CSV...")
 
-    # Read the gene ranges from the input CSV and organize them by chromosome
     gene_ranges_by_chromosome = {}
     with open(gene_csv, 'r') as csv_file:
         reader = csv.DictReader(csv_file)
@@ -18,42 +17,45 @@ def process_bed_files(bed_folder, gene_csv, output_csv):
                 'Start': int(row['Start']),
                 'End': int(row['End']),
                 'GeneName': row['GeneName'],
-                'Strand': row.get('Strand', '.'),  # Default strand to '.' if not provided
+                'Strand': row.get('Strand', '.'),
                 'Length': row['Length'],
                 'Median_CG_Content': row['Median_CG_Content']
             })
-
+    
     chromosomes_to_process = set(gene_ranges_by_chromosome.keys())
     print(f"Loaded gene ranges for {len(chromosomes_to_process)} chromosomes.")
 
-    # Prepare the output CSV
     output_fields = ['Chromosome', 'Strand', 'Start', 'End', 'Methylation_Percentage', 'GeneName', 'Tissue', 'Length', 'Median_CG_Content']
     with open(output_csv, 'w', newline='') as out_file:
         writer = csv.DictWriter(out_file, fieldnames=output_fields)
         writer.writeheader()
 
-        # Process each .bed file
         bed_files = [f for f in os.listdir(bed_folder) if f.endswith('.bed')]
         print(f"Found {len(bed_files)} .bed files to process.")
 
         for bed_file in bed_files:
-            # Extract tissue name from the file name using regex
+            if "embryo" in bed_file.lower() or "blood" in bed_file.lower():
+                print(f"Skipping {bed_file}...")
+                continue
+
             match = re.search(r'_([a-zA-Z0-9]+)_CHH\.bed$', bed_file)
             tissue_name = match.group(1) if match else "unknown"
-
             bed_file_path = os.path.join(bed_folder, bed_file)
 
             print(f"Processing {bed_file} (tissue: {tissue_name})...")
             processed_lines = 0
             overlaps_found = 0
             skipped_lines = 0
-
+            
+            start_line = 55884000 if "brain" in bed_file.lower() else 0
             try:
                 with open(bed_file_path, 'r') as bed:
+                    if start_line > 0:
+                        print(f"Skipping first {start_line} lines in {bed_file}...")
+                        bed = itertools.islice(bed, start_line, None)
+                    
                     for line in bed:
                         processed_lines += 1
-
-                        # Process every 1000 lines to monitor progress
                         if processed_lines % 1000 == 0:
                             print(f"Processed {processed_lines} lines so far in {bed_file}...")
 
@@ -64,16 +66,13 @@ def process_bed_files(bed_folder, gene_csv, output_csv):
                         strand = fields[5]
                         methylation_percentage = float(fields[10])
 
-                        # Skip lines for chromosomes not in the CSV
                         if bed_chrom not in chromosomes_to_process:
                             skipped_lines += 1
                             continue
 
-                        # Check if this region overlaps with any gene range for this chromosome
                         for gene in gene_ranges_by_chromosome[bed_chrom]:
                             if bed_start <= gene['End'] and bed_end >= gene['Start']:
                                 overlaps_found += 1
-                                # Collect overlapping methylation data
                                 writer.writerow({
                                     'Chromosome': bed_chrom,
                                     'Strand': strand,
@@ -92,13 +91,12 @@ def process_bed_files(bed_folder, gene_csv, output_csv):
 
     print(f"Methylation data has been written to {output_csv}.")
 
-# Paths to input and output files
 bed_folder_path = "data/"
 gene_csv_path = "data/SNP_RNA_GC.csv"
-output_csv_path = "data/CHH_methylation_data.csv"
+output_csv_path = "data/CHH_methylation_data_temp.csv"
 
-# Call the function to process the files
 process_bed_files(bed_folder_path, gene_csv_path, output_csv_path)
+
 
 
 #order: chromosome, start, end, name of item, score, strand, colour, coverage/number of reads, percentage of reads that show methylation at this position in the genome
