@@ -40,17 +40,23 @@ for (tissue in tissues) {
     # Store KS test results
     ks_results <- rbind(ks_results, data.frame(Tissue = tissue, KS_Statistic = ks_test$statistic, P_Value = ks_test$p.value))
     
-    # Calculate median points
-    medians <- tissue_data %>% group_by(GeneType) %>% summarise(Median = median(Methylation_Percentage, na.rm = TRUE))
+    # Calculate median and mean points
+    summary_stats <- tissue_data %>% group_by(GeneType) %>% summarise(
+      Median = median(Methylation_Percentage, na.rm = TRUE),
+      Mean = mean(Methylation_Percentage, na.rm = TRUE)
+    )
     
     # Create scatter plot
     plot <- ggplot(tissue_data, aes(x = GeneType, y = Methylation_Percentage, color = GeneType)) +
       geom_jitter(alpha = 0.7, size = 3, width = 0.1) +  # Jitter added here
-      geom_point(data = medians, aes(x = GeneType, y = Median), color = "black", size = 4, shape = 18) +  # Add median points
+      geom_point(data = summary_stats, aes(x = GeneType, y = Median), color = "black", size = 4, shape = 18) +  # Add median points
+      geom_point(data = summary_stats, aes(x = GeneType, y = Mean), color = "red", size = 4, shape = 17) +  # Add mean points
+      geom_text(data = summary_stats, aes(x = GeneType, y = Mean, label = round(Mean, 2)), vjust = -1, color = "red") +
+      scale_y_continuous(trans = "log10") +  # Scale transformation for better outlier visualization
       labs(
         title = paste("Methylation Percentage in", tissue),
         x = "Gene Type",
-        y = "Methylation Percentage"
+        y = "Methylation Percentage (log scale)"
       ) +
       theme_minimal()
     
@@ -119,23 +125,21 @@ for (gene in genes) {
     # Ensure the order of GeneType on the x-axis
     all_data$GeneType <- factor(all_data$GeneType, levels = desired_order)
     
-    # Calculate median points
-    medians <- all_data %>% group_by(GeneType) %>% summarise(Median = median(Methylation_Percentage, na.rm = TRUE))
+    # Calculate summary statistics
+    summary_stats <- all_data %>% group_by(GeneType) %>% summarise(
+      Median = median(Methylation_Percentage, na.rm = TRUE),
+      Mean = mean(Methylation_Percentage, na.rm = TRUE)
+    )
     
     plot <- ggplot(all_data, aes(x = GeneType, y = Methylation_Percentage, color = GeneType)) +
       geom_jitter(width = 0.2, alpha = 0.7) +
-      geom_point(data = medians, aes(x = GeneType, y = Median), color = "black", size = 4, shape = 18) +  # Add median points
-      labs(
-        title = paste("Methylation Percentage for", gene),
-        x = "Tissue and Random Comparison",
-        y = "Methylation Percentage"
-      ) +
+      geom_point(data = summary_stats, aes(x = GeneType, y = Median), color = "black", size = 4, shape = 18) +
+      geom_point(data = summary_stats, aes(x = GeneType, y = Mean), color = "red", size = 4, shape = 17) +
+      geom_text(data = summary_stats, aes(x = GeneType, y = Mean, label = round(Mean, 2)), vjust = -1, color = "red") +
+      scale_y_continuous(trans = "log10") +
       theme_minimal() +
       theme(axis.text.x = element_text(angle = 45, hjust = 1))
     
-    # Save plot as PDF
     ggsave(paste0("../../results/DNAme/", gene, "_CHH_individual_scatter_plot.pdf"), plot)
-  } else {
-    print(paste("No data for gene:", gene))
   }
 }
