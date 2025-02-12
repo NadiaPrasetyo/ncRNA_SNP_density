@@ -15,6 +15,38 @@ output_csv_file = 'data/CpG_methylation_data.csv'
 # List to store genes where methylation percentage could not be found
 missing_genes = []
 
+# Function to read and sort the gene regions from the CSV file
+def read_gene_regions(csv_filename):
+    genes = []
+    try:
+        with open(csv_filename, mode='r') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                # Extract the necessary fields
+                gene = {
+                    'Chromosome': row['Chromosome'],
+                    'Start': int(row['Start']),
+                    'End': int(row['End']),
+                    'GeneName': row['GeneName'],  # Add GeneName for output
+                    'Length': int(row['Length']) if row['Length'] else None,  # Handle missing Length values
+                    'Median_CG_Content': float(row['Median_CG_Content']) if row['Median_CG_Content'] else None  # Handle missing CG content
+                }
+                genes.append(gene)
+    except Exception as e:
+        print(f"Error reading CSV file {csv_filename}: {e}")
+        print("Traceback:")
+        traceback.print_exc()
+    
+    # Sort genes by Chromosome and Start position
+    genes.sort(key=lambda x: (x['Chromosome'], x['Start']))
+    
+    # Print all extracted gene names
+    print("\nExtracted genes from CSV:")
+    for gene in genes:
+        print(f"  - {gene['GeneName']} ({gene['Chromosome']}:{gene['Start']}-{gene['End']})")
+    
+    return genes
+
 # Function to process the BigBed files and fetch methylation data for the given gene regions
 def process_bigbed_file_for_genes(bigbed_filename, genes, output_writer):
     try:
@@ -36,8 +68,8 @@ def process_bigbed_file_for_genes(bigbed_filename, genes, output_writer):
             gene_start = gene['Start']
             gene_end = gene['End']
             gene_name = gene['GeneName']
-            gene_length = gene['Length']  # Length field
-            median_cg_content = gene['Median_CG_Content']  # Median_CG_Content field
+            gene_length = gene['Length']
+            median_cg_content = gene['Median_CG_Content']
 
             print(f"  Querying region: {chrom}:{gene_start}-{gene_end} for gene: {gene_name}")
             
@@ -60,7 +92,7 @@ def process_bigbed_file_for_genes(bigbed_filename, genes, output_writer):
                     print(f"  Malformed data in entry: {tab_data}")
                     continue
                 
-                # Extract the relevant fields from the tab-separated data
+                # Extract relevant fields
                 strand = tab_data[2]
                 methylation_percentage = tab_data[7]  # Percentage of read showing methylation
 
@@ -81,32 +113,9 @@ def process_bigbed_file_for_genes(bigbed_filename, genes, output_writer):
         print("Traceback:")
         traceback.print_exc()
 
-# Function to read the CSV file containing gene regions
-def read_gene_regions(csv_filename):
-    genes = []
-    try:
-        with open(csv_filename, mode='r') as file:
-            reader = csv.DictReader(file)
-            for row in reader:
-                # Extract the necessary fields
-                gene = {
-                    'Chromosome': row['Chromosome'],
-                    'Start': int(row['Start']),
-                    'End': int(row['End']),
-                    'GeneName': row['GeneName'],  # Add GeneName for output
-                    'Length': int(row['Length']),  # Include Length field
-                    'Median_CG_Content': float(row['Median_CG_Content'])  # Include Median_CG_Content field
-                }
-                genes.append(gene)
-    except Exception as e:
-        print(f"Error reading CSV file {csv_filename}: {e}")
-        print("Traceback:")
-        traceback.print_exc()
-    return genes
-
 # Main execution
 def main():
-    # Read gene regions from the input CSV file
+    # Read and sort gene regions from the input CSV file
     genes = read_gene_regions(input_csv_file)
     
     if not genes:
@@ -120,7 +129,7 @@ def main():
         output_writer.writerow(['Chromosome', 'Strand', 'Start', 'End', 'Methylation_Percentage', 'GeneName', 'Tissue', 'Length', 'Median_CG_Content'])
         
         # Loop through all the BigBed files in the data directory
-        for filename in os.listdir(data_directory):
+        for filename in sorted(os.listdir(data_directory)):  # Ensure consistent processing order
             if filename.endswith('.bigBed'):  # Check if it's a BigBed file
                 process_bigbed_file_for_genes(os.path.join(data_directory, filename), genes, output_writer)
 
