@@ -115,7 +115,7 @@ def main():
 
     # Generate random regions
     length_range = (min(lengths), max(lengths))
-    random_regions = generate_random_regions(length_range, 50, bw)
+    random_regions = generate_random_regions(length_range, 1000, bw)
 
     # Append random regions to the DataFrame
     if random_regions:  # Ensure random regions were generated
