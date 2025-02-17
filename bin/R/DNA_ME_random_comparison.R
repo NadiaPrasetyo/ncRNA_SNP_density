@@ -52,7 +52,6 @@ for (tissue in tissues) {
       geom_point(data = summary_stats, aes(x = GeneType, y = Median), color = "black", size = 4, shape = 18) +  # Add median points
       geom_point(data = summary_stats, aes(x = GeneType, y = Mean), color = "red", size = 4, shape = 17) +  # Add mean points
       geom_text(data = summary_stats, aes(x = GeneType, y = Mean, label = round(Mean, 2)), vjust = -1, color = "red") +
-      scale_y_continuous(trans = "log10") +  # Scale transformation for better outlier visualization
       labs(
         title = paste("Methylation Percentage in", tissue),
         x = "Gene Type",
@@ -136,7 +135,6 @@ for (gene in genes) {
       geom_point(data = summary_stats, aes(x = GeneType, y = Median), color = "black", size = 4, shape = 18) +
       geom_point(data = summary_stats, aes(x = GeneType, y = Mean), color = "red", size = 4, shape = 17) +
       geom_text(data = summary_stats, aes(x = GeneType, y = Mean, label = round(Mean, 2)), vjust = -1, color = "red") +
-      scale_y_continuous(trans = "log10") +
       theme_minimal() +
       theme(axis.text.x = element_text(angle = 45, hjust = 1))
     

@@ -7,14 +7,17 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Function to process .bed files in chunks
-def process_bed_files(bed_folder, gene_csv, output_csv, chunk_size=1000, stop_line=543926001):
+def process_bed_files(bed_folder, gene_csv, output_csv, chunk_size=1000):
     logging.info("Reading gene ranges from CSV...")
 
     # Create a dictionary for genes by chromosome
     gene_ranges_by_chromosome = {}
     with open(gene_csv, 'r') as csv_file:
         reader = csv.DictReader(csv_file)
-        for row in reader:
+        for i, row in enumerate(reader):
+            if i >= 250:
+                break  # Stop reading after 250 lines
+            
             chromosome = row['Chromosome']
             if chromosome not in gene_ranges_by_chromosome:
                 gene_ranges_by_chromosome[chromosome] = []
@@ -42,35 +45,19 @@ def process_bed_files(bed_folder, gene_csv, output_csv, chunk_size=1000, stop_li
             match = re.search(r'_([a-zA-Z0-9]+)_CHH\.bed$', bed_file)
             tissue_name = match.group(1) if match else "unknown"
 
-            # Skip unwanted tissues (embryo, blood, brain)
-            if "embryo" in tissue_name or "blood" in tissue_name or "brain" in tissue_name:
-                logging.info(f"Skipping {bed_file} (tissue: {tissue_name})")
-                continue
-
             bed_file_path = os.path.join(bed_folder, bed_file)
             logging.info(f"Processing {bed_file} (tissue: {tissue_name})...")
 
             processed_lines = 0
-            overlaps_found = 0
-            skipped_lines = 0
 
             try:
                 with open(bed_file_path, 'r') as bed:
-                    # Read and process in chunks of 1000 lines
                     chunk = []
                     for line in bed:
                         processed_lines += 1
-
-                        # Stop processing if the line exceeds the stop line
-                        if processed_lines > stop_line:
-                            logging.info(f"Reached stop line {stop_line}, stopping processing.")
-                            break
-
-                        # Every chunk_size lines, process the current chunk
                         if len(chunk) >= chunk_size:
-                            # Process current chunk
                             process_chunk(chunk, gene_ranges_by_chromosome, writer, tissue_name)
-                            chunk.clear()  # Clear the chunk to free memory
+                            chunk.clear()
                             logging.info(f"Processed {processed_lines} lines so far in {bed_file}...")
 
                         fields = line.strip().split('\t')
@@ -80,13 +67,11 @@ def process_bed_files(bed_folder, gene_csv, output_csv, chunk_size=1000, stop_li
                         strand = fields[5]
                         methylation_percentage = float(fields[10])
 
-                        # Store this line in the chunk
                         chunk.append((bed_chrom, bed_start, bed_end, strand, methylation_percentage))
 
-                    # Process the remaining lines in the last chunk
                     if chunk:
                         process_chunk(chunk, gene_ranges_by_chromosome, writer, tissue_name)
-                        logging.info(f"Processed {processed_lines} lines from {bed_file}. Found {overlaps_found} overlaps. Skipped {skipped_lines} lines.")
+                        logging.info(f"Finished processing {bed_file}.")
             except Exception as e:
                 logging.error(f"Error processing {bed_file}: {e}")
 
@@ -125,11 +110,5 @@ bed_folder_path = "data/"
 gene_csv_path = "data/SNP_RNA_GC.csv"
 output_csv_path = "data/CHH_methylation_data_temp.csv"
 
-# Run the processing function with the stop line
-process_bed_files(bed_folder_path, gene_csv_path, output_csv_path, stop_line=543926001)
-
-#order: chromosome, start, end, name of item, score, strand, colour, coverage/number of reads, percentage of reads that show methylation at this position in the genome
-#Processed 55883000 lines so far in ENCFF839MWC_brain_CHH.bed...
-# Processed 55884000 lines so far in ENCFF839MWC_brain_CHH.bed...
-# Processed 55885000 lines so far in ENCFF839MWC_brain_CHH.bed...
-#continue from brain line 55884000; skip embryo and blood
+# Run the processing function
+process_bed_files(bed_folder_path, gene_csv_path, output_csv_path)
