@@ -1,9 +1,11 @@
 import os
 import re
+from collections import defaultdict
 
 def separate_sam_by_genome_part(input_sam, output_dir):
     """
     Separates alignments in a SAM file into separate files based on the genome part of the filename.
+    Also counts genes that are not found in all genomes and collects genome appearances.
 
     Args:
         input_sam (str): Path to the input SAM file.
@@ -18,6 +20,10 @@ def separate_sam_by_genome_part(input_sam, output_dir):
     # Regular expression to extract genome from the filename
     genome_pattern = re.compile(r"-(\w+)\.sam$")
 
+    # Dictionary to track genes and the genomes they appear in
+    gene_presence = defaultdict(set)
+    all_genomes = set()
+
     try:
         with open(input_sam, 'r') as infile:
             for line in infile:
@@ -27,7 +33,7 @@ def separate_sam_by_genome_part(input_sam, output_dir):
                 
                 # Split the line by tab to extract the filename and the rest of the line
                 fields = line.strip().split('\t')
-                full_filename = fields[0]  # First column is the filename
+                full_filename = fields[0]  # First column is the filename (assumed to contain gene info)
 
                 # Extract genome part using regex
                 match = genome_pattern.search(full_filename)
@@ -35,7 +41,14 @@ def separate_sam_by_genome_part(input_sam, output_dir):
                     continue  # Skip lines with malformed filenames
                 
                 genome_part = match.group(1)  # Extracted genome name
-                
+                all_genomes.add(genome_part)
+
+                # Extract gene name (assuming it's in the first field)
+                gene_name = full_filename.split('-')[0]  # Adjust if necessary
+
+                # Track gene presence in genomes
+                gene_presence[gene_name].add(genome_part)
+
                 # Remove the filename column to preserve original SAM format
                 sam_line = '\t'.join(fields[1:])
                 
@@ -56,6 +69,17 @@ def separate_sam_by_genome_part(input_sam, output_dir):
             handle.close()
         print("Separation complete. All files have been saved.")
 
+    # Identify genes not found in all genomes
+    missing_genes = {
+        gene: genomes for gene, genomes in gene_presence.items()
+        if genomes != all_genomes
+    }
+
+    # Print missing gene information
+    print("\nGenes not found in all genomes:")
+    for gene, genomes in missing_genes.items():
+        missing_in = all_genomes - genomes
+        print(f"Gene: {gene} | Present in: {sorted(genomes)} | Missing in: {sorted(missing_in)}")
 
 if __name__ == "__main__":
     # Input SAM file

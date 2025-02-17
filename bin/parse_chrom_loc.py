@@ -1,3 +1,7 @@
+# THIS FILE DOES NOT WORK - the adjustment of the chromosomes assumes that all of the listed genomes have the same chromosomes but
+# looking at the UCSC documentation of chromosomes for the different assemblies, it seems like the chromosomes are not named in a sequential way
+# not sure but the locations cannot be mapped in the traditional way
+
 def get_chromosome_locations(genome_fasta):
     """
     Get the start and end positions of each chromosome in the genome FASTA file.
