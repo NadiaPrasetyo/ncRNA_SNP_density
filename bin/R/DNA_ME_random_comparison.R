@@ -19,7 +19,6 @@ ks_results <- data.frame(Tissue = character(), KS_Statistic = numeric(), P_Value
 # Get the unique tissue types
 tissues <- unique(data$Tissue)
 
-# Loop through each tissue and create a scatter plot for gene vs random methylation percentages
 for (tissue in tissues) {
   tissue_data <- filter(data, Tissue == tissue)
   
@@ -29,45 +28,38 @@ for (tissue in tissues) {
   
   print(paste("Processing Tissue:", tissue))
   
-  # Extract methylation percentages for genes and randoms
   gene_methylation <- tissue_data$Methylation_Percentage[tissue_data$GeneType == "Gene"]
   random_methylation <- tissue_data$Methylation_Percentage[tissue_data$GeneType == "Random"]
   
   if (length(gene_methylation) > 0 && length(random_methylation) > 0) {
-    # Perform KS test
     ks_test <- ks.test(gene_methylation, random_methylation)
     
-    # Store KS test results
     ks_results <- rbind(ks_results, data.frame(Tissue = tissue, KS_Statistic = ks_test$statistic, P_Value = ks_test$p.value))
     
-    # Calculate median and mean points
     summary_stats <- tissue_data %>% group_by(GeneType) %>% summarise(
       Median = median(Methylation_Percentage, na.rm = TRUE),
       Mean = mean(Methylation_Percentage, na.rm = TRUE)
     )
     
-    # Create scatter plot
     plot <- ggplot(tissue_data, aes(x = GeneType, y = Methylation_Percentage, color = GeneType)) +
-      geom_jitter(alpha = 0.7, size = 3, width = 0.1) +  # Jitter added here
-      geom_point(data = summary_stats, aes(x = GeneType, y = Median), color = "black", size = 4, shape = 18) +  # Add median points
-      geom_point(data = summary_stats, aes(x = GeneType, y = Mean), color = "red", size = 4, shape = 17) +  # Add mean points
-      geom_text(data = summary_stats, aes(x = GeneType, y = Mean, label = round(Mean, 2)), vjust = -1, color = "red") +
+      geom_jitter(alpha = 0.7, size = 3, width = 0.1) +
+      geom_point(data = summary_stats, aes(x = GeneType, y = Median), color = "black", size = 4, shape = 18) +
+      geom_point(data = summary_stats, aes(x = GeneType, y = Mean), color = "red", size = 4, shape = 17) +
+      geom_text(data = summary_stats, aes(x = GeneType, y = Mean, label = round(log10(Mean), 2)), vjust = -1, color = "red") +
+      scale_y_continuous(trans = "log10", labels = scales::log10_format()) +
       labs(
         title = paste("Methylation Percentage in", tissue),
         x = "Gene Type",
-        y = "Methylation Percentage (log scale)"
+        y = "log10(Methylation Percentage)"
       ) +
       theme_minimal()
     
-    # Save plot as PDF
     ggsave(paste0("../../results/DNAme/", tissue, "_CHH_scatter_jitter_plot.pdf"), plot)
-  } else {
-    print(paste("No sufficient data for KS test in tissue:", tissue))
   }
 }
 
-# Save KS test results to CSV
 write.csv(ks_results, "../../results/DNAme/_CHH_ks_test_results.csv", row.names = FALSE)
+
 
 
 # Part 2: Individual gene analysis
@@ -135,8 +127,15 @@ for (gene in genes) {
       geom_point(data = summary_stats, aes(x = GeneType, y = Median), color = "black", size = 4, shape = 18) +
       geom_point(data = summary_stats, aes(x = GeneType, y = Mean), color = "red", size = 4, shape = 17) +
       geom_text(data = summary_stats, aes(x = GeneType, y = Mean, label = round(Mean, 2)), vjust = -1, color = "red") +
+      scale_y_continuous(trans = "log10") +
+      labs(
+        title = paste(gene, "CHH vs Random"),
+        x = "Gene Type",
+        y = "log10(Methylation Percentage)"
+      ) +
       theme_minimal() +
       theme(axis.text.x = element_text(angle = 45, hjust = 1))
+    
     
     ggsave(paste0("../../results/DNAme/", gene, "_CHH_individual_scatter_plot.pdf"), plot)
   }
