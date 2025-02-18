@@ -45,6 +45,11 @@ def process_bed_files(bed_folder, gene_csv, output_csv, chunk_size=1000):
             match = re.search(r'_([a-zA-Z0-9]+)_CHH\.bed$', bed_file)
             tissue_name = match.group(1) if match else "unknown"
 
+            # skip if the files are epithelium, brain, or embryo
+            if tissue_name in ['epithelium', 'brain', 'embryo']:
+                continue
+
+
             bed_file_path = os.path.join(bed_folder, bed_file)
             logging.info(f"Processing {bed_file} (tissue: {tissue_name})...")
 
@@ -108,7 +113,7 @@ def process_chunk(chunk, gene_ranges_by_chromosome, writer, tissue_name):
 # Paths to input and output files
 bed_folder_path = "data/"
 gene_csv_path = "data/SNP_RNA_GC.csv"
-output_csv_path = "data/CHH_methylation_data_temp.csv"
+output_csv_path = "data/CHH_methylation_data_temp_temp.csv"
 
 # Run the processing function
 process_bed_files(bed_folder_path, gene_csv_path, output_csv_path)
