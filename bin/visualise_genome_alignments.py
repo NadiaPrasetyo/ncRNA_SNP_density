@@ -2,6 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import os
+import numpy as np
 
 # Load CSV file into a pandas DataFrame
 df = pd.read_csv("results/adjusted_alignments.csv")
@@ -23,37 +24,43 @@ def plot_and_save_gene_locations(df, gene_name):
     min_start = gene_data['Start Location'].min()
     max_end = (gene_data['Start Location'] + gene_data['Length']).max()
 
+    # Ensure the chromosome rectangle extends 1000 bp on both sides
+    chromosome_start = min_start - 1000
+    chromosome_end = max_end + 1000
+
+    # Define distinct colors for each genome (more variation)
+    genomes = gene_data['Genome'].unique()
+    num_genomes = len(genomes)
+    colors = plt.cm.tab20c(np.linspace(0, 1, num_genomes))  # Use 'tab20c' for a broader color palette
+
     # Create a figure and axis
     fig, ax = plt.subplots(figsize=(10, 2))
 
     # Draw the chromosome as a rectangle (extend +-1000 bp from min and max)
     ax.add_patch(patches.Rectangle(
-        (min_start - 1000, 0), max_end - min_start + 2000, 1,
+        (chromosome_start, 0.3), chromosome_end - chromosome_start, 0.3,  # Adjusted chromosome rectangle
         linewidth=1, edgecolor='black', facecolor='lightgrey'))
 
     # Plot each genome's gene location as a colored block
-    genomes = gene_data['Genome'].unique()
-    colors = plt.cm.get_cmap('tab20', len(genomes))  # Use a color map for different genomes
-
     for i, genome in enumerate(genomes):
         genome_data = gene_data[gene_data['Genome'] == genome]
         for _, row in genome_data.iterrows():
             start = row['Start Location']
             end = start + row['Length']
             ax.add_patch(patches.Rectangle(
-                (start - 1000, 0), end - start, 1,
-                linewidth=1, edgecolor='black', facecolor=colors(i)))
+                (start - 1000, 0.3), end - start, 0.3,  # Gene block moved upwards to y=0.1
+                linewidth=1, edgecolor=colors[i], facecolor=colors[i]))
 
-            # Add labels for the genome
-            ax.text(start + (end - start) / 2 - 1000, 0.5, genome, ha='center', va='center')
+            # Add labels for the genome with 90-degree rotation and slight downward offset
+            ax.text(start + (end - start) / 2 - 1000, -0.2, genome, ha='center', va='center', rotation=90)
 
     # Set the axis limits
-    ax.set_xlim(min_start - 1000, max_end + 1000)
+    ax.set_xlim(chromosome_start, chromosome_end)
     ax.set_ylim(-0.5, 1.5)
 
     # Add chromosome labels
-    ax.text(min_start - 1000, 1.1, f"{chromosome}: {min_start - 1000} bp", ha='left', va='center')
-    ax.text(max_end + 1000, 1.1, f"{max_end + 1000} bp", ha='right', va='center')
+    ax.text(chromosome_start, 1.1, f"{chromosome}: {chromosome_start} bp", ha='left', va='center')
+    ax.text(chromosome_end, 1.1, f"{chromosome_end} bp", ha='right', va='center')
 
     # Remove axis ticks and labels
     ax.set_xticks([])
