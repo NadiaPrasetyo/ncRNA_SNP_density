@@ -19,6 +19,21 @@ total_data <- long_data %>%
   group_by(Gene, Mutation) %>%
   summarize(Total_Count = sum(Count), .groups = 'drop')
 
+# Calculate total counts for each mutation type
+mutation_frequencies <- total_data %>%
+  group_by(Mutation) %>%
+  summarize(Mutation_Count = sum(Total_Count), .groups = 'drop')
+
+# Calculate total count for all mutations
+total_count_all <- sum(mutation_frequencies$Mutation_Count)
+
+# Calculate ratios of each mutation type to the total count
+mutation_frequencies <- mutation_frequencies %>%
+  mutate(Ratio = Mutation_Count / total_count_all)
+
+# Save the mutation frequencies and ratios to a CSV file
+write.csv(mutation_frequencies, "../../results/var_freq.csv", row.names = FALSE)
+
 # Histogram for SNP155 Count
 snp155_plot <- ggplot(data, aes(x = Gene, fill = Mutation)) +
   geom_bar(aes(y = SNP155_Count), stat = "identity") +
