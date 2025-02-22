@@ -4,7 +4,7 @@ library(ggplot2)
 library(stats)  # For KS test
 
 # Load data
-data <- read.csv("../../data/CHH_methylation_data.csv")
+data <- read.csv("../../data/CHH_methylation_data_100.csv")
 
 # Convert Methylation_Percentage to numeric
 data$Methylation_Percentage <- as.numeric(data$Methylation_Percentage)
@@ -43,14 +43,11 @@ for (tissue in tissues) {
     
     plot <- ggplot(tissue_data, aes(x = GeneType, y = Methylation_Percentage, color = GeneType)) +
       geom_jitter(alpha = 0.7, size = 3, width = 0.1) +
-      geom_point(data = summary_stats, aes(x = GeneType, y = Median), color = "black", size = 4, shape = 18) +
-      geom_point(data = summary_stats, aes(x = GeneType, y = Mean), color = "red", size = 4, shape = 17) +
-      geom_text(data = summary_stats, aes(x = GeneType, y = Mean, label = round(log10(Mean), 2)), vjust = -1, color = "red") +
-      scale_y_continuous(trans = "log10", labels = scales::log10_format()) +
+      geom_text(data = summary_stats, aes(x = GeneType, y = Mean, label = round(Mean, 2)), vjust = -1, color = "red") +
       labs(
         title = paste("Methylation Percentage in", tissue),
         x = "Gene Type",
-        y = "log10(Methylation Percentage)"
+        y = "Methylation Percentage"
       ) +
       theme_minimal()
     
@@ -124,14 +121,11 @@ for (gene in genes) {
     
     plot <- ggplot(all_data, aes(x = GeneType, y = Methylation_Percentage, color = GeneType)) +
       geom_jitter(width = 0.2, alpha = 0.7) +
-      geom_point(data = summary_stats, aes(x = GeneType, y = Median), color = "black", size = 4, shape = 18) +
-      geom_point(data = summary_stats, aes(x = GeneType, y = Mean), color = "red", size = 4, shape = 17) +
       geom_text(data = summary_stats, aes(x = GeneType, y = Mean, label = round(Mean, 2)), vjust = -1, color = "red") +
-      scale_y_continuous(trans = "log10") +
       labs(
         title = paste(gene, "CHH vs Random"),
         x = "Gene Type",
-        y = "log10(Methylation Percentage)"
+        y = "Methylation Percentage"
       ) +
       theme_minimal() +
       theme(axis.text.x = element_text(angle = 45, hjust = 1))
