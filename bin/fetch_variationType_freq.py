@@ -28,7 +28,8 @@ def parse_snp_data(file_path):
             if variation_class == 'snv':
                 for alt in alt_alleles:
                     mutation = f"{ref_allele}->{alt}"
-                    snp_counts[gene][mutation] += 1
+                    if is_single_base_mutation(mutation):
+                        snp_counts[gene][mutation] += 1
     
     return snp_counts
 
@@ -46,17 +47,25 @@ def parse_pangenome_data(file_path):
             
             for mutation in mutations:
                 mutation = mutation.strip().replace('>', '->')  # Convert format
-                count = 0
-                
-                for genome in genome_entries:
-                    if "Homozygous" in genome:
-                        count += 2
-                    elif "Heterozygous" in genome:
-                        count += 1
-                
-                pangenome_counts[gene][mutation] += count
+                if is_single_base_mutation(mutation):
+                    count = 0
+                    
+                    for genome in genome_entries:
+                        if "Homozygous" in genome:
+                            count += 2
+                        elif "Heterozygous" in genome:
+                            count += 1
+                    
+                    pangenome_counts[gene][mutation] += count
     
     return pangenome_counts
+
+def is_single_base_mutation(mutation):
+    # Split the mutation string into ref and alt alleles
+    ref, alt = mutation.split('->')
+    
+    # Check if both ref and alt alleles consist of a single base
+    return len(ref) == 1 and len(alt) == 1
 
 def merge_counts(snp_data_counts, pangenome_counts):
     merged_counts = defaultdict(lambda: defaultdict(lambda: {'SNP155': 0, 'Pangenome': 0}))
@@ -77,7 +86,7 @@ def write_output(merged_counts, output_file):
         for mutation, counts in mutations.items():
             output_data.append([gene, mutation, counts['SNP155'], counts['Pangenome']])
     
-    df_output = pd.DataFrame(output_data, columns=["Gene", "Mutation", "SNP155 Count", "Pangenome Count"])
+    df_output = pd.DataFrame(output_data, columns=["Gene", "Mutation", "SNP155_Count", "Pangenome_Count"])
     df_output.to_csv(output_file, index=False)
 
 def main():
