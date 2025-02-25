@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# Script to process GEDS, create minimizer indices, and align FASTQ files for the gene "BLACE" across specified genomes.
+# Script to process GEDS, create minimizer indices, and align FASTQ files for specified genomes.
+# Additionally, processes genes from a CSV file for SNP densities and RNA alignment.
 
 # Exit immediately if a command exits with a non-zero status.
 set -e
@@ -35,7 +36,7 @@ for GENOME in "${GENOMES[@]}"; do
 
     # Check for required files
     if [[ ! -f "$GEDS_FILE" ]]; then
-        echo "Error: Static GEDS file not found for $GENOME. Ensure $GEDS_FILE is present." >&2
+        echo "Error: Static GEDS file not found for $GENOME. Ensure $GEDS_FILE are present." >&2
         exit 1
     fi
 
@@ -51,16 +52,15 @@ for GENOME in "${GENOMES[@]}"; do
     fi
 done
 
-# Step 2: Process only the gene "BLACE" from the CSV file
+# Step 2: Process genes from the CSV file
 if [[ ! -f "$CSV_FILE" ]]; then
     echo "Error: CSV file not found: $CSV_FILE" >&2
     exit 1
 fi
 
-# Read the CSV file line by line
 while IFS=, read -r chromosome start end gene_id gene_name snp_density rna_type; do
-    # Skip the header row and filter for the gene "BLACE"
-    if [[ "$gene_name" == "GeneName" || "$gene_name" != "BLACE" ]]; then
+    # Skip the header row
+    if [[ "$gene_name" == "GeneName" ]]; then
         continue
     fi
 
