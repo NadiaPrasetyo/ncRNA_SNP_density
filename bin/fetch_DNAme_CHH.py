@@ -44,16 +44,17 @@ def process_bed_files(bed_folder, gene_csv, output_csv):
         
         # Process each .bed file
         bed_files = sorted([f for f in os.listdir(bed_folder) if f.endswith('.bed')])
-        for bed_file in bed_files:
+        total_files = len(bed_files)
+        for index, bed_file in enumerate(bed_files, start=1):
             match = re.search(r'_([a-zA-Z0-9]+)_CHH\.bed$', bed_file)
             tissue_name = match.group(1) if match else "unknown"
 
-            # if tissue_name in ['epithelium', 'brain', 'embryo']:
-            #     logging.info(f"Skipping {bed_file} due to tissue filter.")
-            #     continue
+            if tissue_name in ['epithelium', 'brain', 'embryo']:
+                logging.info(f"Skipping {bed_file} due to tissue filter.")
+                continue
             
             bed_file_path = os.path.join(bed_folder, bed_file)
-            logging.info(f"Processing {bed_file} (tissue: {tissue_name})...")
+            logging.info(f"[{index}/{total_files}] Processing {bed_file} (tissue: {tissue_name})...")
             
             processed_lines = 0
             skipped_lines = 0
@@ -63,6 +64,9 @@ def process_bed_files(bed_folder, gene_csv, output_csv):
                 with open(bed_file_path, 'r') as bed:
                     for line in bed:
                         processed_lines += 1
+                        if processed_lines % 1000 == 0:
+                            logging.info(f"Processed {processed_lines} lines in {bed_file} so far...")
+                        
                         fields = line.strip().split('\t')
                         if len(fields) < 11:
                             logging.warning(f"Skipping malformed line {processed_lines} in {bed_file}: {line.strip()}")
@@ -101,7 +105,7 @@ def process_bed_files(bed_folder, gene_csv, output_csv):
             except Exception as e:
                 logging.error(f"Error processing {bed_file}: {e}")
     
-    logging.info(f"Methylation data has been written to {output_csv}.")
+    logging.info(f"Methylation data has been written OUT to {output_csv}.")
 
 # Paths to input and output files
 bed_folder_path = "data/"
@@ -110,3 +114,4 @@ output_csv_path = "data/CHH_methylation_data_temp.csv"
 
 # Run the processing function
 process_bed_files(bed_folder_path, gene_csv_path, output_csv_path)
+
