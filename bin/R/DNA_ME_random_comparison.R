@@ -4,7 +4,7 @@ library(ggplot2)
 library(stats)  # For KS test
 
 # Load CHH and CpG data
-data_chh <- read.csv("../../data/CHH_methylation_data_100.csv")
+data_chh <- read.csv("../../data/CHH_methylation_data_temp.csv")
 data_cpg <- read.csv("../../data/CpG_methylation_data.csv")
 
 data_chh$Context <- "CHH"
@@ -76,7 +76,7 @@ for (tissue in tissues) {
     theme_minimal() +
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
   
-  ggsave(paste0("../../results/DNAme/", tissue, "_CpG_CHH_scatter_jitter_plot.pdf"), plot)
+  ggsave(paste0("../../results/DNAme/", tissue, "_CpG_CHH_scatter_jitter_plot.pdf"), plot = plot, width = 5, height = 8)
 }
 
 # Part 3: Individual gene analysis
@@ -130,6 +130,6 @@ for (gene in genes) {
       theme_minimal() +
       theme(axis.text.x = element_text(angle = 45, hjust = 1))
     
-    ggsave(paste0("../../results/DNAme/", gene, "_CHH_CpG_individual_scatter_plot.pdf"), plot)
+    ggsave(paste0("../../results/DNAme/", gene, "_CHH_CpG_individual_scatter_plot.pdf"), plot = plot, width = 8, height = 8)
   }
 }
