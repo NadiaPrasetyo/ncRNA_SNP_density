@@ -48,10 +48,6 @@ def process_bed_files(bed_folder, gene_csv, output_csv):
         for index, bed_file in enumerate(bed_files, start=1):
             match = re.search(r'_([a-zA-Z0-9]+)_CHH\.bed$', bed_file)
             tissue_name = match.group(1) if match else "unknown"
-
-            if tissue_name in ['epithelium', 'brain', 'embryo']:
-                logging.info(f"Skipping {bed_file} due to tissue filter.")
-                continue
             
             bed_file_path = os.path.join(bed_folder, bed_file)
             logging.info(f"[{index}/{total_files}] Processing {bed_file} (tissue: {tissue_name})...")
