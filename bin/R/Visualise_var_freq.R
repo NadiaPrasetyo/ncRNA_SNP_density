@@ -5,7 +5,7 @@
   data <- read.csv("../../results/var_freq.csv")
   
   # Define base transition matrix
-  bases <- c("A", "C", "G", "T")
+  bases <- c("A", "G", "C", "T")
   mutation_matrix <- matrix(NA, nrow = 4, ncol = 4, dimnames = list(bases, bases))
   
   # Fill matrix with mutation counts
@@ -23,7 +23,7 @@
   
   df$LogOdds <- log2(df$Freq / expected_freq)
   
-  df$Var1 <- factor(df$Var1, levels = bases)
+  df$Var1 <- factor(df$Var1, levels = rev(bases))
   df$Var2 <- factor(df$Var2, levels = bases)
   
   # Plot heatmap
