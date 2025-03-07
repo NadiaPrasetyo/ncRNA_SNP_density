@@ -1,0 +1,114 @@
+library(ggplot2)
+library(reshape2)
+library(pheatmap)
+
+
+# Load data
+data <- read.csv("../../data/gnomad_gene_data.csv")
+
+# Ensure "../../results/pop_freq" directory exists
+if (!dir.exists("../../results/pop_freq")) {
+  dir.create("../../results/pop_freq")
+}
+
+# List of population prefixes matching column names
+populations <- c("afr", "ami", "amr", "asj", "eas", "fin", "nfe", "mid", "sas", "remaining")
+
+# Filter out missing columns
+existing_populations <- populations[sapply(paste0(populations, "_af"), function(col) col %in% colnames(data))]
+
+# Compute log10(frequency) safely
+for (pop in existing_populations) {
+  af_col <- paste0(pop, "_af")
+  data[[paste0("log10_", pop, "_af")]] <- log10(ifelse(is.na(data[[af_col]]), 1e-10, data[[af_col]]) + 1e-10)
+}
+
+# Get list of unique genes
+unique_genes <- unique(data$gene_name)
+# Store all genes' mean allele frequencies for summary histogram
+all_genes_avg_freq <- data.frame()
+
+# Store all genes' mean allele frequencies for summary histogram
+all_genes_avg_freq <- data.frame()
+
+# Loop through each gene
+for (gene in unique_genes) {
+  print(paste("processing gene:",gene))
+  
+  # Filter for the current gene
+  gene_data <- subset(data, gene_name == gene)
+  
+  # **Filter out multi-nucleotide changes, keeping only single nucleotide substitutions (n.XA>C)**
+  gene_data <- subset(gene_data, grepl("^n\\.\\d+[ACGT]>[ACGT]$", gene_data$variation_consequence))
+  
+  # If no valid SNV variations remain, skip this gene
+  if (nrow(gene_data) == 0) next
+  
+  # Melt data for visualization
+  gene_data_melted <- melt(gene_data, id.vars = c("variation_id", "variation_consequence"),
+                           measure.vars = paste0("log10_", existing_populations, "_af"),
+                           variable.name = "Population", value.name = "Log10_AF")
+  
+  # Clean Population names
+  gene_data_melted$Population <- gsub("log10_|_af", "", gene_data_melted$Population)
+  
+  # **Dot Plot**
+  dot_plot <- ggplot(gene_data_melted, aes(x = variation_consequence, y = Log10_AF, color = Population)) +
+    geom_point(alpha = 0.5) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    labs(title = paste("Allele Frequency per Population for", gene),
+         x = "Variation Consequence", y = "log10(Allele Frequency)")
+  
+  # Save Dot Plot
+  ggsave(filename = paste0("../../results/pop_freq/", gene, "_population_dotplot.pdf"), plot = dot_plot, width = 35, height = 10)
+  # **Heatmap Preparation**
+  heatmap_data <- reshape2::dcast(gene_data_melted, Population ~ variation_consequence, value.var = "Log10_AF")
+  
+  # Set row names as population names and remove the first column
+  rownames(heatmap_data) <- heatmap_data$Population
+  heatmap_data$Population <- NULL
+  
+  # Ensure there is data in heatmap_data
+  if (ncol(heatmap_data) == 0) {
+    message(paste("No data for heatmap for gene:", gene))
+    next
+  }
+  
+  # Save Heatmap as PDF
+  heatmap_filename <- paste0("../../results/pop_freq/", gene, "_population_heatmap.pdf")
+  
+  # Open PDF device to save the plot
+  pdf(heatmap_filename, width = 35, height = 10)  # Adjust size as needed
+  
+  # Explicitly render the heatmap inside the PDF device
+  pheatmap_plot <- pheatmap(as.matrix(heatmap_data), 
+                            cluster_rows = FALSE, cluster_cols = FALSE,
+                            main = paste("Heatmap of log10 Allele Frequencies for", gene),
+                            fontsize_row = 10, fontsize_col = 10)
+  
+  # Ensure the plot is rendered by explicitly calling the object (some systems need this)
+  print(pheatmap_plot)
+  
+  # Close the device after plotting
+  dev.off()
+  
+  
+  # Store this gene's average frequencies for summary histogram
+  gene_avg_freq <- aggregate(Log10_AF ~ Population, data = gene_data_melted, FUN = mean, na.rm = TRUE)
+  gene_avg_freq$Gene <- gene
+  all_genes_avg_freq <- rbind(all_genes_avg_freq, gene_avg_freq)
+}
+
+# **Generate Summary Histogram Across All Genes with Gene Categories on the X-Axis**
+all_genes_avg_freq$Gene <- factor(all_genes_avg_freq$Gene, levels = unique(all_genes_avg_freq$Gene)) # Ensure genes are ordered
+
+summary_plot <- ggplot(all_genes_avg_freq, aes(x = interaction(Gene, Population), y = abs(Log10_AF), fill = Population)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Summary of Average Allele Frequencies Across All Genes",
+       x = "Gene and Population", y = "Absolute log10(Allele Frequency)") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  scale_x_discrete(labels = function(x) gsub("([^_]+)_(.*)", "\\1\n\\2", x))  # Adjust label format
+
+# Save Summary Histogram
+ggsave(filename = "../../results/pop_freq/Summary_Histogram_All_Genes.pdf", plot = summary_plot, width = 35, height = 10)
