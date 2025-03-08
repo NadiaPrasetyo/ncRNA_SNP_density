@@ -2,7 +2,6 @@ library(ggplot2)
 library(reshape2)
 library(pheatmap)
 
-
 # Load data
 data <- read.csv("../../data/gnomad_gene_data.csv")
 
@@ -11,8 +10,22 @@ if (!dir.exists("../../results/pop_freq")) {
   dir.create("../../results/pop_freq")
 }
 
+# Mapping of population abbreviations to full names
+population_map <- c(
+  afr = "African/African American",
+  ami = "Amish",
+  amr = "Latino/Admixed American",
+  asj = "Ashkenazi Jewish",
+  eas = "East Asian",
+  fin = "Finnish",
+  nfe = "Non-Finnish European",
+  mid = "Middle Eastern",
+  sas = "South Asian",
+  remaining = "Other (population not assigned)"
+)
+
 # List of population prefixes matching column names
-populations <- c("afr", "ami", "amr", "asj", "eas", "fin", "nfe", "mid", "sas", "remaining")
+populations <- names(population_map)
 
 # Filter out missing columns
 existing_populations <- populations[sapply(paste0(populations, "_af"), function(col) col %in% colnames(data))]
@@ -25,15 +38,13 @@ for (pop in existing_populations) {
 
 # Get list of unique genes
 unique_genes <- unique(data$gene_name)
-# Store all genes' mean allele frequencies for summary histogram
-all_genes_avg_freq <- data.frame()
 
 # Store all genes' mean allele frequencies for summary histogram
 all_genes_avg_freq <- data.frame()
 
 # Loop through each gene
 for (gene in unique_genes) {
-  print(paste("processing gene:",gene))
+  print(paste("processing gene:", gene))
   
   # Filter for the current gene
   gene_data <- subset(data, gene_name == gene)
@@ -49,8 +60,8 @@ for (gene in unique_genes) {
                            measure.vars = paste0("log10_", existing_populations, "_af"),
                            variable.name = "Population", value.name = "Log10_AF")
   
-  # Clean Population names
-  gene_data_melted$Population <- gsub("log10_|_af", "", gene_data_melted$Population)
+  # Replace Population abbreviations with full names
+  gene_data_melted$Population <- population_map[gsub("log10_|_af", "", gene_data_melted$Population)]
   
   # **Dot Plot**
   dot_plot <- ggplot(gene_data_melted, aes(x = variation_consequence, y = Log10_AF, color = Population)) +
@@ -61,6 +72,8 @@ for (gene in unique_genes) {
   
   # Save Dot Plot
   ggsave(filename = paste0("../../results/pop_freq/", gene, "_population_dotplot.pdf"), plot = dot_plot, width = 35, height = 10)
+  
+  
   # **Heatmap Preparation**
   heatmap_data <- reshape2::dcast(gene_data_melted, Population ~ variation_consequence, value.var = "Log10_AF")
   
@@ -78,7 +91,7 @@ for (gene in unique_genes) {
   heatmap_filename <- paste0("../../results/pop_freq/", gene, "_population_heatmap.pdf")
   
   # Open PDF device to save the plot
-  pdf(heatmap_filename, width = 35, height = 10)  # Adjust size as needed
+  pdf(heatmap_filename, width = 35, height = 10)
   
   # Explicitly render the heatmap inside the PDF device
   pheatmap_plot <- pheatmap(as.matrix(heatmap_data), 
@@ -86,12 +99,9 @@ for (gene in unique_genes) {
                             main = paste("Heatmap of log10 Allele Frequencies for", gene),
                             fontsize_row = 10, fontsize_col = 10)
   
-  # Ensure the plot is rendered by explicitly calling the object (some systems need this)
   print(pheatmap_plot)
   
-  # Close the device after plotting
   dev.off()
-  
   
   # Store this gene's average frequencies for summary histogram
   gene_avg_freq <- aggregate(Log10_AF ~ Population, data = gene_data_melted, FUN = mean, na.rm = TRUE)
@@ -100,7 +110,7 @@ for (gene in unique_genes) {
 }
 
 # **Generate Summary Histogram Across All Genes with Gene Categories on the X-Axis**
-all_genes_avg_freq$Gene <- factor(all_genes_avg_freq$Gene, levels = unique(all_genes_avg_freq$Gene)) # Ensure genes are ordered
+all_genes_avg_freq$Gene <- factor(all_genes_avg_freq$Gene, levels = unique(all_genes_avg_freq$Gene))
 
 summary_plot <- ggplot(all_genes_avg_freq, aes(x = interaction(Gene, Population), y = abs(Log10_AF), fill = Population)) +
   geom_bar(stat = "identity", position = "dodge") +
@@ -108,7 +118,7 @@ summary_plot <- ggplot(all_genes_avg_freq, aes(x = interaction(Gene, Population)
        x = "Gene and Population", y = "Absolute log10(Allele Frequency)") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
-  scale_x_discrete(labels = function(x) gsub("([^_]+)_(.*)", "\\1\n\\2", x))  # Adjust label format
+  scale_x_discrete(labels = function(x) gsub("([^_]+)_(.*)", "\\1\\n\\2", x))
 
 # Save Summary Histogram
 ggsave(filename = "../../results/pop_freq/Summary_Histogram_All_Genes.pdf", plot = summary_plot, width = 35, height = 10)
