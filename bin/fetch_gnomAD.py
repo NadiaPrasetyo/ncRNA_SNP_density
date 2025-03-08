@@ -1,9 +1,9 @@
 import csv
 import requests
+import time
 
-gnomad_url = "https://gnomad.broadinstitute.org/api"
-
-region_query_template = """
+GNOMAD_URL = "https://gnomad.broadinstitute.org/api"
+REGION_QUERY_TEMPLATE = """
 query RegionQuery($chrom: String!, $start: Int!, $stop: Int!) {
   region(chrom: $chrom, start: $start, stop: $stop, reference_genome: GRCh38) {
     variants(dataset: gnomad_r4) {
@@ -23,27 +23,25 @@ query RegionQuery($chrom: String!, $start: Int!, $stop: Int!) {
 }
 """
 
-# Function to remove 'chr' prefix from chromosome names if it exists
 def format_chromosome(chrom):
-    if chrom.startswith("chr"):
-        return chrom[3:]
-    return chrom
+    return chrom[3:] if chrom.startswith("chr") else chrom
 
-def fetch_region_data(chrom, start, stop, data_type="genome"):
-    chrom = format_chromosome(chrom)  # Adjust chromosome format
-    print(f"Fetching {data_type} data for region: {chrom}:{start}-{stop}")
-    query = region_query_template.replace("{DATA_TYPE}", data_type)
+def fetch_region_data(chrom, start, stop, data_type="genome", retries=3, delay=2):
+    chrom = format_chromosome(chrom)
+    query = REGION_QUERY_TEMPLATE.replace("{DATA_TYPE}", data_type)
     variables = {"chrom": chrom, "start": start, "stop": stop}
-    response = requests.post(gnomad_url, json={"query": query, "variables": variables})
-    if response.status_code == 200:
-        data = response.json()
-        if data.get("data", {}).get("region") and data["data"]["region"].get("variants"):
-            print(f"Successfully fetched {data_type} data for {chrom}:{start}-{stop}")
-            return data
-        elif data_type == "genome":
-            print(f"No genome data for {chrom}:{start}-{stop}, trying exome...")
-            return fetch_region_data(chrom, start, stop, data_type="exome")
-    print(f"Error fetching data for {chrom}:{start}-{stop}: {response.status_code}")
+    
+    for attempt in range(retries):
+        response = requests.post(GNOMAD_URL, json={"query": query, "variables": variables})
+        if response.status_code == 200:
+            data = response.json()
+            if data.get("data", {}).get("region", {}).get("variants"):
+                return data
+            elif data_type == "genome":
+                return fetch_region_data(chrom, start, stop, data_type="exome", retries=retries, delay=delay)
+        else:
+            print(f"Error fetching {chrom}:{start}-{stop}, status: {response.status_code}. Retrying...")
+            time.sleep(delay)
     return None
 
 def write_results_to_csv(results, output_filepath):
@@ -57,14 +55,11 @@ def write_results_to_csv(results, output_filepath):
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
         
-        for region, data in results.items():
-            gene_name = region[3]  # Extract gene_name from region tuple (chrom, start, end, gene_name)
+        for (chrom, start, end, gene_name), data in results.items():
             if "data" in data and "region" in data["data"] and data["data"]["region"]:
-                region_data = data["data"]["region"]
-                for variant in region_data.get("variants", []):
+                for variant in data["data"]["region"].get("variants", []):
                     variant_data = variant.get("genome", {}) or variant.get("exome", {})
                     if not variant_data:
-                        print(f"Warning: No genome or exome data for region {region} - {variant.get('variant_id', 'Unknown variant')}")
                         continue
                     
                     row = {
@@ -73,14 +68,14 @@ def write_results_to_csv(results, output_filepath):
                         "variation_consequence": variant.get("hgvsc", ""),
                         "allele_count": variant_data.get("ac", 0),
                         "allele_num": variant_data.get("an", 1),
-                        "allele_freq": variant_data.get("ac", 0) / variant_data.get("an", 1) if variant_data.get("an", 0) else 0
+                        "allele_freq": variant_data.get("ac", 0) / variant_data.get("an", 1) if variant_data.get("an", 1) else 0
                     }
                     
                     pop_data = {pop["id"]: pop for pop in variant_data.get("populations", [])}
                     for pop in population_ids:
                         row[f"{pop}_ac"] = pop_data.get(pop, {}).get("ac", 0)
                         row[f"{pop}_an"] = pop_data.get(pop, {}).get("an", 1)
-                        row[f"{pop}_af"] = pop_data.get(pop, {}).get("ac", 0) / pop_data.get(pop, {}).get("an", 1) if pop_data.get(pop, {}).get("an", 0) else 0
+                        row[f"{pop}_af"] = row[f"{pop}_ac"] / row[f"{pop}_an"] if row[f"{pop}_an"] else 0
                     
                     writer.writerow(row)
     print("CSV writing complete.")
@@ -92,21 +87,15 @@ def main():
     
     with open(input_filepath, newline='', encoding="utf-8") as csvfile:
         reader = csv.DictReader(csvfile)
-        regions = [
-            (row["Chromosome"].strip(), int(row["Start"]), int(row["End"]), row["GeneName"].strip()) 
-            for row in reader
-        ]
+        regions = [(row["Chromosome"].strip(), int(row["Start"]), int(row["End"]), row["GeneName"].strip()) for row in reader]
     
-    print(f"Processing {len(regions)} regions...")
     missing_regions = []
-    
     for idx, (chrom, start, end, gene_name) in enumerate(regions, start=1):
         print(f"Processing {idx}/{len(regions)}: {chrom}:{start}-{end} ({gene_name})")
         data = fetch_region_data(chrom, start, end)
         if data and data.get("data", {}).get("region"):
             results[(chrom, start, end, gene_name)] = data
         else:
-            print(f"Warning: No data found for region {chrom}:{start}-{end}")
             missing_regions.append((chrom, start, end, gene_name))
     
     write_results_to_csv(results, output_filepath)

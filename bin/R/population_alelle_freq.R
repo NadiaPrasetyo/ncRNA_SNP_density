@@ -3,7 +3,7 @@ library(reshape2)
 library(pheatmap)
 
 # Load data
-data <- read.csv("../../data/gnomad_gene_data.csv")
+data <- read.csv("../../data/gnomad_region_data.csv")
 
 # Ensure "../../results/pop_freq" directory exists
 if (!dir.exists("../../results/pop_freq")) {
