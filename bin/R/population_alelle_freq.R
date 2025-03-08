@@ -71,7 +71,7 @@ for (gene in unique_genes) {
          x = "Variation Consequence", y = "log10(Allele Frequency)")
   
   # Save Dot Plot
-  ggsave(filename = paste0("../../results/pop_freq/", gene, "_population_dotplot.pdf"), plot = dot_plot, width = 35, height = 10)
+  ggsave(filename = paste0("../../results/pop_freq/", gene, "_population_dotplot.pdf"), plot = dot_plot, width = 25, height = 10)
   
   
   # **Heatmap Preparation**
@@ -91,7 +91,7 @@ for (gene in unique_genes) {
   heatmap_filename <- paste0("../../results/pop_freq/", gene, "_population_heatmap.pdf")
   
   # Open PDF device to save the plot
-  pdf(heatmap_filename, width = 35, height = 10)
+  pdf(heatmap_filename, width = 25, height = 10)
   
   # Explicitly render the heatmap inside the PDF device
   pheatmap_plot <- pheatmap(as.matrix(heatmap_data), 
