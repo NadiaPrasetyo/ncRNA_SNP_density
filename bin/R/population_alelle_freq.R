@@ -35,7 +35,7 @@ for (pop in existing_populations) {
 }
 
 unique_genes <- unique(data$gene_name)
-all_genes_avg_freq <- data.frame()
+all_gene_data <- data.frame()
 
 for (gene in unique_genes ) {
   print(paste("Processing gene:", gene))
@@ -80,13 +80,12 @@ for (gene in unique_genes ) {
            labels_col = ifelse(apply(heatmap_matrix, 2, max, na.rm = TRUE) > -1, colnames(heatmap_matrix), ""))
   dev.off()
   
-  gene_avg_freq <- aggregate(Log10_AF ~ Population, data = gene_data_melted, FUN = mean, na.rm = TRUE)
-  gene_avg_freq$Gene <- gene
-  all_genes_avg_freq <- rbind(all_genes_avg_freq, gene_avg_freq)
+  # Append all gene data
+  all_gene_data <- rbind(all_gene_data, gene_data_melted)
 }
 
 # Cumulative Distribution Plot for Combined Data
-combined_cdf_plot <- ggplot(all_genes_avg_freq, aes(x = Log10_AF, color = Population)) +
+combined_cdf_plot <- ggplot(all_gene_data, aes(x = Log10_AF, color = Population)) +
   stat_ecdf(size = 1.5) +
   labs(title = "Cumulative Distribution of log10 Allele Frequencies Across Populations",
        x = "log10(Allele Frequency)", y = "Cumulative Proportion") +
