@@ -37,7 +37,7 @@ for (pop in existing_populations) {
 unique_genes <- unique(data$gene_name)
 all_genes_avg_freq <- data.frame()
 
-for (gene in unique_genes) {
+for (gene in unique_genes ) {
   print(paste("Processing gene:", gene))
   gene_data <- subset(data, gene_name == gene)
   gene_data <- subset(gene_data, grepl("^n\\.\\d+[ACGT]>[ACGT]$", gene_data$variation_consequence))
