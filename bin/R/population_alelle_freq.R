@@ -5,7 +5,7 @@ library(pheatmap)
 # Load data
 data <- read.csv("../../data/gnomad_region_data.csv")
 
-# Ensure "../../results/pop_freq" directory exists
+# Ensure results directory exists
 if (!dir.exists("../../results/pop_freq")) {
   dir.create("../../results/pop_freq")
 }
@@ -26,8 +26,6 @@ population_map <- c(
 
 # List of population prefixes matching column names
 populations <- names(population_map)
-
-# Filter out missing columns
 existing_populations <- populations[sapply(paste0(populations, "_af"), function(col) col %in% colnames(data))]
 
 # Compute log10(frequency) safely
@@ -36,89 +34,64 @@ for (pop in existing_populations) {
   data[[paste0("log10_", pop, "_af")]] <- log10(ifelse(is.na(data[[af_col]]), 1e-10, data[[af_col]]) + 1e-10)
 }
 
-# Get list of unique genes
 unique_genes <- unique(data$gene_name)
-
-# Store all genes' mean allele frequencies for summary histogram
 all_genes_avg_freq <- data.frame()
 
-# Loop through each gene
 for (gene in unique_genes) {
-  print(paste("processing gene:", gene))
-  
-  # Filter for the current gene
+  print(paste("Processing gene:", gene))
   gene_data <- subset(data, gene_name == gene)
-  
-  # **Filter out multi-nucleotide changes, keeping only single nucleotide substitutions (n.XA>C)**
   gene_data <- subset(gene_data, grepl("^n\\.\\d+[ACGT]>[ACGT]$", gene_data$variation_consequence))
-  
-  # If no valid SNV variations remain, skip this gene
   if (nrow(gene_data) == 0) next
   
-  # Melt data for visualization
   gene_data_melted <- melt(gene_data, id.vars = c("variation_id", "variation_consequence"),
                            measure.vars = paste0("log10_", existing_populations, "_af"),
                            variable.name = "Population", value.name = "Log10_AF")
   
-  # Replace Population abbreviations with full names
   gene_data_melted$Population <- population_map[gsub("log10_|_af", "", gene_data_melted$Population)]
   
-  # **Dot Plot**
-  dot_plot <- ggplot(gene_data_melted, aes(x = variation_consequence, y = Log10_AF, color = Population)) +
-    geom_point(alpha = 0.5) +
-    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-    labs(title = paste("Allele Frequency per Population for", gene),
-         x = "Variation Consequence", y = "log10(Allele Frequency)")
+  # Cumulative Distribution Plot
+  cdf_plot <- ggplot(gene_data_melted, aes(x = Log10_AF, color = Population)) +
+    stat_ecdf(size = 1.2) +
+    labs(title = paste("Cumulative Distribution of log10 Allele Frequencies for", gene),
+         x = "log10(Allele Frequency)", y = "Cumulative Proportion") +
+    theme_minimal(base_size = 22) +
+    theme(legend.text = element_text(size = 20), legend.title = element_text(size = 22),
+          plot.title = element_text(size = 24, face = "bold"))
   
-  # Save Dot Plot
-  ggsave(filename = paste0("../../results/pop_freq/", gene, "_population_dotplot.pdf"), plot = dot_plot, width = 25, height = 10)
+  ggsave(filename = paste0("../../results/pop_freq/", gene, "_population_cdf.pdf"), plot = cdf_plot, width = 25, height = 10)
   
-  
-  # **Heatmap Preparation**
+  # Heatmap Preparation
   heatmap_data <- reshape2::dcast(gene_data_melted, Population ~ variation_consequence, value.var = "Log10_AF")
-  
-  # Set row names as population names and remove the first column
   rownames(heatmap_data) <- heatmap_data$Population
   heatmap_data$Population <- NULL
   
-  # Ensure there is data in heatmap_data
-  if (ncol(heatmap_data) == 0) {
-    message(paste("No data for heatmap for gene:", gene))
-    next
-  }
+  heatmap_matrix <- as.matrix(heatmap_data)
+  heatmap_matrix[is.na(heatmap_matrix)] <- -10  # Assign low log value for missing variants
   
-  # Save Heatmap as PDF
-  heatmap_filename <- paste0("../../results/pop_freq/", gene, "_population_heatmap.pdf")
+  color_breaks <- c(-10, seq(min(heatmap_matrix[heatmap_matrix > -10], na.rm = TRUE), max(heatmap_matrix, na.rm = TRUE), length.out = 100))
+  color_palette <- c("grey", colorRampPalette(c("blue", "red"))(99))
   
-  # Open PDF device to save the plot
-  pdf(heatmap_filename, width = 25, height = 10)
-  
-  # Explicitly render the heatmap inside the PDF device
-  pheatmap_plot <- pheatmap(as.matrix(heatmap_data), 
-                            cluster_rows = FALSE, cluster_cols = FALSE,
-                            main = paste("Heatmap of log10 Allele Frequencies for", gene),
-                            fontsize_row = 10, fontsize_col = 10)
-  
-  print(pheatmap_plot)
-  
+  pdf(paste0("../../results/pop_freq/", gene, "_population_heatmap.pdf"), width = 25, height = 10)
+  pheatmap(heatmap_matrix, cluster_rows = FALSE, cluster_cols = FALSE,
+           main = paste("Heatmap of log10 Allele Frequencies for", gene),
+           fontsize = 25,
+           fontsize_row = 20, fontsize_col = 18,
+           breaks = color_breaks, color = color_palette,
+           labels_col = ifelse(apply(heatmap_matrix, 2, max, na.rm = TRUE) > -1, colnames(heatmap_matrix), ""))
   dev.off()
   
-  # Store this gene's average frequencies for summary histogram
   gene_avg_freq <- aggregate(Log10_AF ~ Population, data = gene_data_melted, FUN = mean, na.rm = TRUE)
   gene_avg_freq$Gene <- gene
   all_genes_avg_freq <- rbind(all_genes_avg_freq, gene_avg_freq)
 }
 
-# **Generate Summary Histogram Across All Genes with Gene Categories on the X-Axis**
-all_genes_avg_freq$Gene <- factor(all_genes_avg_freq$Gene, levels = unique(all_genes_avg_freq$Gene))
+# Cumulative Distribution Plot for Combined Data
+combined_cdf_plot <- ggplot(all_genes_avg_freq, aes(x = Log10_AF, color = Population)) +
+  stat_ecdf(size = 1.5) +
+  labs(title = "Cumulative Distribution of log10 Allele Frequencies Across Populations",
+       x = "log10(Allele Frequency)", y = "Cumulative Proportion") +
+  theme_minimal(base_size = 22) +
+  theme(legend.text = element_text(size = 20), legend.title = element_text(size = 22),
+        plot.title = element_text(size = 24, face = "bold"))
 
-summary_plot <- ggplot(all_genes_avg_freq, aes(x = interaction(Gene, Population), y = abs(Log10_AF), fill = Population)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  labs(title = "Summary of Average Allele Frequencies Across All Genes",
-       x = "Gene and Population", y = "Absolute log10(Allele Frequency)") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
-  scale_x_discrete(labels = function(x) gsub("([^_]+)_(.*)", "\\1\\n\\2", x))
-
-# Save Summary Histogram
-ggsave(filename = "../../results/pop_freq/Summary_Histogram_All_Genes.pdf", plot = summary_plot, width = 35, height = 10)
+ggsave(filename = "../../results/pop_freq/Combined_Population_CDF.pdf", plot = combined_cdf_plot, width = 30, height = 12)
