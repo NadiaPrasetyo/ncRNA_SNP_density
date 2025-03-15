@@ -4,7 +4,7 @@ library(ggplot2)
 data <- read.csv("../../data/gnomad_gene_rand_freq.csv")
 
 # Handle zero allele frequencies to avoid non-finite values
-data$allele_freq[data$allele_freq == 0] <- 10^(-10)
+data$allele_freq[data$allele_freq == 0] <- 10^(-5)
 
 # Compute log allele frequency
 data$log_allele_freq <- log10(data$allele_freq)
@@ -32,7 +32,7 @@ pop_data <- lapply(populations, function(pop) {
   subset <- data[, c("gene_name", paste0(pop, "_af"))]
   colnames(subset)[2] <- "allele_freq"
   subset$population <- population_map[[pop]]
-  subset$allele_freq[subset$allele_freq == 0] <- 10^(-10)
+  subset$allele_freq[subset$allele_freq == 0] <- 10^(-5)
   subset$log_allele_freq <- log10(subset$allele_freq)
   subset$category <- ifelse(grepl("^Random", subset$gene_name), "Random", "Gene")
   return(subset)

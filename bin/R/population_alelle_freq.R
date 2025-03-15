@@ -31,7 +31,7 @@ existing_populations <- populations[sapply(paste0(populations, "_af"), function(
 # Compute log10(frequency) safely
 for (pop in existing_populations) {
   af_col <- paste0(pop, "_af")
-  data[[paste0("log10_", pop, "_af")]] <- log10(ifelse(is.na(data[[af_col]]), 1e-10, data[[af_col]]) + 1e-10)
+  data[[paste0("log10_", pop, "_af")]] <- log10(ifelse(is.na(data[[af_col]]), 1e-5, data[[af_col]]) + 1e-5)
 }
 
 unique_genes <- unique(data$gene_name)
@@ -58,7 +58,7 @@ for (gene in unique_genes ) {
     theme(legend.text = element_text(size = 20), legend.title = element_text(size = 22),
           plot.title = element_text(size = 24, face = "bold"))
   
-  ggsave(filename = paste0("../../results/pop_freq/", gene, "_population_cdf.pdf"), plot = cdf_plot, width = 25, height = 10)
+  ggsave(filename = paste0("../../results/pop_freq/", gene, "_population_cdf.pdf"), plot = cdf_plot, width = 20, height = 15)
   
   # Heatmap Preparation
   heatmap_data <- reshape2::dcast(gene_data_melted, Population ~ variation_consequence, value.var = "Log10_AF")
@@ -66,12 +66,12 @@ for (gene in unique_genes ) {
   heatmap_data$Population <- NULL
   
   heatmap_matrix <- as.matrix(heatmap_data)
-  heatmap_matrix[is.na(heatmap_matrix)] <- -10  # Assign low log value for missing variants
+  heatmap_matrix[is.na(heatmap_matrix)] <- -5  # Assign low log value for missing variants
   
-  color_breaks <- c(-10, seq(min(heatmap_matrix[heatmap_matrix > -10], na.rm = TRUE), max(heatmap_matrix, na.rm = TRUE), length.out = 100))
+  color_breaks <- c(-5, seq(min(heatmap_matrix[heatmap_matrix > -5], na.rm = TRUE), max(heatmap_matrix, na.rm = TRUE), length.out = 100))
   color_palette <- c("grey", colorRampPalette(c("blue", "red"))(99))
   
-  pdf(paste0("../../results/pop_freq/", gene, "_population_heatmap.pdf"), width = 25, height = 10)
+  pdf(paste0("../../results/pop_freq/", gene, "_population_heatmap.pdf"), width = 20, height = 15)
   pheatmap(heatmap_matrix, cluster_rows = FALSE, cluster_cols = FALSE,
            main = paste("Heatmap of log10 Allele Frequencies for", gene),
            fontsize = 25,
@@ -93,4 +93,4 @@ combined_cdf_plot <- ggplot(all_gene_data, aes(x = Log10_AF, color = Population)
   theme(legend.text = element_text(size = 20), legend.title = element_text(size = 22),
         plot.title = element_text(size = 24, face = "bold"))
 
-ggsave(filename = "../../results/pop_freq/Combined_Population_CDF.pdf", plot = combined_cdf_plot, width = 30, height = 12)
+ggsave(filename = "../../results/pop_freq/Combined_Population_CDF.pdf", plot = combined_cdf_plot, width = 20, height = 15)
