@@ -50,15 +50,15 @@ for (gene in unique_genes ) {
   gene_data_melted$Population <- population_map[gsub("log10_|_af", "", gene_data_melted$Population)]
   
   # Cumulative Distribution Plot
-  #cdf_plot <- ggplot(gene_data_melted, aes(x = Log10_AF, color = Population)) +
-  #  stat_ecdf(size = 1.2) +
-  #  labs(title = paste("Cumulative Distribution of log10 Allele Frequencies for", gene),
-  #       x = "log10(Allele Frequency)", y = "Cumulative Proportion") +
-  #  theme_minimal(base_size = 22) +
-  #  theme(legend.text = element_text(size = 20), legend.title = element_text(size = 22),
-  #        plot.title = element_text(size = 24, face = "bold"))
+  cdf_plot <- ggplot(gene_data_melted, aes(x = Log10_AF, color = Population)) +
+    stat_ecdf(size = 1.2) +
+    labs(title = paste("Cumulative Distribution of log10 Allele Frequencies for", gene),
+         x = "log10(Allele Frequency)", y = "Cumulative Proportion") +
+    theme_minimal(base_size = 22) +
+    theme(legend.text = element_text(size = 20), legend.title = element_text(size = 22),
+          plot.title = element_text(size = 24, face = "bold"))
   
-  #ggsave(filename = paste0("../../results/pop_freq/", gene, "_population_cdf.pdf"), plot = cdf_plot, width = 20, height = 15)
+  ggsave(filename = paste0("../../results/pop_freq/", gene, "_population_cdf.pdf"), plot = cdf_plot, width = 20, height = 15)
   
   # Heatmap Preparation
   heatmap_data <- reshape2::dcast(gene_data_melted, Population ~ variation_consequence, value.var = "Log10_AF")
@@ -71,7 +71,7 @@ for (gene in unique_genes ) {
   color_breaks <- c(-5, seq(min(heatmap_matrix[heatmap_matrix > -5], na.rm = TRUE), max(heatmap_matrix, na.rm = TRUE), length.out = 100))
   color_palette <- c("grey", colorRampPalette(c("blue", "red"))(99))
   
-  pdf(paste0("../../results/pop_freq/", gene, "_population_heatmap.pdf"), width = 20, height = 10)
+  pdf(paste0("../../results/pop_freq/", gene, "_population_heatmap.pdf"), width = 25, height = 10)
   pheatmap(heatmap_matrix, cluster_rows = FALSE, cluster_cols = FALSE,
            main = paste("Heatmap of log10 Allele Frequencies for", gene),
            fontsize = 25,
