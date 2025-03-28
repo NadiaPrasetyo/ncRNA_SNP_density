@@ -112,8 +112,8 @@ def fetch_quality_metrics(variant_id):
 
 def main():
     input_file = "data/SNP-densities-and-RNA.csv"
-    output_file = "data/variant_qual_metrics.csv"
-    skipped_genes = {"GeneX", "GeneY"}  # Add genes to be skipped here
+    output_file = "data/variant_qual_metrics_temp.csv"
+    skipped_genes = {"RNU5E-1","RNU5D-1","SNORD118","SNAR-B2","TRG-CCC5-1","MIR4538 ","SNAR-C4","RNU5F-1","TRK-TTT3-2","TRE-TTC3-1","TRG1","TRA-CGC5-1-001","tRNA-Gly-CCC-4-1","tRNA-Glu-CTC-1-2","tRNA-Ile-AAT-12-1","tRNA-Gly-GCC-2-4","tRNA-Pro-AGG-2-4","TRG-CCC6-1","TRA-TGC4-1","TRP-AGG1-1","TRK-CTT3-1","tRNA-Glu-TTC-4-1","tRNA-Thr-CGT-5-1","TRG-TCC1-1","SNORD13","tRNA-Val-CAC-3-1","tRNA-Thr-TGT-4-1","TRV-TAC1-1","SNAR-A1","LINC00459","tRNA-Pro-TGG-1-1","FAM30A","tRNA-Gln-CTG-2-1","tRNA-Arg-CCT-3-1","TRV","TRF-GAA1-4","tRNA-iMet-CAT-2-1","SNAR-C3","TRA-AGC11-1","TRL-TAG2-1","tRNA-Met-CAT-6-1","TRM-CAT3-2","tRNA-Leu-CAG-2-2","TRA-AGC1-1","tRNA-Gly-TCC-3-1","tRNA-Lys-CTT-5-1","tRNA-Ile-AAT-2-1","TRA-CGC4-1","TRK-TTT4-1","SNAR-G2","tRNA-Asn-GTT-1-1","TRE-TTC2-1","tRNA-Leu-TAG-3-1","Val-tRNA","TRA-AGC20-1","tRNA-Pro-TGG-3-3","tRNA-Arg-ACG-1-2","TRM-CAT2-1","tRNA-Thr-CGT-6-1","TRA-AGC5-1","tRNA-Val-CAC-2-1","tRNA-Lys-CTT-1-2"}  # Add genes to be skipped here
     
     with open(input_file, newline='') as csvfile, open(output_file, 'w', newline='') as outfile:
         reader = csv.DictReader(csvfile)
