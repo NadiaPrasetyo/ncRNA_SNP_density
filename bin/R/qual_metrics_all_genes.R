@@ -123,13 +123,26 @@ for (metric in metrics) {
     select(Variation_ID, all_of(metric)) %>%
     filter(!is.na(get(metric)))  # Remove rows with NA values in the specific metric
   
-  # Create dot plot with a line of best fit for each metric
-  p <- ggplot(metric_data, aes(x = get(metric))) +
-    geom_dotplot(binaxis = 'y', stackdir = 'center', dotsize = 1) +  # Dot plot
-    geom_smooth(method = "lm", color = "blue", se = FALSE) +  # Line of best fit
-    labs(title = paste("Distribution of", metric), x = metric, y = "Density") +
-    theme_minimal() +
-    theme(axis.text.x = element_text(angle = 90, hjust = 1))
+  # If the metric is either SiteQuality or AS_VarDP, use the log-transformed values
+  if (metric == "SiteQuality" || metric == "AS_VarDP") {
+    metric_data$Value_log <- long_data$Value_log[long_data$Metric == metric]
+    p <- ggplot(metric_data, aes(x = Value_log)) +
+      geom_histogram(aes(y = ..density..), bins = 30, fill = "lightblue", color = "black", alpha = 0.7) +  # Histogram
+      geom_density(color = "blue", size = 1) +  # Density curve
+      geom_rug(sides = "b", color = "gray", alpha = 0.5) +  # Rug plot at the bottom
+      labs(title = paste("Log-transformed Distribution of", metric), x = paste("Log-transformed", metric), y = "Density") +
+      theme_minimal() +
+      theme(axis.text.x = element_text(angle = 90, hjust = 1))
+  } else {
+    # For other metrics, plot the raw values
+    p <- ggplot(metric_data, aes(x = get(metric))) +
+      geom_histogram(aes(y = ..density..), bins = 30, fill = "lightblue", color = "black", alpha = 0.7) +  # Histogram
+      geom_density(color = "blue", size = 1) +  # Density curve
+      geom_rug(sides = "b", color = "gray", alpha = 0.5) +  # Rug plot at the bottom
+      labs(title = paste("Distribution of", metric), x = metric, y = "Density") +
+      theme_minimal() +
+      theme(axis.text.x = element_text(angle = 90, hjust = 1))
+  }
   
   # Save plot
   ggsave(paste0("distribution_", metric, ".png"), plot = p)
