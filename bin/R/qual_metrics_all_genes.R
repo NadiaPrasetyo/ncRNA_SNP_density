@@ -56,6 +56,7 @@ for (gene in genes) {
   
   # Create list to store individual heatmaps
   heatmap_list <- list()
+  metric_labels <- list()  # Store metric labels
   
   # Generate a separate heatmap for each metric
   for (metric in metric_order) {
@@ -77,7 +78,7 @@ for (gene in genes) {
       next
     }
     
-    # Generate heatmap for the metric (removed 'main' argument)
+    # Generate heatmap for the metric
     p <- pheatmap(metric_matrix,
                   cluster_rows = FALSE,
                   cluster_cols = FALSE,
@@ -88,31 +89,42 @@ for (gene in genes) {
                   breaks = seq(min(metric_matrix, na.rm = TRUE), 
                                max(metric_matrix, na.rm = TRUE), 
                                length.out = 101),
-                  show_rownames = TRUE,
-                  show_colnames = FALSE, # Removed X-axis labels
-                  silent = TRUE,         # Silent to prevent auto-plotting
-                  height = 4,            # Fixed height for each heatmap
-                  width = 6)             # Fixed width for each heatmap
+                  show_rownames = FALSE,  # Keep off to maintain uniformity
+                  show_colnames = FALSE,  # Removed X-axis labels
+                  silent = TRUE,          # Silent to prevent auto-plotting
+                  height = 4,             # Fixed height for each heatmap
+                  width = 6)              # Fixed width for each heatmap
     
     # Store heatmap as a grob
     heatmap_list[[metric]] <- p$gtable
+    metric_labels[[metric]] <- metric  # Store metric name
   }
   
-  # Combine heatmaps vertically with reduced height and width
+  # Combine heatmaps vertically
   combined_plot <- arrangeGrob(grobs = heatmap_list, ncol = 1)
   
-  # Add title at the top of the PDF
-  combined_plot_with_title <- arrangeGrob(
-    textGrob(paste(gene, "Quality Metrics GnoMAD"), gp = gpar(fontsize = 20, fontface = "bold")),
+  # Prepare formatted metric labels with gaps
+  label_spacing <- 4  # Adjust for more/less space
+  formatted_labels <- unlist(lapply(metric_labels, function(lbl) {
+    paste0(strrep("\n", label_spacing), lbl)
+  }))
+  
+  # Overlay metric labels on the right side of each heatmap with spacing
+  combined_plot_with_labels <- grid.arrange(
     combined_plot,
-    ncol = 1,
-    heights = c(0.1, 1)  # Adjust heights for title and plots
+    top = textGrob(paste(gene, "Quality Metrics GnoMAD"), gp = gpar(fontsize = 20, fontface = "bold")),
+    right = textGrob(paste(formatted_labels, collapse = ""), 
+                     gp = gpar(fontsize = 12, fontface = "bold"),
+                     rot = 0,
+                     just = 0.5)
   )
   
-  # Save the combined heatmap with title
-  heatmap_file <- paste0("heatmap_quality_", gene, ".pdf")
-  ggsave(heatmap_file, combined_plot_with_title, width = 15, height = 1 * length(heatmap_list) + 1, units = "in") # Adjusted dimensions
+  # Save the combined heatmap with title and labels
+  heatmap_file <- paste0("../../results/qual_metrics/heatmap_quality_", gene, ".pdf")
+  ggsave(heatmap_file, combined_plot_with_labels, width = 15, height = 1 * length(heatmap_list) + 1, units = "in")
 }
+
+
 
 # Create summary distribution graphs (no gene categorization)
 metrics <- c("SiteQuality", "AS_FS", "AS_MQRankSum", "AS_pab_max", "AS_ReadPosRankSum", "AS_SOR", "AS_VarDP")
@@ -157,6 +169,5 @@ for (metric in metrics) {
   }
   
   # Save plot
-  ggsave(paste0("distribution_", metric, ".pdf"), plot = p)
+  ggsave(paste0("../../results/qual_metrics/distribution_", metric, ".pdf"), plot = p)
 }
-

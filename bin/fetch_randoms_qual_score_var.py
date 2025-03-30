@@ -62,7 +62,7 @@ def fetch_quality_metrics(variant_id):
     response = requests.post(GNOMAD_URL, json={'query': query, 'variables': {'variantId': variant_id}})
 
     if response.status_code != 200:
-        print(f"Error {response.status_code}")
+        print(f"Error {response.status_code}: {response.text}")
         return {}
 
     data = response.json().get("data", {}).get("variant", {})
@@ -71,7 +71,7 @@ def fetch_quality_metrics(variant_id):
 
     # Check if coverage data is missing
     if exome_cov is None and genome_cov is None:
-        print(f"Skipping variant {variant_id} due to missing quality metrics.")
+        print(f"Skipping variant {variant_id} due to missing coverage data.")
         return {}
 
     genome_cov = genome_cov or 0
@@ -79,16 +79,35 @@ def fetch_quality_metrics(variant_id):
     selected_source = "genome" if genome_cov > exome_cov else "exome"
     selected_data = data.get(selected_source, {})
 
-    quality_metrics = {m["metric"]: m["value"] for m in selected_data.get("quality_metrics", {}).get("site_quality_metrics", [])}
+    if not selected_data:
+        print(f"Skipping variant {variant_id} due to missing quality metrics data.")
+        return {}
+
+    # Handle missing specific metrics
+    quality_metrics = {
+        m["metric"]: m["value"] if m.get("value") else "N/A"
+        for m in selected_data.get("quality_metrics", {}).get("site_quality_metrics", [])
+    }
+
+    # Add fallback values for missing metrics
+    required_metrics = [
+        "SiteQuality", "AS_MQ", "AS_FS", "AS_MQRankSum", "AS_pab_max", 
+        "AS_ReadPosRankSum", "AS_SOR", "AS_VarDP"
+    ]
+
+    for metric in required_metrics:
+        if metric not in quality_metrics:
+            quality_metrics[metric] = "N/A"
 
     return {
         "Mean_Coverage": max(genome_cov, exome_cov),
         "seq_data": selected_source,
-        "Allele-frequency": selected_data.get("af"),
-        "popmax": selected_data.get("faf95", {}).get("popmax_population"),
-        "popmax_af": selected_data.get("faf95", {}).get("popmax"),
+        "Allele-frequency": selected_data.get("af", "N/A"),
+        "popmax": selected_data.get("faf95", {}).get("popmax_population", "N/A"),
+        "popmax_af": selected_data.get("faf95", {}).get("popmax", "N/A"),
         **quality_metrics
     }
+
 
 # New functionality: Select 120 random genes from SNP_RNA_GC.csv after line 124
 def select_random_genes(input_file):
@@ -100,7 +119,7 @@ def select_random_genes(input_file):
 
 def main():
     input_file = "data/SNP_RNA_GC.csv"
-    output_file = "data/variant_qual_metrics_temp.csv"
+    output_file = "data/variant_qual_metrics_random.csv"
 
     selected_genes = select_random_genes(input_file)
 
