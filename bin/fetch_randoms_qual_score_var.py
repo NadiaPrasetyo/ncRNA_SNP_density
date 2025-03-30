@@ -66,8 +66,16 @@ def fetch_quality_metrics(variant_id):
         return {}
 
     data = response.json().get("data", {}).get("variant", {})
-    exome_cov = data.get("coverage", {}).get("exome", {}).get("mean", 0)
-    genome_cov = data.get("coverage", {}).get("genome", {}).get("mean", 0)
+    exome_cov = data.get("coverage", {}).get("exome", {}).get("mean")
+    genome_cov = data.get("coverage", {}).get("genome", {}).get("mean")
+
+    # Check if coverage data is missing
+    if exome_cov is None and genome_cov is None:
+        print(f"Skipping variant {variant_id} due to missing quality metrics.")
+        return {}
+
+    genome_cov = genome_cov or 0
+    exome_cov = exome_cov or 0
     selected_source = "genome" if genome_cov > exome_cov else "exome"
     selected_data = data.get(selected_source, {})
 

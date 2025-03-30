@@ -132,7 +132,13 @@ for (metric in metrics) {
       geom_rug(sides = "b", color = "gray", alpha = 0.5) +  # Rug plot at the bottom
       labs(title = paste("Log-transformed Distribution of", metric), x = paste("Log-transformed", metric), y = "Density") +
       theme_minimal() +
-      theme(axis.text.x = element_text(angle = 90, hjust = 1))
+      theme(
+        plot.title = element_text(size = 24, face = "bold"),  # Title size
+        axis.title.x = element_text(size = 20),               # X-axis label size
+        axis.title.y = element_text(size = 20),               # Y-axis label size
+        axis.text.x = element_text(angle = 90, hjust = 1, size = 16),  # X-axis text size
+        axis.text.y = element_text(size = 16)                 # Y-axis text size
+      )
   } else {
     # For other metrics, plot the raw values
     p <- ggplot(metric_data, aes(x = get(metric))) +
@@ -141,10 +147,16 @@ for (metric in metrics) {
       geom_rug(sides = "b", color = "gray", alpha = 0.5) +  # Rug plot at the bottom
       labs(title = paste("Distribution of", metric), x = metric, y = "Density") +
       theme_minimal() +
-      theme(axis.text.x = element_text(angle = 90, hjust = 1))
+      theme(
+        plot.title = element_text(size = 24, face = "bold"),  # Title size
+        axis.title.x = element_text(size = 20),               # X-axis label size
+        axis.title.y = element_text(size = 20),               # Y-axis label size
+        axis.text.x = element_text(angle = 90, hjust = 1, size = 16),  # X-axis text size
+        axis.text.y = element_text(size = 16)                 # Y-axis text size
+      )
   }
   
   # Save plot
-  ggsave(paste0("distribution_", metric, ".png"), plot = p)
+  ggsave(paste0("distribution_", metric, ".pdf"), plot = p)
 }
 
