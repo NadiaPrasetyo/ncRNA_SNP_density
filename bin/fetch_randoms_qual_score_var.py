@@ -119,7 +119,7 @@ def select_random_genes(input_file):
 
 def main():
     input_file = "data/SNP_RNA_GC.csv"
-    output_file = "data/variant_qual_metrics_random.csv"
+    output_file = "data/variant_qual_metrics_random2.csv"
 
     selected_genes = select_random_genes(input_file)
 
