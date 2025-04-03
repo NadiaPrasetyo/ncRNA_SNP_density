@@ -25,18 +25,26 @@ random_data <- random_data %>% filter(complete.cases(.))
 
 # Apply log transformation
 log_transform_metrics <- c("Allele.frequency", "SiteQuality", "AS_VarDP", "popmax_af")
-gene_data[log_transform_metrics] <- lapply(gene_data[log_transform_metrics], function(x) log(x + 1))
-random_data[log_transform_metrics] <- lapply(random_data[log_transform_metrics], function(x) log(x + 1))
+gene_data[log_transform_metrics] <- lapply(gene_data[log_transform_metrics], function(x) log10(x + 1))
+random_data[log_transform_metrics] <- lapply(random_data[log_transform_metrics], function(x) log10(x + 1))
 
-# Perform KS Test for each metric
+# Perform KS Test for each metric (including log-transformed for SiteQuality and AS_VarDP)
 ks_results <- data.frame(Metric = character(), Statistic = numeric(), P_Value = numeric())
 for (metric in numeric_columns) {
-  ks_test <- ks.test(gene_data[[metric]], random_data[[metric]])
-  ks_results <- rbind(ks_results, data.frame(Metric = metric, Statistic = ks_test$statistic, P_Value = ks_test$p.value))
+  if (metric %in% c("SiteQuality", "AS_VarDP")) {
+    ks_test <- ks.test(gene_data[[metric]], random_data[[metric]])
+    log_ks_test <- ks.test(log10(gene_data[[metric]] + 1), log10(random_data[[metric]] + 1))
+    ks_results <- rbind(ks_results,
+                        data.frame(Metric = paste(metric, "(raw)"), Statistic = ks_test$statistic, P_Value = ks_test$p.value),
+                        data.frame(Metric = paste(metric, "(log10)"), Statistic = log_ks_test$statistic, P_Value = log_ks_test$p.value))
+  } else {
+    ks_test <- ks.test(gene_data[[metric]], random_data[[metric]])
+    ks_results <- rbind(ks_results, data.frame(Metric = metric, Statistic = ks_test$statistic, P_Value = ks_test$p.value))
+  }
 }
 
 # Save KS test results to CSV
-write.csv(ks_results, "../../results/qual_metrics/qual_metric_comparison_ks_test_results.csv", row.names = FALSE)
+write.csv(ks_results, "../../results/qual_metrics/ks_test_results.csv", row.names = FALSE)
 
 # Distribution plot comparison
 metrics <- numeric_columns
@@ -46,10 +54,14 @@ for (metric in metrics) {
     data.frame(Value = random_data[[metric]], Type = "Random")
   )
   
+  # Adjust plot title for log-transformed metrics
+  x_label <- ifelse(metric %in% log_transform_metrics, paste("Log10-transformed", metric), metric)
+  
+  # Adjust for density plot when most values are zeros
   p <- ggplot(combined_data, aes(x = Value, fill = Type)) +
     geom_histogram(aes(y = ..density..), position = "identity", alpha = 0.6, bins = 30) +
-    geom_density(alpha = 0.7) +
-    labs(title = paste("Distribution of", metric, "(Gene vs Random)"), x = metric, y = "Density") +
+    geom_density(alpha = 0.7, adjust = 1.5) +  # Smoothing factor added
+    labs(title = paste("Distribution of", metric, "(Gene vs Random)"), x = x_label, y = "Density") +
     theme_minimal()
   
   ggsave(paste0("../../results/qual_metrics/comparison_", metric, ".pdf"), plot = p)
