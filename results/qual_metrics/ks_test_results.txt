@@ -1,0 +1,100 @@
+Metric: Mean_Coverage 
+
+	Asymptotic two-sample Kolmogorov-Smirnov test
+
+data:  gene_data[[metric]] and random_data[[metric]]
+D = 0.23124, p-value < 2.2e-16
+alternative hypothesis: two-sided
+
+
+-----------------------
+Metric: Allele.frequency 
+
+	Asymptotic two-sample Kolmogorov-Smirnov test
+
+data:  gene_data[[metric]] and random_data[[metric]]
+D = 0.15273, p-value < 2.2e-16
+alternative hypothesis: two-sided
+
+
+-----------------------
+Metric: popmax_af 
+
+	Asymptotic two-sample Kolmogorov-Smirnov test
+
+data:  gene_data[[metric]] and random_data[[metric]]
+D = 0.091137, p-value < 2.2e-16
+alternative hypothesis: two-sided
+
+
+-----------------------
+Metric: SiteQuality 
+
+	Asymptotic two-sample Kolmogorov-Smirnov test
+
+data:  gene_data[[metric]] and random_data[[metric]]
+D = 0.30887, p-value < 2.2e-16
+alternative hypothesis: two-sided
+
+
+-----------------------
+Metric: AS_FS 
+
+	Asymptotic two-sample Kolmogorov-Smirnov test
+
+data:  gene_data[[metric]] and random_data[[metric]]
+D = 0.18611, p-value < 2.2e-16
+alternative hypothesis: two-sided
+
+
+-----------------------
+Metric: AS_MQRankSum 
+
+	Asymptotic two-sample Kolmogorov-Smirnov test
+
+data:  gene_data[[metric]] and random_data[[metric]]
+D = 0.040563, p-value = 1.816e-11
+alternative hypothesis: two-sided
+
+
+-----------------------
+Metric: AS_pab_max 
+
+	Asymptotic two-sample Kolmogorov-Smirnov test
+
+data:  gene_data[[metric]] and random_data[[metric]]
+D = 0.087905, p-value < 2.2e-16
+alternative hypothesis: two-sided
+
+
+-----------------------
+Metric: AS_ReadPosRankSum 
+
+	Asymptotic two-sample Kolmogorov-Smirnov test
+
+data:  gene_data[[metric]] and random_data[[metric]]
+D = 0.064512, p-value < 2.2e-16
+alternative hypothesis: two-sided
+
+
+-----------------------
+Metric: AS_SOR 
+
+	Asymptotic two-sample Kolmogorov-Smirnov test
+
+data:  gene_data[[metric]] and random_data[[metric]]
+D = 0.06746, p-value < 2.2e-16
+alternative hypothesis: two-sided
+
+
+-----------------------
+Metric: AS_VarDP 
+
+	Asymptotic two-sample Kolmogorov-Smirnov test
+
+data:  gene_data[[metric]] and random_data[[metric]]
+D = 0.15303, p-value < 2.2e-16
+alternative hypothesis: two-sided
+
+
+-----------------------
