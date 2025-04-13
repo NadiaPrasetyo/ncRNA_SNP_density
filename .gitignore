@@ -183,5 +183,8 @@ data/*.bigWig
 *.bigBed
 *.bed
 *.bw
+globusconnectpersonal-3.2.6/*
+1000genomes/
+GRCh38.*
 
 .pybiomart.sqlite

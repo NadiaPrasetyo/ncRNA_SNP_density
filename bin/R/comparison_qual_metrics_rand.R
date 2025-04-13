@@ -28,19 +28,11 @@ log_transform_metrics <- c("Allele.frequency", "SiteQuality", "AS_VarDP", "popma
 gene_data[log_transform_metrics] <- lapply(gene_data[log_transform_metrics], function(x) log10(x + 1))
 random_data[log_transform_metrics] <- lapply(random_data[log_transform_metrics], function(x) log10(x + 1))
 
-# Perform KS Test for each metric (including log-transformed for SiteQuality and AS_VarDP)
+# Perform KS Test for each metric
 ks_results <- data.frame(Metric = character(), Statistic = numeric(), P_Value = numeric())
 for (metric in numeric_columns) {
-  if (metric %in% c("SiteQuality", "AS_VarDP")) {
-    ks_test <- ks.test(gene_data[[metric]], random_data[[metric]])
-    log_ks_test <- ks.test(log10(gene_data[[metric]] + 1), log10(random_data[[metric]] + 1))
-    ks_results <- rbind(ks_results,
-                        data.frame(Metric = paste(metric, "(raw)"), Statistic = ks_test$statistic, P_Value = ks_test$p.value),
-                        data.frame(Metric = paste(metric, "(log10)"), Statistic = log_ks_test$statistic, P_Value = log_ks_test$p.value))
-  } else {
-    ks_test <- ks.test(gene_data[[metric]], random_data[[metric]])
-    ks_results <- rbind(ks_results, data.frame(Metric = metric, Statistic = ks_test$statistic, P_Value = ks_test$p.value))
-  }
+  ks_test <- ks.test(gene_data[[metric]], random_data[[metric]])
+  ks_results <- rbind(ks_results, data.frame(Metric = metric, Statistic = ks_test$statistic, P_Value = ks_test$p.value))
 }
 
 # Save KS test results to CSV
