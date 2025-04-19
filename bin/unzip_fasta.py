@@ -20,6 +20,6 @@ def unzip_gz_files_recursively(root_directory):
 
 # Example usage
 if __name__ == "__main__":
-    target_directory = "data/1000genomes/test/data/NA12282/sequence_read/"  # Replace this with your actual path
+    target_directory = "data/1000genomes"  # Replace this with your actual path
     unzip_gz_files_recursively(target_directory)
 
