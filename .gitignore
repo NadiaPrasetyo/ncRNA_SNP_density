@@ -186,5 +186,8 @@ data/*.bigWig
 globusconnectpersonal-3.2.6/*
 1000genomes/
 GRCh38.*
-
+*.bam
+*.bam.bai
+*.sam
+!contigs_vs_reference.sam
 .pybiomart.sqlite
