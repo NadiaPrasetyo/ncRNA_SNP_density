@@ -8,9 +8,13 @@ FASTQ_ROOT="data/1000genomes"
 OUTPUT_DIR="data/1000genomes/output"
 mkdir -p "$OUTPUT_DIR"
 
-# Final combined BED output
+# Final combined outputs
 COMBINED_BED="$OUTPUT_DIR/all_filtered_reads.bed"
-> "$COMBINED_BED"  # clear if exists
+COMBINED_BAM="$OUTPUT_DIR/combined.filtered.bam"
+TMP_BAM_DIR="$OUTPUT_DIR/tmp_bams"
+mkdir -p "$TMP_BAM_DIR"
+
+> "$COMBINED_BED"  # Clear if exists
 
 # ----------- PREP -----------
 
@@ -19,32 +23,41 @@ tail -n +2 "$CSV" | awk -F',' 'BEGIN{OFS="\t"} {print $1, $2, $3, $5}' > "$BED"
 
 # ----------- MAIN LOOP -----------
 
+FILTERED_BAMS=()
+
 find "$FASTQ_ROOT" -type f -name "*.fastq" | while read -r FASTQ; do
 
     BASENAME=$(basename "$FASTQ" .fastq)
-    PREFIX="${BASENAME%%.*}"  # handle .fastq.gz too
+    PREFIX="${BASENAME%%.*}"
 
     echo "Processing $FASTQ → $PREFIX"
 
-    # 1. Align
-    bwa mem -t 4 "$REFERENCE" "$FASTQ" > "$OUTPUT_DIR/$PREFIX.sam"
+    SORTED_BAM="$TMP_BAM_DIR/$PREFIX.sorted.bam"
+    FILTERED_BAM="$TMP_BAM_DIR/$PREFIX.filtered.bam"
 
-    # 2. Sort and index BAM
-    samtools view -S -b "$OUTPUT_DIR/$PREFIX.sam" | samtools sort -o "$OUTPUT_DIR/$PREFIX.sorted.bam"
-    samtools index "$OUTPUT_DIR/$PREFIX.sorted.bam"
+    # 1. Align, convert, sort BAM
+    bwa mem -t 2 "$REFERENCE" "$FASTQ" | \
+    samtools view -Sb - | \
+    samtools sort -o "$SORTED_BAM"
 
-    # 3. Filter to regions
-    bedtools intersect -abam "$OUTPUT_DIR/$PREFIX.sorted.bam" -b "$BED" > "$OUTPUT_DIR/$PREFIX.filtered.bam"
-    samtools index "$OUTPUT_DIR/$PREFIX.filtered.bam"
+    if [ ! -s "$SORTED_BAM" ]; then
+        echo "❌ Alignment failed for $PREFIX, skipping..."
+        echo "---"
+        continue
+    fi
 
-    # 4. Count reads
-    READ_COUNT=$(samtools view "$OUTPUT_DIR/$PREFIX.filtered.bam" | wc -l)
+    samtools index "$SORTED_BAM"
+
+    # 2. Filter to regions
+    bedtools intersect -abam "$SORTED_BAM" -b "$BED" > "$FILTERED_BAM"
+    samtools index "$FILTERED_BAM"
+
+    READ_COUNT=$(samtools view "$FILTERED_BAM" | wc -l)
 
     if [[ "$READ_COUNT" -gt 0 ]]; then
         echo "✅ $PREFIX has $READ_COUNT reads mapped to regions."
-
-        # 5. Convert filtered reads to BED and tag with sample name
-        bedtools bamtobed -i "$OUTPUT_DIR/$PREFIX.filtered.bam" | \
+        FILTERED_BAMS+=("$FILTERED_BAM")
+        bedtools bamtobed -i "$FILTERED_BAM" | \
         awk -v sample="$PREFIX" 'BEGIN{OFS="\t"} {print $0, sample}' >> "$COMBINED_BED"
     else
         echo "❌ $PREFIX has NO reads mapped to regions."
@@ -53,3 +66,14 @@ find "$FASTQ_ROOT" -type f -name "*.fastq" | while read -r FASTQ; do
     echo "---"
 
 done
+
+# ----------- MERGE FILTERED BAMs -----------
+
+if [ "${#FILTERED_BAMS[@]}" -gt 0 ]; then
+    echo "Merging ${#FILTERED_BAMS[@]} filtered BAMs..."
+    samtools merge -f "$COMBINED_BAM" "${FILTERED_BAMS[@]}"
+    samtools index "$COMBINED_BAM"
+    echo "✅ Combined BAM created at: $COMBINED_BAM"
+else
+    echo "❌ No BAMs to merge. Exiting."
+fi

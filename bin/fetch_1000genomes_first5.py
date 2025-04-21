@@ -1,6 +1,10 @@
 import os
 import subprocess
 
+# 🔧 Set the range of lines to process here
+start_line = 0  # starting from line 6 (0-based index)
+end_line =  5  # up to but not including line 11
+
 index_file = "data/1000genomes/1000genomes.sequence.index"
 download_dir = "data/1000genomes"
 os.makedirs(download_dir, exist_ok=True)
@@ -15,7 +19,7 @@ def normalize_ftp_path(path):
 with open(index_file, "r") as f:
     lines = [line.strip() for line in f if not line.startswith("#") and line.strip()]
 
-for i, line in enumerate(lines[:5]):
+for i, line in enumerate(lines[start_line:end_line], start=start_line):
     fields = line.split('\t')
     if len(fields) < 20:
         print(f"Skipping malformed line {i + 1}")

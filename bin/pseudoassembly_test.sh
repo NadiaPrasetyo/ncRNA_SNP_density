@@ -1,43 +1,62 @@
 #!/bin/bash
 
-# Set paths (customize these if needed)
-FILTERED_BAM="output/SRR015379_2.filtered.bam"
-FILTERED_FASTQ="output/filtered_reads.fastq"
-ASSEMBLY_DIR="output/spades_filtered_assembly"
+set -euo pipefail
+
+# Set paths
+FILTERED_BAM="data/1000genomes/output/combined.filtered.bam"
+FILTERED_FASTQ="data/1000genomes/output/combined.filtered.fastq"
+ASSEMBLY_DIR="data/1000genomes/output/megahit_filtered_assembly"
 REFERENCE="GRCh38.primary_assembly.genome.fa"
-CONTIGS_FASTA="$ASSEMBLY_DIR/contigs.fasta"
-CONTIG_ALIGN_SAM="output/contigs_vs_reference.sam"
+CONTIGS_FASTA="$ASSEMBLY_DIR/final.contigs.fa"
+CONTIG_ALIGN_SAM="data/1000genomes/output/contigs_vs_reference.sam"
 
-# Step 1: Convert filtered BAM to FASTQ
-# This extracts the actual read sequences from the filtered alignments.
+# Step 1: Convert BAM to FASTQ
 echo "Converting filtered BAM to FASTQ..."
-samtools fastq "$FILTERED_BAM" -o "$FILTERED_FASTQ"
+samtools fastq "$FILTERED_BAM" > "$FILTERED_FASTQ"
 
-# Step 2: Run SPAdes de novo assembly on the extracted reads
-# Use lower threshold for coverage and skip error correction to be more permissive.
-echo "Running SPAdes for local assembly with lower thresholds..."
-spades.py -s "$FILTERED_FASTQ" -o "$ASSEMBLY_DIR" --only-assembler --cov-cutoff 0 --k 21,33,55
+# Step 2: Calculate stats
+NUM_READS=$(grep -c "^+$" "$FILTERED_FASTQ")
+AVG_READ_LEN=$(awk '(NR-2)%4==0 { total += length($0); count++ } END { if (count>0) print total/count; else print 0 }' "$FILTERED_FASTQ")
 
-# Step 3: Index the reference genome (if not already indexed)
-# Required for aligning assembled contigs back to the genome.
+echo "Read count: $NUM_READS"
+echo "Average read length: $AVG_READ_LEN"
+
+# # Step 3: Filter reads if too short
+# if [ "$(printf "%.0f" "$AVG_READ_LEN")" -lt 50 ]; then
+#     echo "Filtering out reads shorter than 50bp..."
+#     seqtk seq -L 50 "$FILTERED_FASTQ" > "filtered_high_quality.fastq"
+#     FILTERED_FASTQ="filtered_high_quality.fastq"
+#     AVG_READ_LEN=$(awk '(NR-2)%4==0 { total += length($0); count++ } END { if (count>0) print total/count; else print 0 }' "$FILTERED_FASTQ")
+#     echo "New average read length: $AVG_READ_LEN"
+# fi
+
+# Step 4: Check read quality
+if [ "$NUM_READS" -lt 500 ]; then
+    echo "Error: Not enough reads for assembly. Skipping." >&2
+    exit 1
+fi
+
+# Step 5: Run MEGAHIT assembly
+echo "Running MEGAHIT..."
+rm -rf "$ASSEMBLY_DIR"
+megahit -r "$FILTERED_FASTQ" -o "$ASSEMBLY_DIR" --min-contig-len 200
+
+# Step 6: Index reference genome if needed
 if [ ! -f "$REFERENCE.bwt" ]; then
     echo "Indexing reference genome..."
     bwa index "$REFERENCE"
 fi
 
-# Step 4: Align contigs back to the reference genome
-# This helps detect if the assembled sequences exist in multiple places.
-echo "Aligning assembled contigs back to reference..."
-bwa mem "$REFERENCE" "$CONTIGS_FASTA" > "$CONTIG_ALIGN_SAM"
-
-# Optional: Convert the SAM to BAM and sort/index if you want to visualize in IGV
-# samtools view -b "$CONTIG_ALIGN_SAM" | samtools sort -o output/contigs_vs_reference.sorted.bam
-# samtools index output/contigs_vs_reference.sorted.bam
+# Step 7: Align contigs back to reference
+if [ -f "$CONTIGS_FASTA" ]; then
+    echo "Aligning assembled contigs back to reference..."
+    bwa mem "$REFERENCE" "$CONTIGS_FASTA" > "$CONTIG_ALIGN_SAM"
+else
+    echo "Error: MEGAHIT contigs not found at $CONTIGS_FASTA" >&2
+    echo "Check MEGAHIT log: $ASSEMBLY_DIR/log" >&2
+    exit 1
+fi
 
 echo "Done. Contigs assembled and aligned."
 echo "Check $CONTIGS_FASTA for assembled sequences"
-echo "Check $CONTIG_ALIGN_SAM for where they map in the genome"
-
-# Optionally: Use BLAST for more flexible multi-location matching (commented out by default)
-# echo "Running BLAST (requires pre-built BLAST DB from reference genome)..."
-# blastn -query "$CONTIGS_FASTA" -db GRCh38.fa -out output/blast_results.txt -outfmt 6
+echo "Check $CONTIG_ALIGN_SAM for mapping results"
