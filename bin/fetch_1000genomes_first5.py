@@ -2,8 +2,8 @@ import os
 import subprocess
 
 # 🔧 Set the range of lines to process here
-start_line = 0  # starting from line 6 (0-based index)
-end_line =  5  # up to but not including line 11
+start_line = 160  # starting from line 6 (0-based index)
+end_line =  200  # up to but not including line 11
 
 index_file = "data/1000genomes/1000genomes.sequence.index"
 download_dir = "data/1000genomes"

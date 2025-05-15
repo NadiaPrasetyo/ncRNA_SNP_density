@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # ----------- CONFIG -----------
 
 REFERENCE="GRCh38.primary_assembly.genome.fa"
@@ -16,6 +14,15 @@ mkdir -p "$TMP_BAM_DIR"
 
 > "$COMBINED_BED"  # Clear if exists
 
+# List of FASTQ files to skip
+SKIP_FILES=( 
+    ""
+)
+
+# List of FASTQ files to specifically process (empty = process all)
+TARGET_FILES=(  
+    "ERR000304_1.fastq" "ERR000304_2.fastq" "ERR000307_1.fastq" "ERR000307_2.fastq" "ERR000316_1.fastq" "ERR000316_2.fastq" "ERR000317_1.fastq" "ERR000317_2.fastq" "ERR000318_1.fastq" "ERR000318_2.fastq" "ERR000319_1.fastq" "ERR000319_2.fastq" "ERR000323_1.fastq" "ERR000323_2.fastq" "ERR000326_1.fastq" "ERR000326_2.fastq" "ERR000333_1.fastq" "ERR000333_2.fastq" "ERR000334_1.fastq" "ERR000334_2.fastq" "ERR000336_1.fastq" "ERR000336_2.fastq" "ERR000337_1.fastq" "ERR000337_2.fastq" "ERR000341_1.fastq" "ERR000341_2.fastq" "ERR000345_1.fastq" "ERR000345_2.fastq" "ERR000346_1.fastq" "ERR000346_2.fastq" "ERR000349_1.fastq" "ERR000349_2.fastq" "ERR000351_1.fastq" 
+)
 # ----------- PREP -----------
 
 BED="$OUTPUT_DIR/regions.bed"
@@ -25,10 +32,23 @@ tail -n +2 "$CSV" | awk -F',' 'BEGIN{OFS="\t"} {print $1, $2, $3, $5}' > "$BED"
 
 FILTERED_BAMS=()
 
-find "$FASTQ_ROOT" -type f -name "*.fastq" | while read -r FASTQ; do
-
-    BASENAME=$(basename "$FASTQ" .fastq)
+find "$FASTQ_ROOT" -type f -name "*.fastq"| while read -r FASTQ; do
+    BASENAME=$(basename "$FASTQ")
     PREFIX="${BASENAME%%.*}"
+
+    # Skip files listed in SKIP_FILES
+    if [[ " ${SKIP_FILES[@]} " =~ " ${BASENAME} " ]]; then
+        echo "⏭️ Skipping $BASENAME (in skip list)"
+        continue
+    fi
+
+    # If TARGET_FILES is not empty, only process those in the list
+    if [[ "${#TARGET_FILES[@]}" -gt 0 ]]; then
+        if [[ ! " ${TARGET_FILES[@]} " =~ " ${BASENAME} " ]]; then
+            echo "⏭️ Skipping $BASENAME (not in target list)"
+            continue
+        fi
+    fi
 
     echo "Processing $FASTQ → $PREFIX"
 
