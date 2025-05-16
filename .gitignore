@@ -189,4 +189,5 @@ GRCh38.*
 *.bam.bai
 *.sam
 !data/1000genomes/output/contigs_vs_reference.sam
+data/1000genomes/1000genomes.sequence.index
 .pybiomart.sqlite
