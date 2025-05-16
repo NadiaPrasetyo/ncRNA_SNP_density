@@ -184,7 +184,6 @@ data/*.bigWig
 *.bed
 *.bw
 globusconnectpersonal-3.2.6/*
-1000genomes/
 GRCh38.*
 *.bam
 *.bam.bai
