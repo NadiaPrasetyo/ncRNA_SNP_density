@@ -111,6 +111,7 @@ ipython_config.py
 .pdm-python
 .pdm-build/
 
+
 # PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
 __pypackages__/
 
@@ -191,3 +192,4 @@ GRCh38.*
 !data/1000genomes/output/contigs_vs_reference.sam
 data/1000genomes/1000genomes.sequence.index
 .pybiomart.sqlite
+Miniconda3-latest-Linux-x86_64.sh
